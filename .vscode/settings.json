@@ -1,4 +1,17 @@
 {
+  // 注释配置
+  "fileheader.customMade": {
+    "Author": "Yyy", // 作者
+    "Date": "Do not edit", // 文件创建日期
+    // "LastEditors": "git config user.name", // 文件最后编辑者
+    "LastEditTime": "Do not edit", // 文件最后编辑时间
+    "Description": "描述说明" // 介绍文件的作用、文件的入参、出参。
+  },
+  "fileheader.configObj": {
+    "autoAdd": false
+  },
+
+  // 编辑器配置
   "editor.formatOnType": true,
   "editor.formatOnSave": true,
   "[vue]": {
@@ -27,9 +40,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "iconify.excludes": [
-    "el"
-  ],
+  "iconify.excludes": ["el"],
   "vscodeCustomCodeColor.highlightValue": [
     "v-loading",
     "v-auth",
@@ -40,4 +51,5 @@
     "v-ripple"
   ],
   "vscodeCustomCodeColor.highlightValueColor": "#b392f0",
+  "cSpell.words": ["echarts"]
 }

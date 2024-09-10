@@ -1,0 +1,32 @@
+{
+  "模板-vue3": {
+    "prefix": "vue3-ts-scss",
+    "body": [
+      "<script setup lang=\"ts\">",
+      "defineOptions({ name: '' })",
+      "</script>",
+      "",
+      "<template>",
+      "  <div></div>",
+      "</template>",
+      "",
+      "<style scoped lang=\"scss\"></style>"
+    ],
+    "description": "模板-vue3"
+  },
+  "模板-defineProps": {
+    "prefix": "vue3-defineProps",
+    "body": ["interface Props {}", "", "const props = withDefaults(defineProps<Props>(), {})"],
+    "description": "模板-defineProps"
+  },
+  "模板-defineEmits": {
+    "prefix": "vue3-defineEmits",
+    "body": ["const emits = defineEmits<{", "  (e: 'change', data: {}): void", "}>()"],
+    "description": "模板-defineEmits"
+  },
+  "模板-注释块": {
+    "prefix": "/",
+    "body": ["/** ${1:描述} */"],
+    "description": "模板-注释块"
+  }
+}

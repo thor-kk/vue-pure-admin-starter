@@ -81,7 +81,10 @@ export default {
         "rules"
       ],
       { severity: "warning" }
-    ]
+    ],
+
+    /** 其他规则 */
+    "no-empty-source": null
   },
   ignoreFiles: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "report.html"]
 };
