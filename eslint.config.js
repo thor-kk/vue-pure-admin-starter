@@ -96,7 +96,7 @@ export default defineFlatConfig([
       '@typescript-eslint/no-import-type-side-effects': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/consistent-type-imports': [
-        'error',
+        'off',
         { disallowTypeAnnotations: false, fixStyle: 'inline-type-imports' }
       ],
       '@typescript-eslint/prefer-literal-enum-member': [
