@@ -48,6 +48,7 @@
     "url": "https://github.com/xiaoxian521"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@pureadmin/descriptions": "^1.2.1",
     "@pureadmin/table": "^3.2.0",
     "@pureadmin/utils": "^2.4.8",
@@ -65,6 +66,7 @@
     "path": "^0.12.7",
     "pinia": "^2.2.2",
     "pinyin-pro": "^3.24.2",
+    "plus-pro-components": "^0.1.16",
     "qs": "^6.13.0",
     "responsive-storage": "^2.2.0",
     "sortablejs": "^1.15.2",
