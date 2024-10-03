@@ -38,7 +38,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    // "source.fixAll.eslint": "explicit" // 保存的时候根据 eslint 格式化
   },
   "iconify.excludes": ["el"],
   "vscodeCustomCodeColor.highlightValue": [
