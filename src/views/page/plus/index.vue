@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-03 21:12:53
- * @LastEditTime: 2024-10-05 20:26:22
+ * @LastEditTime: 2024-10-05 20:58:25
  * @Description: 页面示例 - Plus Page
 -->
 
@@ -286,32 +286,30 @@ const { form, confirmLoading, rules, currentRow, visible, detailsVisible } =
 
 <template>
   <div>
-    <div>
-      <PlusPage
-        ref="plusPageInstance"
-        :request="GroupServe.getList"
-        :columns="columns"
-        :params="state.query"
-        :search="{ labelWidth: '100px', colProps: { span: 8 } }"
-        :table="{
-          isSelection: true,
-          actionBar: { buttons, width: 140 },
-          onClickAction: handleTableOption,
-          onSelectionChange: handleSelect
-        }"
-      >
-        <template #table-title>
-          <el-row class="button-row">
-            <el-button type="primary" :icon="Plus" @click="handleCreate">
-              添加
-            </el-button>
-            <el-button :icon="Delete" type="danger" @click="handleBatchDelete">
-              批量删除
-            </el-button>
-          </el-row>
-        </template>
-      </PlusPage>
-    </div>
+    <PlusPage
+      ref="plusPageInstance"
+      :request="GroupServe.getList"
+      :columns="columns"
+      :params="state.query"
+      :search="{ labelWidth: '100px', colProps: { span: 8 } }"
+      :table="{
+        isSelection: true,
+        actionBar: { buttons, width: 140 },
+        onClickAction: handleTableOption,
+        onSelectionChange: handleSelect
+      }"
+    >
+      <template #table-title>
+        <el-row class="button-row">
+          <el-button type="primary" :icon="Plus" @click="handleCreate">
+            添加
+          </el-button>
+          <el-button :icon="Delete" type="danger" @click="handleBatchDelete">
+            批量删除
+          </el-button>
+        </el-row>
+      </template>
+    </PlusPage>
 
     <!-- 弹窗编辑 -->
     <PlusDialogForm
