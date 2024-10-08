@@ -1,13 +1,18 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-09-20 14:54:27
+ * @LastEditTime: 2024-10-08 14:29:08
  * @Description: 图表
  */
 
 export default {
   path: '/echarts',
-  meta: { title: '图表示例', icon: 'raphael:piechart', rank: 100 },
+  meta: {
+    title: '图表示例',
+    icon: 'raphael:piechart',
+    rank: 100,
+    showLink: false
+  },
   children: [
     {
       path: '/echarts/demo1',

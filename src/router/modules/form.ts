@@ -7,7 +7,7 @@
 
 export default {
   path: '/form',
-  meta: { title: '表单示例', icon: 'mdi:form', rank: 101 },
+  meta: { title: '表单示例', icon: 'mdi:form', rank: 101, showLink: false },
   children: [
     {
       path: '/form/plus',
