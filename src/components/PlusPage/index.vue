@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-05 20:43:09
+ * @LastEditTime: 2024-10-09 11:09:25
  * @Description: Plus - 高级页面
 -->
 
@@ -16,7 +16,9 @@ interface Props extends PlusPageProps {}
 const props = withDefaults(defineProps<Props>(), {
   isCard: true,
   immediate: true,
-  pagination: () => ({})
+  pagination: () => ({}),
+  search: () => ({}),
+  table: () => ({})
 })
 
 const defaultConfig: Partial<Props> = {
@@ -24,9 +26,10 @@ const defaultConfig: Partial<Props> = {
     pageSizes: [10, 20, 30, 40, 50, 100],
     layout: 'total, sizes, prev, pager, next, jumper'
   },
+  table: { border: false },
   search: { collapseTransition: false },
-  searchCardProps: { shadow: 'never' },
-  tableCardProps: { shadow: 'never' }
+  tableCardProps: { shadow: 'never' },
+  searchCardProps: { shadow: 'never' }
 }
 
 const mergeProps = ref<Props>()
