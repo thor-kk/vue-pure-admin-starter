@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-09 11:09:25
+ * @LastEditTime: 2024-10-09 15:40:25
  * @Description: Plus - 高级页面
 -->
 
@@ -26,7 +26,7 @@ const defaultConfig: Partial<Props> = {
     pageSizes: [10, 20, 30, 40, 50, 100],
     layout: 'total, sizes, prev, pager, next, jumper'
   },
-  table: { border: false },
+  table: { border: false, hasIndexColumn: true },
   search: { collapseTransition: false },
   tableCardProps: { shadow: 'never' },
   searchCardProps: { shadow: 'never' }
@@ -47,7 +47,13 @@ watch(
   <div>
     <PlusPage v-bind="mergeProps">
       <template #table-title>
-        <slot name="table-title" />
+        <slot name="table-action" />
+      </template>
+
+      <template v-for="item in props.columns" :key="item.prop" #[`plus-cell-${item.prop}`]="scoped">
+        <slot :name="`plus-cell-${[item.prop]}`" v-bind="{ ...scoped }">
+          {{ scoped.value }}
+        </slot>
       </template>
     </PlusPage>
   </div>
