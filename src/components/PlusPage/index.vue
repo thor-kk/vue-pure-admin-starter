@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-09 16:05:52
+ * @LastEditTime: 2024-10-09 17:26:06
  * @Description: Plus - 高级页面
 -->
 
@@ -50,10 +50,12 @@ watch(
         <slot name="table-action" />
       </template>
 
-      <template v-for="item in props.columns" :key="item.prop" #[`plus-cell-${item.prop}`]="scoped">
-        <slot :name="`plus-cell-${[item.prop]}`" v-bind="{ ...scoped }">
-          {{ scoped.value }}
-        </slot>
+      <template
+        v-for="item in props.columns.filter((item) => item.slot)"
+        :key="item.prop"
+        #[`plus-cell-${item.prop}`]="scoped"
+      >
+        <slot :name="`plus-cell-${[item.prop]}`" v-bind="{ ...scoped }" />
       </template>
     </PlusPage>
   </div>
