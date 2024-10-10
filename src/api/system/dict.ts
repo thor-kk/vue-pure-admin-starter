@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-09 10:51:17
+ * @LastEditTime: 2024-10-10 11:20:57
  * @Description: 字典模块
  */
 
@@ -12,6 +12,15 @@ type Result = {
   data: { data: Array<any>; total: number }
 }
 
+/** 获取字典 */
+export async function getDictList(data?: any) {
+  try {
+    const res = await http.request<Result>('get', '/dict/list', { params: data })
+    if (res.success) return res.data
+  } catch (error) {}
+}
+
+/** 获取字典项 */
 export async function getDict(data?: any) {
   try {
     const res = await http.request<Result>('get', '/dict', { params: data })

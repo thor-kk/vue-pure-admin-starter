@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-10 11:01:49
+ * @LastEditTime: 2024-10-10 11:22:14
  * @Description: 系统模块 - 字典
 -->
 
@@ -54,7 +54,7 @@ function onEditConfirm() {
     <!-- 列表 -->
     <PlusPage
       :columns="columns"
-      :request="systemService.dictApi.getDict"
+      :request="systemService.dictApi.getDictList"
       :search="{ showNumber: 3 }"
       :table="{
         actionBar: {

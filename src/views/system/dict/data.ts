@@ -1,12 +1,14 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:05:57
- * @LastEditTime: 2024-10-10 10:47:32
+ * @LastEditTime: 2024-10-10 11:27:27
  * @Description: 数据配置
  */
 
 import type { FormRules } from 'element-plus'
 import type { PlusColumn } from 'plus-pro-components'
+
+import { useDictStoreHook } from '@/store/modules/dict'
 
 export const columns: PlusColumn[] = [
   {
@@ -22,18 +24,7 @@ export const columns: PlusColumn[] = [
     prop: 'status',
     valueType: 'select',
     slot: true,
-    options: [
-      {
-        label: '已启用',
-        value: true,
-        color: '#67c23a'
-      },
-      {
-        label: '未启用',
-        value: false,
-        color: '#f56c6c'
-      }
-    ]
+    options: useDictStoreHook().getDict('status')
   },
   {
     label: '备注',
