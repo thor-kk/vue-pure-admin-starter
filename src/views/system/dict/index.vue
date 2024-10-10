@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-10 11:22:14
+ * @LastEditTime: 2024-10-10 14:29:50
  * @Description: 系统模块 - 字典
 -->
 
@@ -10,7 +10,7 @@ defineOptions({ name: 'page-system-dict' })
 
 import { ref } from 'vue'
 import { cloneDeep } from 'lodash'
-import { PlusPage, PlusDialogForm } from '@/components'
+import { PlusPage, PlusDialogForm, ProSwitch } from '@/components'
 import { systemService } from '@/api'
 import { columns, rules } from './data'
 
@@ -76,14 +76,7 @@ function onEditConfirm() {
       </template>
 
       <template #plus-cell-status="scoped">
-        <el-switch
-          v-model="scoped.row['status']"
-          style="--el-switch-on-color: #67c23a; --el-switch-off-color: #f56c6c"
-          inline-prompt
-          active-text="已启用"
-          inactive-text="未启用"
-          @change="() => onChange({ row: scoped.row })"
-        />
+        <ProSwitch v-model="scoped.row['status']" dict="status" @change="() => onChange({ row: scoped.row })" />
       </template>
     </PlusPage>
 

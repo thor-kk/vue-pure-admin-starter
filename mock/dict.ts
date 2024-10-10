@@ -28,8 +28,8 @@ export default defineFakeRoute([
           success: true,
           data: {
             data: [
-              { label: '已启用', value: true, color: '#67c23a' },
-              { label: '未启用', value: false, color: '#f56c6c' }
+              { label: '已启用', value: true, color: '#67c23a', type: 'active' },
+              { label: '未启用', value: false, color: '#f56c6c', type: 'inactive' }
             ],
             total: 2
           }
