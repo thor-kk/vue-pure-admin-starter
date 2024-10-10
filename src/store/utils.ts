@@ -1,13 +1,8 @@
-export { store } from "@/store";
-export { routerArrays } from "@/layout/types";
-export { router, resetRouter, constantMenus } from "@/router";
-export { getConfig, responsiveStorageNameSpace } from "@/config";
-export {
-  ascending,
-  filterTree,
-  filterNoPermissionTree,
-  formatFlatteningRoutes
-} from "@/router/utils";
+export { store } from '@/store/store'
+export { routerArrays } from '@/layout/types'
+export { router, resetRouter, constantMenus } from '@/router'
+export { getConfig, responsiveStorageNameSpace } from '@/config'
+export { ascending, filterTree, filterNoPermissionTree, formatFlatteningRoutes } from '@/router/utils'
 export {
   isUrl,
   isEqual,
@@ -17,12 +12,5 @@ export {
   getKeyList,
   storageLocal,
   deviceDetection
-} from "@pureadmin/utils";
-export type {
-  setType,
-  appType,
-  userType,
-  multiType,
-  cacheType,
-  positionType
-} from "./types";
+} from '@pureadmin/utils'
+export type { setType, appType, userType, multiType, cacheType, positionType } from './types'

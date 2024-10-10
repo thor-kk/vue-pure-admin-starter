@@ -1,14 +1,14 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:05:57
- * @LastEditTime: 2024-10-10 14:49:30
+ * @LastEditTime: 2024-10-10 15:31:47
  * @Description: 数据配置
  */
 
 import type { FormRules } from 'element-plus'
 import type { PlusColumn } from 'plus-pro-components'
 
-import { useDictStoreHook } from '@/store/modules/dict'
+import { useDictStoreHook } from '@/store'
 
 export const columns: PlusColumn[] = [
   {
