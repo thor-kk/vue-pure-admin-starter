@@ -22,16 +22,23 @@ export default defineFakeRoute([
     url: '/dict',
     method: 'get',
     timeout: 500,
-    response: () => {
+    response: ({ query }) => {
+      if (query.key === 'status') {
+        return {
+          success: true,
+          data: {
+            data: [
+              { label: '已启用', value: true, color: '#67c23a' },
+              { label: '未启用', value: false, color: '#f56c6c' }
+            ],
+            total: 2
+          }
+        }
+      }
+
       return {
         success: true,
-        data: {
-          data: [
-            { label: '已启用', value: true, color: '#67c23a' },
-            { label: '未启用', value: false, color: '#f56c6c' }
-          ],
-          total: 2
-        }
+        data: { data: [], total: 0 }
       }
     }
   }
