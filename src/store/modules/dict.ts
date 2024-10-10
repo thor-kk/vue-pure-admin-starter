@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-08 14:30:36
- * @LastEditTime: 2024-10-10 14:49:43
+ * @LastEditTime: 2024-10-10 16:04:55
  * @Description: 字典模块
  */
 
@@ -27,7 +27,12 @@ export const useDictStore = defineStore({
     async getDict(key: string): Promise<dictItem[]> {
       if (!this.dict[key]) {
         const res = await systemService.dictApi.getDict({ key })
-        this.dict[key] = res.data
+        this.dict[key] = res.data.map((item: any) => ({
+          label: item.dictItemName,
+          value: item.dictItemValue,
+          color: item.color,
+          identifier: item.identifier
+        }))
       }
 
       return this.dict[key] || []

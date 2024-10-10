@@ -29,8 +29,22 @@ export default defineFakeRoute([
           success: true,
           data: {
             data: [
-              { label: '已启用', value: true, color: '#67c23a', identifier: 'active' },
-              { label: '未启用', value: false, color: '#f56c6c', identifier: 'inactive' }
+              {
+                dictItemName: '已启用',
+                dictItemValue: true,
+                status: true,
+                color: '#67c23a',
+                sort: 1,
+                identifier: 'active'
+              },
+              {
+                dictItemName: '未启用',
+                dictItemValue: false,
+                status: true,
+                color: '#f56c6c',
+                sort: 2,
+                identifier: 'inactive'
+              }
             ],
             total: 2
           }
@@ -42,8 +56,22 @@ export default defineFakeRoute([
           success: true,
           data: {
             data: [
-              { label: '激活', value: 'active' },
-              { label: '未激活', value: 'inactive' }
+              {
+                dictItemName: '激活',
+                dictItemValue: 'active',
+                status: true,
+                color: '',
+                sort: 1,
+                identifier: ''
+              },
+              {
+                dictItemName: '未激活',
+                dictItemValue: 'inactive',
+                status: true,
+                color: '',
+                sort: 2,
+                identifier: ''
+              }
             ],
             total: 2
           }

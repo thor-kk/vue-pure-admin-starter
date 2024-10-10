@@ -1,15 +1,16 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-10 09:51:19
+ * @LastEditTime: 2024-10-10 16:26:09
  * @Description: Plus - 高级页面
 -->
 
 <script setup lang="ts">
-import type { PlusPageProps } from 'plus-pro-components'
+import type { PlusPageInstance, PlusPageProps } from 'plus-pro-components'
 
 import { merge } from 'lodash'
 import { PlusPage } from 'plus-pro-components'
+import { ref, defineExpose } from 'vue'
 
 interface Props extends PlusPageProps {}
 
@@ -33,10 +34,16 @@ const defaultConfig: Partial<Props> = {
 }
 
 const mergeProps = merge(defaultConfig, props)
+
+const plusPageRef = ref<PlusPageInstance>()
+
+defineExpose({
+  getList: () => plusPageRef.value?.getList()
+})
 </script>
 
 <template>
-  <PlusPage v-bind="mergeProps">
+  <PlusPage ref="plusPageRef" v-bind="mergeProps">
     <template #table-title>
       <slot name="table-action" />
     </template>
