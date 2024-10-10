@@ -1,40 +1,18 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-09 17:27:24
+ * @LastEditTime: 2024-10-10 11:01:49
  * @Description: 系统模块 - 字典
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'page-system-dict' })
 
-import type { FormRules } from 'element-plus'
-
 import { ref } from 'vue'
-import { PlusPage } from '@/components'
+import { cloneDeep } from 'lodash'
+import { PlusPage, PlusDialogForm } from '@/components'
 import { systemService } from '@/api'
-import { columns } from './data'
-
-const editDialogRef = ref()
-const editDialogVisible = ref(false)
-const editForm = ref({})
-const rules: FormRules = {
-  dictName: [{ required: true, message: '请输入字典名称', trigger: 'blur' }],
-  dictCode: [{ required: true, message: '请输入字典编码', trigger: 'blur' }]
-}
-
-function onEditConfirm() {
-  console.log(editForm.value)
-}
-
-function onAction() {
-  console.log('onAction')
-
-  console.log(editDialogRef.value)
-
-  editDialogRef.value.formInstance?.resetFields()
-  editDialogVisible.value = true
-}
+import { columns, rules } from './data'
 
 function onTableAction({ row }) {
   console.log(row)
@@ -42,6 +20,32 @@ function onTableAction({ row }) {
 
 function onChange({ row }) {
   console.log(row)
+}
+
+/**
+ * ! 编辑表单
+ */
+
+const editDialogVisible = ref(false)
+const editForm = ref({})
+const editTitle = ref('')
+
+/** 打开弹窗 */
+function openEditDialog(options?: { code: 'add' | 'edit'; data?: any }) {
+  editDialogVisible.value = true
+
+  if (options.code === 'add') {
+    editTitle.value = '新增字典'
+  }
+
+  if (options.code === 'edit') {
+    editTitle.value = '编辑字典'
+    editForm.value = cloneDeep(options.data)
+  }
+}
+
+function onEditConfirm() {
+  console.log(editForm.value)
 }
 </script>
 
@@ -56,14 +60,19 @@ function onChange({ row }) {
         actionBar: {
           buttons: [
             { text: '字典项', props: { type: 'primary' }, onClick: onTableAction },
+            {
+              text: '编辑',
+              props: { type: 'primary' },
+              onClick: ({ row }) => openEditDialog({ code: 'edit', data: row })
+            },
             { text: '删除', props: { type: 'danger' }, onClick: onTableAction }
           ],
-          width: 140
+          width: 180
         }
       }"
     >
       <template #table-action>
-        <el-button type="primary" @click="onAction">新增字典</el-button>
+        <el-button type="primary" @click="() => openEditDialog({ code: 'add' })">新增字典</el-button>
       </template>
 
       <template #plus-cell-status="scoped">
@@ -80,13 +89,10 @@ function onChange({ row }) {
 
     <!-- 编辑弹窗 -->
     <PlusDialogForm
-      ref="editDialogRef"
       v-model:visible="editDialogVisible"
       v-model="editForm"
-      title="新增字典"
-      width="600px"
-      :form="{ columns, rules, labelPosition: 'right', labelSuffix: '' }"
-      :hasErrorTip="false"
+      :title="editTitle"
+      :form="{ columns, rules }"
       @confirm="onEditConfirm"
     />
   </div>

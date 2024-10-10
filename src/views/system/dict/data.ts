@@ -1,11 +1,12 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:05:57
- * @LastEditTime: 2024-10-09 17:25:52
+ * @LastEditTime: 2024-10-10 10:47:32
  * @Description: 数据配置
  */
 
-import { PlusColumn } from 'plus-pro-components'
+import type { FormRules } from 'element-plus'
+import type { PlusColumn } from 'plus-pro-components'
 
 export const columns: PlusColumn[] = [
   {
@@ -40,3 +41,8 @@ export const columns: PlusColumn[] = [
     hideInSearch: true
   }
 ]
+
+export const rules: FormRules = {
+  dictName: [{ required: true, message: '请输入字典名称', trigger: 'blur' }],
+  dictCode: [{ required: true, message: '请输入字典编码', trigger: 'blur' }]
+}
