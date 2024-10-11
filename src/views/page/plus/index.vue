@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-03 21:12:53
- * @LastEditTime: 2024-10-11 11:11:35
+ * @LastEditTime: 2024-10-11 13:51:19
  * @Description: 页面示例 - Plus Page
 -->
 
@@ -79,8 +79,10 @@ interface State {
 const url = 'https://web-1252186245.cos.ap-beijing.myqcloud.com/group.json'
 const GroupServe = {
   async getList(query: Record<string, any>) {
+    console.log(query)
+
     const { data } = await axios.get(url, { params: query })
-    const { page = 1, pageSize = 10 } = query
+    const { page = 1, pageSize } = query
     const list = (data.data.result as TableRow[]).filter(
       (_, index) => index < pageSize * page && index >= pageSize * (page - 1)
     )

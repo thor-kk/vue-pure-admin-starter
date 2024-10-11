@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-10 16:26:09
+ * @LastEditTime: 2024-10-11 13:52:30
  * @Description: Plus - 高级页面
 -->
 
@@ -23,8 +23,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const defaultConfig: Partial<Props> = {
+  defaultPageInfo: { page: 1, pageSize: 15 },
   pagination: {
-    pageSizes: [10, 20, 30, 50, 100],
+    pageSizes: [15, 20, 30, 50, 100],
     layout: 'total, sizes, prev, pager, next, jumper'
   },
   table: { border: false, hasIndexColumn: true },
