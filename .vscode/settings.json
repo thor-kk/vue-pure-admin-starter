@@ -51,5 +51,5 @@
     "v-ripple"
   ],
   "vscodeCustomCodeColor.highlightValueColor": "#b392f0",
-  "cSpell.words": ["echarts"]
+  "cSpell.words": ["echarts", "vueuse"]
 }
