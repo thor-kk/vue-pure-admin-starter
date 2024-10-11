@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-03 21:12:53
- * @LastEditTime: 2024-10-05 20:58:25
+ * @LastEditTime: 2024-10-11 11:11:35
  * @Description: 页面示例 - Plus Page
 -->
 
@@ -10,14 +10,11 @@ import { computed, reactive, toRefs, ref } from 'vue'
 import type { FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Delete } from '@element-plus/icons-vue'
-import type {
-  ButtonsCallBackParams,
-  PlusPageInstance,
-  PlusColumn
-} from 'plus-pro-components'
+import type { ButtonsCallBackParams, PlusPageInstance, PlusColumn } from 'plus-pro-components'
 import { useTable } from 'plus-pro-components'
 import axios from 'axios'
 import { PlusPage } from '@/components'
+import { useRouter } from 'vue-router'
 
 interface TableRow {
   id: number
@@ -216,9 +213,7 @@ const refresh = () => {
 // 删除
 const handleDelete = async (): Promise<void> => {
   try {
-    const params = state.isBatch
-      ? state.selectedIds
-      : [state.currentRow.id as number]
+    const params = state.isBatch ? state.selectedIds : [state.currentRow.id as number]
     await GroupServe.delete(params)
     ElMessage.success('删除成功')
     refresh()
@@ -280,8 +275,7 @@ const handleSubmit = async () => {
   state.confirmLoading = false
 }
 
-const { form, confirmLoading, rules, currentRow, visible, detailsVisible } =
-  toRefs(state)
+const { form, confirmLoading, rules, currentRow, visible, detailsVisible } = toRefs(state)
 </script>
 
 <template>
@@ -291,8 +285,10 @@ const { form, confirmLoading, rules, currentRow, visible, detailsVisible } =
       :request="GroupServe.getList"
       :columns="columns"
       :params="state.query"
-      :search="{ labelWidth: '100px', colProps: { span: 8 } }"
+      :search="{ labelWidth: '100px', colProps: { span: 8 }, showNumber: 2 }"
+      :table-card-props="{ bodyStyle: { paddingBottom: 0 } }"
       :table="{
+        adaptive: { offsetBottom: 25 },
         isSelection: true,
         actionBar: { buttons, width: 140 },
         onClickAction: handleTableOption,
@@ -301,12 +297,8 @@ const { form, confirmLoading, rules, currentRow, visible, detailsVisible } =
     >
       <template #table-title>
         <el-row class="button-row">
-          <el-button type="primary" :icon="Plus" @click="handleCreate">
-            添加
-          </el-button>
-          <el-button :icon="Delete" type="danger" @click="handleBatchDelete">
-            批量删除
-          </el-button>
+          <el-button type="primary" :icon="Plus" @click="handleCreate"> 添加 </el-button>
+          <el-button :icon="Delete" type="danger" @click="handleBatchDelete"> 批量删除 </el-button>
         </el-row>
       </template>
     </PlusPage>
@@ -327,13 +319,7 @@ const { form, confirmLoading, rules, currentRow, visible, detailsVisible } =
     />
 
     <!-- 查看弹窗 -->
-    <PlusDialog
-      v-model="detailsVisible"
-      width="600px"
-      title="用户组详情"
-      top="26vh"
-      :has-footer="false"
-    >
+    <PlusDialog v-model="detailsVisible" width="600px" title="用户组详情" top="26vh" :has-footer="false">
       <PlusDescriptions :column="2" :columns="columns" :data="currentRow" />
     </PlusDialog>
   </div>

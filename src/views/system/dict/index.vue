@@ -1,14 +1,14 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-11 09:57:51
+ * @LastEditTime: 2024-10-11 10:06:23
  * @Description: 系统模块 - 字典
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'page-system-dict' })
 
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
 import { Delete, Edit, Plus, Search } from '@element-plus/icons-vue'
 import { systemService } from '@/api'
@@ -38,7 +38,9 @@ const { height } = useElementSize(el)
 const scrollHeight = ref(0)
 
 onMounted(() => {
-  scrollHeight.value = height.value - 20
+  nextTick(() => {
+    scrollHeight.value = height.value - 20
+  })
 })
 </script>
 
