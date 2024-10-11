@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:05:57
- * @LastEditTime: 2024-10-11 16:42:07
+ * @LastEditTime: 2024-10-11 16:43:22
  * @Description: 数据配置
  */
 
@@ -40,43 +40,41 @@ export const rules: FormRules = {
 }
 
 /** 字典项 */
-export function getDictItemColumns(): PlusColumn[] {
-  return [
-    {
-      label: '字典标签',
-      prop: 'dictItemName',
-      slot: true
-    },
-    {
-      label: '字典值',
-      prop: 'dictItemValue'
-    },
-    {
-      label: '状态',
-      prop: 'status',
-      valueType: 'select',
-      slot: true,
-      options: useDictStoreHook().getDict('status')
-    },
-    {
-      label: '颜色',
-      prop: 'color',
-      hideInSearch: true
-    },
-    {
-      label: '标识符',
-      prop: 'identifier',
-      hideInSearch: true
-    },
-    {
-      label: '排序',
-      prop: 'sort',
-      hideInSearch: true
-    },
-    {
-      label: '备注',
-      prop: 'remark',
-      hideInSearch: true
-    }
-  ]
-}
+export const dictItemColumns: PlusColumn[] = [
+  {
+    label: '字典标签',
+    prop: 'dictItemName',
+    slot: true
+  },
+  {
+    label: '字典值',
+    prop: 'dictItemValue'
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    valueType: 'select',
+    slot: true,
+    options: useDictStoreHook().getDict('status')
+  },
+  {
+    label: '颜色',
+    prop: 'color',
+    hideInSearch: true
+  },
+  {
+    label: '标识符',
+    prop: 'identifier',
+    hideInSearch: true
+  },
+  {
+    label: '排序',
+    prop: 'sort',
+    hideInSearch: true
+  },
+  {
+    label: '备注',
+    prop: 'remark',
+    hideInSearch: true
+  }
+]

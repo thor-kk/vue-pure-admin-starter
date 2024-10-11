@@ -1,32 +1,32 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-11 15:59:58
+ * @LastEditTime: 2024-10-11 17:09:56
  * @Description: 字典列表
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'dict-list' })
 
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
 import { Delete, Edit, Plus, Search } from '@element-plus/icons-vue'
 import { systemService } from '@/api'
+import { useRequest } from '@/hooks'
 
 const emits = defineEmits<{
   (e: 'click', data: { key: string }): void
 }>()
 
 const selectDict = ref()
-const searchDict = ref('')
-const dictList = ref([])
+const dictName = ref('')
 
-const filterDictList = computed(() => dictList.value.filter((item) => item.dictName.includes(searchDict.value)))
-
-onMounted(async () => {
-  const res = await systemService.dictApi.getDictList()
-  dictList.value = res.data
-})
+/** 查询 */
+const {
+  data: dictList,
+  loading,
+  run
+} = useRequest(() => systemService.dictApi.getDictList({ dictName: dictName.value }))
 
 /** 动态计算字典列表高度 */
 const scrollHeight = ref(0)
@@ -39,11 +39,6 @@ onMounted(() => {
 
 /** 字典项 - 点击事件 */
 function onClickDictItem(item) {
-  if (selectDict.value === item.dictCode) {
-    selectDict.value = ''
-    return
-  }
-
   selectDict.value = item.dictCode
 
   emits('click', { key: item.dictCode })
@@ -54,17 +49,21 @@ function onClickDictItem(item) {
   <el-card shadow="never" body-class="!p-0 h-full flex flex-col justify-between">
     <div class="flex flex-col h-full">
       <div class="p-2">
-        <el-input v-model="searchDict" placeholder="请输入字典名称" :suffix-icon="Search" clearable />
+        <el-input v-model="dictName" placeholder="请输入字典名称" clearable>
+          <template #append>
+            <el-button :icon="Search" :loading="loading" @click="run" />
+          </template>
+        </el-input>
       </div>
 
       <el-divider class="!m-0" />
 
-      <div ref="el" class="px-2 my-2 flex-1">
+      <div ref="el" v-loading="loading" class="px-2 my-2 flex-1">
         <el-scrollbar :height="scrollHeight">
-          <div v-if="!dictList.length" class="text-center"><el-text type="info">暂无字典...</el-text></div>
+          <div v-if="!dictList?.length" class="text-center"><el-text type="info">暂无字典...</el-text></div>
 
           <div
-            v-for="item in filterDictList"
+            v-for="item in dictList"
             v-else
             :key="item.dictCode"
             class="dict cursor-pointer p-2 h-full"

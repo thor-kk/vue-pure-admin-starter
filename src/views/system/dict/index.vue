@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-11 16:37:41
+ * @LastEditTime: 2024-10-11 16:55:38
  * @Description: 系统模块 - 字典
 -->
 
@@ -14,7 +14,7 @@ import { ref } from 'vue'
 import { PlusPage, ProSwitch } from '@/components'
 import { useDictStoreHook } from '@/store'
 import { systemService } from '@/api'
-import { getDictItemColumns } from './data'
+import { dictItemColumns } from './data'
 
 import DictList from './DictList.vue'
 
@@ -40,7 +40,7 @@ async function onClick(key) {
     <PlusPage
       ref="plusPageRef"
       style="width: calc(100% - 250px)"
-      :columns="getDictItemColumns()"
+      :columns="dictItemColumns"
       :request="(search) => systemService.dictApi.getDict({ key: selectKey, ...search })"
     >
       <template #plus-cell-dictItemName="scoped">
