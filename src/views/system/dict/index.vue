@@ -1,146 +1,92 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-10 16:48:33
+ * @LastEditTime: 2024-10-11 09:06:19
  * @Description: 系统模块 - 字典
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'page-system-dict' })
 
-import { ref } from 'vue'
-import { cloneDeep } from 'lodash'
-import { PlusPage, PlusDialogForm, ProSwitch } from '@/components'
+import { onMounted, ref } from 'vue'
+import { Delete, Edit, Plus, Search } from '@element-plus/icons-vue'
 import { systemService } from '@/api'
-import { columns, rules, getDictItemColumns } from './data'
 
-function onTableAction({ row }) {
-  console.log(row)
-}
-
-function onChange({ row }) {
-  console.log(row)
-}
-
-/**
- * ! 编辑表单
- */
-
-const editDialogVisible = ref(false)
-const editForm = ref({})
-const editTitle = ref('')
-
-/** 打开弹窗 */
-function openEditDialog(options?: { code: 'add' | 'edit'; data?: any }) {
-  editDialogVisible.value = true
-
-  if (options.code === 'add') {
-    editTitle.value = '新增字典'
-  }
-
-  if (options.code === 'edit') {
-    editTitle.value = '编辑字典'
-    editForm.value = cloneDeep(options.data)
-  }
-}
-
-function onEditConfirm() {
-  console.log(editForm.value)
-}
-
-/**
- * ! 字典项
- */
-
-const dictDrawerVisible = ref(false)
-const dictTitle = ref('')
 const selectDict = ref('')
+const searchDict = ref('')
+const dictList = ref([])
 
-/** 打开弹窗 */
-function openDictDrawer(options?: { data?: any }) {
-  dictDrawerVisible.value = true
-  selectDict.value = options.data.dictCode
-  dictTitle.value = `字典项 【${options.data.dictName} - ${options.data.dictCode}】`
+onMounted(async () => {
+  const res = await systemService.dictApi.getDictList()
+  dictList.value = res.data
+})
+
+function onClickDictItem(item) {
+  if (selectDict.value === item.dictCode) {
+    selectDict.value = ''
+    return
+  }
+
+  selectDict.value = item.dictCode
 }
 </script>
 
 <template>
-  <div>
-    <!-- 列表 -->
-    <PlusPage
-      :columns="columns"
-      :request="systemService.dictApi.getDictList"
-      :search="{ showNumber: 3 }"
-      :table="{
-        actionBar: {
-          buttons: [
-            { text: '字典项', props: { type: 'primary' }, onClick: ({ row }) => openDictDrawer({ data: row }) },
-            {
-              text: '编辑',
-              props: { type: 'primary' },
-              onClick: ({ row }) => openEditDialog({ code: 'edit', data: row })
-            },
-            { text: '删除', props: { type: 'danger' }, onClick: onTableAction }
-          ],
-          width: 180
-        }
-      }"
-    >
-      <template #table-action>
-        <el-button type="primary" @click="() => openEditDialog({ code: 'add' })">新增字典</el-button>
-      </template>
+  <div class="flex h-full">
+    <el-card class="mr-2 w-[250px]" shadow="never" body-style="padding: 0;">
+      <div class="p-2">
+        <el-input v-model="searchDict" placeholder="请输入字典名称" :suffix-icon="Search" clearable />
+      </div>
 
-      <template #plus-cell-status="scoped">
-        <ProSwitch v-model="scoped.row['status']" dict="status" @change="() => onChange({ row: scoped.row })" />
-      </template>
-    </PlusPage>
+      <el-divider class="!m-0" />
 
-    <!-- 编辑弹窗 -->
-    <PlusDialogForm
-      v-model:visible="editDialogVisible"
-      v-model="editForm"
-      :title="editTitle"
-      :form="{ columns, rules }"
-      @confirm="onEditConfirm"
-    />
+      <div class="p-2" style="height: calc(100vh - 236px)">
+        <el-scrollbar :noresize="true">
+          <div
+            v-for="item in dictList.filter((item) => item.dictName.includes(searchDict))"
+            :key="item.dictCode"
+            class="dict cursor-pointer p-2"
+            :class="{ active: selectDict === item.dictCode }"
+            @click="() => onClickDictItem(item)"
+          >
+            <div class="flex justify-between">
+              <el-text>{{ `${item.dictName}（${item.dictCode}）` }}</el-text>
 
-    <!-- 字典项弹窗 -->
-    <el-drawer
-      v-model="dictDrawerVisible"
-      size="80%"
-      :close-on-click-modal="false"
-      :title="dictTitle"
-      :destroy-on-close="true"
-      direction="rtl"
-    >
-      <PlusPage
-        :columns="getDictItemColumns({ key: selectDict })"
-        :request="(search) => systemService.dictApi.getDict({ key: selectDict, ...search })"
-        :search="{ showNumber: 2 }"
-        :table="{
-          actionBar: {
-            buttons: [
-              {
-                text: '编辑',
-                props: { type: 'primary' },
-                onClick: ({ row }) => openEditDialog({ code: 'edit', data: row })
-              },
-              { text: '删除', props: { type: 'danger' }, onClick: onTableAction }
-            ],
-            width: 140
-          }
-        }"
-      >
-        <template #table-action>
-          <el-button type="primary" @click="() => openEditDialog({ code: 'add' })">新增字典</el-button>
-        </template>
+              <div v-show="selectDict === item.dictCode" class="flex items-center">
+                <el-tooltip effect="dark" content="修改" placement="top">
+                  <el-button :icon="Edit" link type="primary" @click.stop="() => {}" />
+                </el-tooltip>
 
-        <template #plus-cell-status="scoped">
-          <ProSwitch v-model="scoped.row['status']" dict="status" @change="() => onChange({ row: scoped.row })" />
-        </template>
-      </PlusPage>
-    </el-drawer>
+                <el-tooltip effect="dark" content="删除" placement="top">
+                  <el-button :icon="Delete" link type="danger" @click.stop="() => {}" />
+                </el-tooltip>
+              </div>
+            </div>
+          </div>
+        </el-scrollbar>
+      </div>
+
+      <div class="p-2"><el-button class="w-full" type="primary" :icon="Plus">新增字典</el-button></div>
+    </el-card>
+
+    <div class="flex-1 bg-white rounded">2</div>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.dict {
+  &:hover {
+    :deep(.el-text) {
+      color: #409eff;
+    }
+  }
+}
+
+.active {
+  background-color: #40a0ff34;
+  border-radius: 4px;
+  :deep(.el-text) {
+    color: #409eff;
+  }
+}
+</style>
