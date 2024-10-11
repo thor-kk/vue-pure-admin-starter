@@ -1,29 +1,43 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-11 15:06:16
+ * @LastEditTime: 2024-10-11 15:59:58
  * @Description: 字典列表
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'dict-list' })
 
-import { nextTick, onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
 import { Delete, Edit, Plus, Search } from '@element-plus/icons-vue'
 import { systemService } from '@/api'
 
+const emits = defineEmits<{
+  (e: 'click', data: { key: string }): void
+}>()
+
 const selectDict = ref()
 const searchDict = ref('')
 const dictList = ref([])
-const itemList = ref()
+
+const filterDictList = computed(() => dictList.value.filter((item) => item.dictName.includes(searchDict.value)))
 
 onMounted(async () => {
   const res = await systemService.dictApi.getDictList()
   dictList.value = res.data
-  itemList.value = 25
 })
 
+/** 动态计算字典列表高度 */
+const scrollHeight = ref(0)
+const el = ref(null)
+const { height } = useElementSize(el)
+
+onMounted(() => {
+  scrollHeight.value = height.value
+})
+
+/** 字典项 - 点击事件 */
 function onClickDictItem(item) {
   if (selectDict.value === item.dictCode) {
     selectDict.value = ''
@@ -31,15 +45,9 @@ function onClickDictItem(item) {
   }
 
   selectDict.value = item.dictCode
+
+  emits('click', { key: item.dictCode })
 }
-
-const el = ref(null)
-const { height } = useElementSize(el)
-const scrollHeight = ref(0)
-
-onMounted(() => {
-  scrollHeight.value = height.value
-})
 </script>
 
 <template>
@@ -53,8 +61,11 @@ onMounted(() => {
 
       <div ref="el" class="px-2 my-2 flex-1">
         <el-scrollbar :height="scrollHeight">
+          <div v-if="!dictList.length" class="text-center"><el-text type="info">暂无字典...</el-text></div>
+
           <div
-            v-for="item in dictList"
+            v-for="item in filterDictList"
+            v-else
             :key="item.dictCode"
             class="dict cursor-pointer p-2 h-full"
             :class="{ active: selectDict === item.dictCode }"

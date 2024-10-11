@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:05:57
- * @LastEditTime: 2024-10-11 14:17:05
+ * @LastEditTime: 2024-10-11 16:42:07
  * @Description: 数据配置
  */
 
@@ -40,19 +40,12 @@ export const rules: FormRules = {
 }
 
 /** 字典项 */
-export function getDictItemColumns({ key }: { key?: string }): any {
+export function getDictItemColumns(): PlusColumn[] {
   return [
     {
       label: '字典标签',
       prop: 'dictItemName',
-      hideInTable: true
-    },
-    {
-      label: '字典标签',
-      prop: 'dictItemValue',
-      valueType: 'select',
-      options: useDictStoreHook().getDict(key),
-      hideInSearch: true
+      slot: true
     },
     {
       label: '字典值',
@@ -63,7 +56,6 @@ export function getDictItemColumns({ key }: { key?: string }): any {
       prop: 'status',
       valueType: 'select',
       slot: true,
-      hideInSearch: true,
       options: useDictStoreHook().getDict('status')
     },
     {
