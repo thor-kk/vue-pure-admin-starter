@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-11 13:52:30
+ * @LastEditTime: 2024-10-11 15:13:54
  * @Description: Plus - 高级页面
 -->
 
@@ -28,9 +28,9 @@ const defaultConfig: Partial<Props> = {
     pageSizes: [15, 20, 30, 50, 100],
     layout: 'total, sizes, prev, pager, next, jumper'
   },
-  table: { border: false, hasIndexColumn: true },
-  search: { collapseTransition: false },
-  tableCardProps: { shadow: 'never' },
+  table: { adaptive: { offsetBottom: 25 }, border: false, hasIndexColumn: true },
+  search: { collapseTransition: false, onCollapse: handleCollapse },
+  tableCardProps: { shadow: 'never', bodyStyle: { paddingBottom: 0 } },
   searchCardProps: { shadow: 'never' }
 }
 
@@ -41,6 +41,14 @@ const plusPageRef = ref<PlusPageInstance>()
 defineExpose({
   getList: () => plusPageRef.value?.getList()
 })
+
+/** 查询卡片事件 - 展开/收起 */
+function handleCollapse() {
+  // 延时是为了拿到最新的位置
+  setTimeout(() => {
+    window.dispatchEvent(new Event('resize'))
+  }, 160)
+}
 </script>
 
 <template>
@@ -59,4 +67,8 @@ defineExpose({
   </PlusPage>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.plus-page__table_wrapper) {
+  margin-top: 8px;
+}
+</style>

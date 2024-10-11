@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-03 21:12:53
- * @LastEditTime: 2024-10-11 13:51:19
+ * @LastEditTime: 2024-10-11 14:50:56
  * @Description: 页面示例 - Plus Page
 -->
 
@@ -79,8 +79,6 @@ interface State {
 const url = 'https://web-1252186245.cos.ap-beijing.myqcloud.com/group.json'
 const GroupServe = {
   async getList(query: Record<string, any>) {
-    console.log(query)
-
     const { data } = await axios.get(url, { params: query })
     const { page = 1, pageSize } = query
     const list = (data.data.result as TableRow[]).filter(
@@ -288,9 +286,7 @@ const { form, confirmLoading, rules, currentRow, visible, detailsVisible } = toR
       :columns="columns"
       :params="state.query"
       :search="{ labelWidth: '100px', colProps: { span: 8 }, showNumber: 2 }"
-      :table-card-props="{ bodyStyle: { paddingBottom: 0 } }"
       :table="{
-        adaptive: { offsetBottom: 25 },
         isSelection: true,
         actionBar: { buttons, width: 140 },
         onClickAction: handleTableOption,

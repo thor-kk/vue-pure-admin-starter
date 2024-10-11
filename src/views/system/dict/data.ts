@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:05:57
- * @LastEditTime: 2024-10-10 16:48:03
+ * @LastEditTime: 2024-10-11 14:17:05
  * @Description: 数据配置
  */
 
@@ -63,6 +63,7 @@ export function getDictItemColumns({ key }: { key?: string }): any {
       prop: 'status',
       valueType: 'select',
       slot: true,
+      hideInSearch: true,
       options: useDictStoreHook().getDict('status')
     },
     {
