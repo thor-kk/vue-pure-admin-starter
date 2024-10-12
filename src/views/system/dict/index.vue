@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-11 16:55:38
+ * @LastEditTime: 2024-10-12 11:05:42
  * @Description: 系统模块 - 字典
 -->
 
@@ -11,8 +11,7 @@ defineOptions({ name: 'page-system-dict' })
 import type { PlusPageInstance } from '@/components'
 
 import { ref } from 'vue'
-import { PlusPage, ProSwitch } from '@/components'
-import { useDictStoreHook } from '@/store'
+import { PlusPage, ProSwitch, ProStatusText, ProButton } from '@/components'
 import { systemService } from '@/api'
 import { dictItemColumns } from './data'
 
@@ -21,15 +20,9 @@ import DictList from './DictList.vue'
 const plusPageRef = ref<PlusPageInstance>()
 const selectKey = ref('')
 
-const options = ref([])
-const showItem = ref(true)
-async function onClick(key) {
+function onClick(key: string) {
   selectKey.value = key
   plusPageRef.value.getList()
-
-  showItem.value = false
-  options.value = await useDictStoreHook().getDict(selectKey.value)
-  showItem.value = true
 }
 </script>
 
@@ -43,12 +36,12 @@ async function onClick(key) {
       :columns="dictItemColumns"
       :request="(search) => systemService.dictApi.getDict({ key: selectKey, ...search })"
     >
-      <template #plus-cell-dictItemName="scoped">
-        <PlusDisplayItem
-          v-if="showItem"
-          :column="{ prop: 'dictItemValue', valueType: 'select', options }"
-          :row="scoped.row"
-        />
+      <template #table-action>
+        <ProButton>新增字典项</ProButton>
+      </template>
+
+      <template #plus-cell-dictItemName="{ row }">
+        <ProStatusText :text="row.dictItemName" :color="row.color" />
       </template>
 
       <template #plus-cell-status="scoped">

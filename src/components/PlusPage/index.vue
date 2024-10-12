@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-11 15:27:52
+ * @LastEditTime: 2024-10-12 11:07:04
  * @Description: Plus - 高级页面
 -->
 
@@ -53,8 +53,14 @@ function handleCollapse() {
 
 <template>
   <PlusPage ref="plusPageRef" v-bind="mergeProps">
+    <!-- 主操作按钮 -->
     <template #table-title>
       <slot name="table-action" />
+    </template>
+
+    <!-- 副操作按钮 -->
+    <template #table-toolbar>
+      <slot name="table-sub-action" />
     </template>
 
     <template
