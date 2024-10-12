@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-08 14:30:36
- * @LastEditTime: 2024-10-12 15:47:32
+ * @LastEditTime: 2024-10-12 16:01:08
  * @Description: 字典模块
  */
 
@@ -28,7 +28,7 @@ export const useDictStore = defineStore({
   actions: {
     /** 获取字典 */
     async getDict(key: string): Promise<dictItem[]> {
-      if (this.lock) return
+      if (this.lock) return []
       if (!this.dict[key]) {
         this.lock = true
         const res = await systemService.dictApi.getDict({ key })
