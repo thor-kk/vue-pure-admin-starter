@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-12 14:23:17
+ * @LastEditTime: 2024-10-12 15:27:44
  * @Description: 系统模块 - 字典
 -->
 
@@ -24,6 +24,8 @@ function onClick(key: string) {
   selectKey.value = key
   plusPageRef.value.getList()
 }
+
+const selectedIds = ref([])
 </script>
 
 <template>
@@ -35,8 +37,21 @@ function onClick(key: string) {
       style="width: calc(100% - 250px)"
       :columns="dictItemColumns"
       :request="(search) => systemService.dictApi.getDict({ key: selectKey, ...search })"
+      :table="{
+        isSelection: true,
+        onSelectionChange: (rows) => (selectedIds = rows.map((item) => item.id)),
+        actionBar: {
+          align: 'center',
+          buttons: [
+            { text: '修改', props: { type: 'primary' }, onClick: ({ row }) => console.log(row) },
+            { text: '删除', props: { type: 'danger' } }
+          ],
+          width: 140
+        }
+      }"
     >
-      <ProButton>新增字典项</ProButton>
+      <ProButton :disabled="!selectKey">新增字典项</ProButton>
+      <ProButton :disabled="!selectKey" @click="() => console.log(selectedIds)">批量删除</ProButton>
 
       <template #plus-cell-dictItemName="{ row }">
         <ProStatusText :text="row.dictItemName" :color="row.color" />

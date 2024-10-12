@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-12 14:18:42
+ * @LastEditTime: 2024-10-12 14:55:06
  * @Description: Plus - 高级页面
 -->
 
@@ -29,7 +29,7 @@ const defaultConfig: Partial<Props> = {
     layout: 'total, sizes, prev, pager, next, jumper'
   },
   table: { adaptive: { offsetBottom: 25 }, border: false, hasIndexColumn: true },
-  search: { collapseTransition: false, onCollapse: handleCollapse },
+  search: { collapseTransition: false, onCollapse: handleCollapse, searchText: '查询' },
   tableCardProps: { shadow: 'never', bodyStyle: { paddingBottom: 0 } },
   searchCardProps: { shadow: 'never' }
 }

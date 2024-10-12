@@ -30,6 +30,7 @@ export default defineFakeRoute([
           data: {
             data: [
               {
+                id: '1',
                 dictItemName: '已启用',
                 dictItemValue: true,
                 status: true,
@@ -38,6 +39,7 @@ export default defineFakeRoute([
                 identifier: 'active'
               },
               {
+                id: '2',
                 dictItemName: '未启用',
                 dictItemValue: false,
                 status: true,
@@ -57,6 +59,7 @@ export default defineFakeRoute([
           data: {
             data: [
               {
+                id: '1',
                 dictItemName: '激活',
                 dictItemValue: 'active',
                 status: true,
@@ -65,6 +68,7 @@ export default defineFakeRoute([
                 identifier: ''
               },
               {
+                id: '2',
                 dictItemName: '未激活',
                 dictItemValue: 'inactive',
                 status: true,
