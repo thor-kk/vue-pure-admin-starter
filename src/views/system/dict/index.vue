@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-12 11:05:42
+ * @LastEditTime: 2024-10-12 11:15:41
  * @Description: 系统模块 - 字典
 -->
 
@@ -36,9 +36,7 @@ function onClick(key: string) {
       :columns="dictItemColumns"
       :request="(search) => systemService.dictApi.getDict({ key: selectKey, ...search })"
     >
-      <template #table-action>
-        <ProButton>新增字典项</ProButton>
-      </template>
+      <ProButton>新增字典项</ProButton>
 
       <template #plus-cell-dictItemName="{ row }">
         <ProStatusText :text="row.dictItemName" :color="row.color" />

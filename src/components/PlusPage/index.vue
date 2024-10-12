@@ -55,7 +55,8 @@ function handleCollapse() {
   <PlusPage ref="plusPageRef" v-bind="mergeProps">
     <!-- 主操作按钮 -->
     <template #table-title>
-      <slot name="table-action" />
+      <!-- <slot name="table-action" /> -->
+      <slot />
     </template>
 
     <!-- 副操作按钮 -->

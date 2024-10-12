@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-11 17:09:56
+ * @LastEditTime: 2024-10-12 11:10:08
  * @Description: 字典列表
 -->
 
@@ -10,7 +10,8 @@ defineOptions({ name: 'dict-list' })
 
 import { onMounted, ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
-import { Delete, Edit, Plus, Search } from '@element-plus/icons-vue'
+import { Delete, Edit, Search } from '@element-plus/icons-vue'
+import { ProButton } from '@/components'
 import { systemService } from '@/api'
 import { useRequest } from '@/hooks'
 
@@ -89,7 +90,7 @@ function onClickDictItem(item) {
     </div>
 
     <div class="p-2">
-      <el-button class="w-full" type="primary" :icon="Plus">新增字典</el-button>
+      <ProButton class="w-full">新增字典</ProButton>
     </div>
   </el-card>
 </template>
