@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:05:57
- * @LastEditTime: 2024-10-11 16:43:22
+ * @LastEditTime: 2024-10-12 14:23:45
  * @Description: 数据配置
  */
 
@@ -60,6 +60,7 @@ export const dictItemColumns: PlusColumn[] = [
   {
     label: '颜色',
     prop: 'color',
+    slot: true,
     hideInSearch: true
   },
   {

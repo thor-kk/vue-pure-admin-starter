@@ -1,16 +1,16 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-12 11:07:04
+ * @LastEditTime: 2024-10-12 14:18:42
  * @Description: Plus - 高级页面
 -->
 
 <script setup lang="ts">
-import type { PlusPageInstance, PlusPageProps } from 'plus-pro-components'
+import type { PlusColumn, PlusPageInstance, PlusPageProps } from 'plus-pro-components'
 
 import { merge } from 'lodash'
 import { PlusPage } from 'plus-pro-components'
-import { ref, defineExpose } from 'vue'
+import { ref, defineExpose, computed } from 'vue'
 
 interface Props extends PlusPageProps {}
 
@@ -34,6 +34,13 @@ const defaultConfig: Partial<Props> = {
   searchCardProps: { shadow: 'never' }
 }
 
+const columns = computed<PlusColumn[]>(() =>
+  props.columns.map((item) => ({
+    ...item,
+    tableColumnProps: { align: 'center', showOverflowTooltip: true }
+  }))
+)
+
 const mergeProps = merge(defaultConfig, props)
 
 const plusPageRef = ref<PlusPageInstance>()
@@ -52,7 +59,7 @@ function handleCollapse() {
 </script>
 
 <template>
-  <PlusPage ref="plusPageRef" v-bind="mergeProps">
+  <PlusPage ref="plusPageRef" v-bind="mergeProps" :columns="columns">
     <!-- 主操作按钮 -->
     <template #table-title>
       <!-- <slot name="table-action" /> -->

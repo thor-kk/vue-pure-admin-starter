@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-12 11:15:41
+ * @LastEditTime: 2024-10-12 14:23:17
  * @Description: 系统模块 - 字典
 -->
 
@@ -11,7 +11,7 @@ defineOptions({ name: 'page-system-dict' })
 import type { PlusPageInstance } from '@/components'
 
 import { ref } from 'vue'
-import { PlusPage, ProSwitch, ProStatusText, ProButton } from '@/components'
+import { PlusPage, ProSwitch, ProStatusText, ProColorText, ProButton } from '@/components'
 import { systemService } from '@/api'
 import { dictItemColumns } from './data'
 
@@ -42,8 +42,12 @@ function onClick(key: string) {
         <ProStatusText :text="row.dictItemName" :color="row.color" />
       </template>
 
-      <template #plus-cell-status="scoped">
-        <ProSwitch v-model="scoped.row['status']" dict="status" />
+      <template #plus-cell-color="{ row }">
+        <ProColorText :text="row.color" :color="row.color" />
+      </template>
+
+      <template #plus-cell-status="{ row }">
+        <ProSwitch v-model="row['status']" dict="status" />
       </template>
     </PlusPage>
   </div>
