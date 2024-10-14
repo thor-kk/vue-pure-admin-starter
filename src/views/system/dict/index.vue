@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-14 19:52:30
+ * @LastEditTime: 2024-10-14 20:01:46
  * @Description: 系统模块 - 字典
 -->
 
@@ -23,9 +23,13 @@ const editDialogRef = ref<PlusDialogFormInstance>()
 const selectKey = ref('')
 const selectedIds = ref([])
 
+function getList() {
+  plusPageRef.value.getList()
+}
+
 function onClick(key: string) {
   selectKey.value = key
-  plusPageRef.value.getList()
+  getList()
 }
 </script>
 
@@ -52,15 +56,13 @@ function onClick(key: string) {
                 editDialogRef.open({
                   title: '修改字典项',
                   data: { ...row, dictItemValue: JSON.stringify(row.dictItemValue) },
-                  confirmFn: ({ data }) =>
-                    systemService.dictApi.updateDictItem({ data, successCallback: plusPageRef.getList })
+                  confirmFn: ({ data }) => systemService.dictApi.updateDictItem({ data, callback: getList })
                 })
             },
             {
               text: '删除',
               props: { type: 'danger' },
-              onClick: ({ row }) =>
-                systemService.dictApi.deleteDictItem({ ids: [row.id], successCallback: plusPageRef.getList })
+              onClick: ({ row }) => systemService.dictApi.deleteDictItem({ ids: [row.id], callback: getList })
             }
           ]
         }
@@ -72,8 +74,7 @@ function onClick(key: string) {
           () =>
             editDialogRef.open({
               title: '新增字典项',
-              confirmFn: ({ data }) =>
-                systemService.dictApi.createDictItem({ data, successCallback: plusPageRef.getList })
+              confirmFn: ({ data }) => systemService.dictApi.createDictItem({ data, callback: getList })
             })
         "
       >
@@ -82,7 +83,7 @@ function onClick(key: string) {
 
       <ProButton
         :disabled="!selectKey"
-        @click="() => systemService.dictApi.deleteDictItem({ ids: selectedIds, successCallback: plusPageRef.getList })"
+        @click="() => systemService.dictApi.deleteDictItem({ ids: selectedIds, callback: getList })"
       >
         批量删除
       </ProButton>

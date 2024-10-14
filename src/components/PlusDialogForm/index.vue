@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-14 19:49:35
+ * @LastEditTime: 2024-10-14 20:05:18
  * @Description: Plus - 高级页面
 -->
 
@@ -48,7 +48,7 @@ function open(options: { code?: string; title?: string; data?: any; confirmFn?: 
   visible.value = true
   title.value = options.title || ''
   code.value = options.code
-  confirmFn.value = options.confirmFn
+  confirmFn.value = options.confirmFn || undefined
 
   if (options.data) form.value = cloneDeep(options.data) || {}
 }
@@ -63,7 +63,8 @@ function close() {
 
 /** 弹窗事件 - 确认 */
 const loading = ref(false)
-const confirmFn = ref()
+const confirmFn = ref<({ data }) => Promise<boolean> | undefined>()
+
 async function onConfirm() {
   if (!confirmFn.value) return emits('confirm', { data: form.value, code: code.value })
 
