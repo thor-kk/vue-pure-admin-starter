@@ -20,6 +20,22 @@ export default defineFakeRoute([
     }
   },
   {
+    url: '/dict/create',
+    method: 'post',
+    timeout: 500,
+    response: () => {
+      return { success: true, data: null }
+    }
+  },
+  {
+    url: '/dict/update',
+    method: 'put',
+    timeout: 500,
+    response: () => {
+      return { success: true, data: null }
+    }
+  },
+  {
     url: '/dict',
     method: 'get',
     timeout: 500,

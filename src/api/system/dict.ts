@@ -1,13 +1,14 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-14 10:48:02
+ * @LastEditTime: 2024-10-14 15:50:43
  * @Description: 字典模块
  */
 
 import { http } from '@/utils/http'
 import { ElMessage } from 'element-plus'
 import { ProMessageBox } from '@/components'
+import { successCallback } from '../utils'
 
 type Result = {
   success: boolean
@@ -19,6 +20,22 @@ export async function getDictList(data?: any) {
   try {
     const res = await http.request<Result>('get', '/dict/list', { params: data })
     if (res.success) return res.data
+  } catch (error) {}
+}
+
+/** 新增字典项 */
+export async function createDictItem(data?: { data?: any; callback?: Function }) {
+  try {
+    const res = await http.request<Result>('post', '/dict/create', { data })
+    successCallback({ success: res.success, callback: data?.callback })
+  } catch (error) {}
+}
+
+/** 修改字典项 */
+export async function updateDictItem(data?: { data?: any; callback?: Function }) {
+  try {
+    const res = await http.request<Result>('put', '/dict/update', { data })
+    successCallback({ success: res.success, callback: data?.callback })
   } catch (error) {}
 }
 
@@ -41,10 +58,6 @@ export async function deleteDictItem(data?: { ids: string[]; callback?: Function
 
   try {
     const res = await http.request<Result>('delete', '/dict/item', { data })
-    if (res.success) {
-      ElMessage.success('操作成功')
-      if (data.callback) data.callback()
-      return
-    }
+    successCallback({ success: res.success, callback: data?.callback })
   } catch (error) {}
 }

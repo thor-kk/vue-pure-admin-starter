@@ -1,17 +1,17 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-14 10:25:08
+ * @LastEditTime: 2024-10-14 15:56:38
  * @Description: 系统模块 - 字典
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'page-system-dict' })
 
-import type { PlusPageInstance } from '@/components'
+import type { PlusDialogFormInstance, PlusPageInstance } from '@/components'
 
 import { ref } from 'vue'
-import { PlusPage, ProSwitch, ProStatusText, ProColorText, ProButton } from '@/components'
+import { PlusPage, ProSwitch, ProStatusText, ProColorText, ProButton, PlusDialogForm } from '@/components'
 import { systemService } from '@/api'
 import { dictItemColumns } from './data'
 
@@ -26,6 +26,24 @@ function onClick(key: string) {
 }
 
 const selectedIds = ref([])
+
+/**
+ * ! 编辑弹窗
+ */
+const editDialogRef = ref<PlusDialogFormInstance>()
+
+function onConfirm({ data, code, runClose }) {
+  function callback() {
+    runClose()
+    plusPageRef.value.getList()
+  }
+
+  if (code === 'add') systemService.dictApi.createDictItem({ data, callback })
+
+  if (code === 'edit') {
+    systemService.dictApi.updateDictItem({ data, callback })
+  }
+}
 </script>
 
 <template>
@@ -41,21 +59,33 @@ const selectedIds = ref([])
         isSelection: true,
         onSelectionChange: (rows) => (selectedIds = rows.map((item) => item.id)),
         actionBar: {
+          width: 140,
           align: 'center',
           buttons: [
-            { text: '修改', props: { type: 'primary' }, onClick: ({ row }) => console.log(row) },
+            {
+              text: '修改',
+              props: { type: 'primary' },
+              onClick: ({ row }) =>
+                editDialogRef.open({
+                  code: 'edit',
+                  title: '修改字典项',
+                  data: { ...row, dictItemValue: JSON.stringify(row.dictItemValue) }
+                })
+            },
             {
               text: '删除',
               props: { type: 'danger' },
               onClick: ({ row }) =>
                 systemService.dictApi.deleteDictItem({ ids: [row.id], callback: plusPageRef.getList })
             }
-          ],
-          width: 140
+          ]
         }
       }"
     >
-      <ProButton :disabled="!selectKey">新增字典项</ProButton>
+      <ProButton :disabled="!selectKey" @click="() => editDialogRef.open({ code: 'add', title: '新增字典项' })">
+        新增字典项
+      </ProButton>
+
       <ProButton
         :disabled="!selectKey"
         @click="() => systemService.dictApi.deleteDictItem({ ids: selectedIds, callback: plusPageRef.getList })"
@@ -75,6 +105,13 @@ const selectedIds = ref([])
         <ProSwitch v-model="row['status']" dict="status" />
       </template>
     </PlusPage>
+
+    <!-- 编辑弹窗 -->
+    <PlusDialogForm
+      ref="editDialogRef"
+      :form="{ columns: dictItemColumns }"
+      @confirm="({ data, code, runClose }) => onConfirm({ data, code, runClose })"
+    />
   </div>
 </template>
 
