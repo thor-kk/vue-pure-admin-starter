@@ -87,5 +87,16 @@ export default defineFakeRoute([
         data: { data: [], total: 0 }
       }
     }
+  },
+  {
+    url: '/dict/item',
+    method: 'delete',
+    timeout: 500,
+    response: () => {
+      return {
+        success: true,
+        data: null
+      }
+    }
   }
 ])

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-12 15:57:23
+ * @LastEditTime: 2024-10-14 10:25:08
  * @Description: 系统模块 - 字典
 -->
 
@@ -44,14 +44,24 @@ const selectedIds = ref([])
           align: 'center',
           buttons: [
             { text: '修改', props: { type: 'primary' }, onClick: ({ row }) => console.log(row) },
-            { text: '删除', props: { type: 'danger' } }
+            {
+              text: '删除',
+              props: { type: 'danger' },
+              onClick: ({ row }) =>
+                systemService.dictApi.deleteDictItem({ ids: [row.id], callback: plusPageRef.getList })
+            }
           ],
           width: 140
         }
       }"
     >
       <ProButton :disabled="!selectKey">新增字典项</ProButton>
-      <ProButton :disabled="!selectKey" @click="() => console.log(selectedIds)">批量删除</ProButton>
+      <ProButton
+        :disabled="!selectKey"
+        @click="() => systemService.dictApi.deleteDictItem({ ids: selectedIds, callback: plusPageRef.getList })"
+      >
+        批量删除
+      </ProButton>
 
       <template #plus-cell-dictItemName="{ row }">
         <ProStatusText :text="row.dictItemName" :color="row.color" />
