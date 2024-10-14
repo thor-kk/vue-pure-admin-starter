@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-08 14:30:36
- * @LastEditTime: 2024-10-12 16:01:08
+ * @LastEditTime: 2024-10-14 14:13:34
  * @Description: 字典模块
  */
 
@@ -14,7 +14,7 @@ type dictItem = { label: string; value: any; color?: string; identifier?: string
 type dictType = {
   dict?: { [key: string]: dictItem[] }
   /** 请求锁 */
-  lock?: boolean
+  loadingPromises?: any
 }
 
 export const useDictStore = defineStore({
@@ -22,27 +22,34 @@ export const useDictStore = defineStore({
 
   state: (): dictType => ({
     dict: {},
-    lock: false
+    loadingPromises: {}
   }),
 
   actions: {
     /** 获取字典 */
     async getDict(key: string): Promise<dictItem[]> {
-      if (this.lock) return []
-      if (!this.dict[key]) {
-        this.lock = true
-        const res = await systemService.dictApi.getDict({ key })
-        this.lock = false
+      // 如果数据已存在，直接返回
+      if (this.dict[key]) return this.dict[key]
 
-        this.dict[key] = res.data.map((item: any) => ({
-          label: item.dictItemName,
-          value: item.dictItemValue,
-          color: item.color,
-          identifier: item.identifier
-        }))
+      // 使用 Promise 机制避免重复加载
+      if (!this.loadingPromises[key]) {
+        this.loadingPromises[key] = new Promise(async (resolve) => {
+          try {
+            const res = await systemService.dictApi.getDict({ key })
+            this.dict[key] = res.data.map((item: any) => ({
+              label: item.dictItemName,
+              value: item.dictItemValue,
+              color: item.color,
+              identifier: item.identifier
+            }))
+            resolve(this.dict[key])
+          } catch (error) {}
+        })
       }
 
-      return this.dict[key] || []
+      // 等待数据加载完成
+      const result = await this.loadingPromises[key]
+      return result
     }
   }
 })
