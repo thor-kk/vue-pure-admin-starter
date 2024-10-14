@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-14 15:56:38
+ * @LastEditTime: 2024-10-14 19:52:30
  * @Description: 系统模块 - 字典
 -->
 
@@ -18,31 +18,14 @@ import { dictItemColumns } from './data'
 import DictList from './DictList.vue'
 
 const plusPageRef = ref<PlusPageInstance>()
+const editDialogRef = ref<PlusDialogFormInstance>()
+
 const selectKey = ref('')
+const selectedIds = ref([])
 
 function onClick(key: string) {
   selectKey.value = key
   plusPageRef.value.getList()
-}
-
-const selectedIds = ref([])
-
-/**
- * ! 编辑弹窗
- */
-const editDialogRef = ref<PlusDialogFormInstance>()
-
-function onConfirm({ data, code, runClose }) {
-  function callback() {
-    runClose()
-    plusPageRef.value.getList()
-  }
-
-  if (code === 'add') systemService.dictApi.createDictItem({ data, callback })
-
-  if (code === 'edit') {
-    systemService.dictApi.updateDictItem({ data, callback })
-  }
 }
 </script>
 
@@ -67,28 +50,39 @@ function onConfirm({ data, code, runClose }) {
               props: { type: 'primary' },
               onClick: ({ row }) =>
                 editDialogRef.open({
-                  code: 'edit',
                   title: '修改字典项',
-                  data: { ...row, dictItemValue: JSON.stringify(row.dictItemValue) }
+                  data: { ...row, dictItemValue: JSON.stringify(row.dictItemValue) },
+                  confirmFn: ({ data }) =>
+                    systemService.dictApi.updateDictItem({ data, successCallback: plusPageRef.getList })
                 })
             },
             {
               text: '删除',
               props: { type: 'danger' },
               onClick: ({ row }) =>
-                systemService.dictApi.deleteDictItem({ ids: [row.id], callback: plusPageRef.getList })
+                systemService.dictApi.deleteDictItem({ ids: [row.id], successCallback: plusPageRef.getList })
             }
           ]
         }
       }"
     >
-      <ProButton :disabled="!selectKey" @click="() => editDialogRef.open({ code: 'add', title: '新增字典项' })">
+      <ProButton
+        :disabled="!selectKey"
+        @click="
+          () =>
+            editDialogRef.open({
+              title: '新增字典项',
+              confirmFn: ({ data }) =>
+                systemService.dictApi.createDictItem({ data, successCallback: plusPageRef.getList })
+            })
+        "
+      >
         新增字典项
       </ProButton>
 
       <ProButton
         :disabled="!selectKey"
-        @click="() => systemService.dictApi.deleteDictItem({ ids: selectedIds, callback: plusPageRef.getList })"
+        @click="() => systemService.dictApi.deleteDictItem({ ids: selectedIds, successCallback: plusPageRef.getList })"
       >
         批量删除
       </ProButton>
@@ -107,11 +101,7 @@ function onConfirm({ data, code, runClose }) {
     </PlusPage>
 
     <!-- 编辑弹窗 -->
-    <PlusDialogForm
-      ref="editDialogRef"
-      :form="{ columns: dictItemColumns }"
-      @confirm="({ data, code, runClose }) => onConfirm({ data, code, runClose })"
-    />
+    <PlusDialogForm ref="editDialogRef" :form="{ columns: dictItemColumns }" />
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-14 15:50:43
+ * @LastEditTime: 2024-10-14 19:47:04
  * @Description: 字典模块
  */
 
@@ -24,18 +24,20 @@ export async function getDictList(data?: any) {
 }
 
 /** 新增字典项 */
-export async function createDictItem(data?: { data?: any; callback?: Function }) {
+export async function createDictItem(options?: { data?: any; successCallback?: Function }): Promise<boolean> {
   try {
-    const res = await http.request<Result>('post', '/dict/create', { data })
-    successCallback({ success: res.success, callback: data?.callback })
+    const res = await http.request<Result>('post', '/dict/create', { data: options.data })
+    return successCallback({ success: res.success, callback: options?.successCallback })
   } catch (error) {}
 }
 
 /** 修改字典项 */
-export async function updateDictItem(data?: { data?: any; callback?: Function }) {
+export async function updateDictItem(options?: { data?: any; successCallback?: Function }): Promise<boolean> {
+  console.log('data', options.data)
+
   try {
-    const res = await http.request<Result>('put', '/dict/update', { data })
-    successCallback({ success: res.success, callback: data?.callback })
+    const res = await http.request<Result>('put', '/dict/update', { data: options.data })
+    return successCallback({ success: res.success, callback: options?.successCallback })
   } catch (error) {}
 }
 
@@ -50,14 +52,14 @@ export async function getDict(data?: { key: string }) {
 }
 
 /** 删除字典项 */
-export async function deleteDictItem(data?: { ids: string[]; callback?: Function }) {
-  if (data.ids.length === 0) return ElMessage.warning('请选择要删除的数据')
+export async function deleteDictItem(options?: { ids: string[]; successCallback?: Function }) {
+  if (options.ids.length === 0) return ElMessage.warning('请选择要删除的数据')
 
   const isConfirm = await ProMessageBox({ type: 'delete' })
   if (!isConfirm) return
 
   try {
-    const res = await http.request<Result>('delete', '/dict/item', { data })
-    successCallback({ success: res.success, callback: data?.callback })
+    const res = await http.request<Result>('delete', '/dict/item', { data: { ids: options.ids } })
+    successCallback({ success: res.success, callback: options?.successCallback })
   } catch (error) {}
 }

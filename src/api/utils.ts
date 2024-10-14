@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-14 15:25:44
- * @LastEditTime: 2024-10-14 15:34:30
+ * @LastEditTime: 2024-10-14 19:39:05
  * @Description: api 通用方法
  */
 
@@ -15,5 +15,7 @@ export function successCallback(options?: { success?: string | number | boolean;
   if (options.success) {
     ElMessage.success('操作成功')
     if (options.callback) options.callback()
+    return true
   }
+  return false
 }

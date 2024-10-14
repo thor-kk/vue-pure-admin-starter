@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-14 15:52:34
+ * @LastEditTime: 2024-10-14 19:49:35
  * @Description: Plus - 高级页面
 -->
 
@@ -13,7 +13,7 @@ import { cloneDeep, merge } from 'lodash'
 import { PlusDialogForm } from 'plus-pro-components'
 
 const emits = defineEmits<{
-  (e: 'confirm', data: { data?: any; code: 'add' | 'edit'; runClose?: Function }): void
+  (e: 'confirm', data: { data?: any; code?: string; runClose?: Function }): void
 }>()
 
 interface Props extends PlusDialogFormProps {}
@@ -29,6 +29,7 @@ const defaultConfig: Partial<Props> = {
   form: { labelPosition: 'right', labelSuffix: '' }
 }
 
+/** !!! 合并会丢失所有响应式 */
 const mergeProps = merge(defaultConfig, props)
 
 const visible = defineModel<boolean>('visible')
@@ -43,10 +44,11 @@ const title = ref('')
 const code = ref()
 
 /** 打开弹窗 */
-function open(options: { code: 'add' | 'edit'; title?: string; data?: any }) {
+function open(options: { code?: string; title?: string; data?: any; confirmFn?: ({ data }) => Promise<boolean> }) {
   visible.value = true
   title.value = options.title || ''
   code.value = options.code
+  confirmFn.value = options.confirmFn
 
   if (options.data) form.value = cloneDeep(options.data) || {}
 }
@@ -55,7 +57,24 @@ function open(options: { code: 'add' | 'edit'; title?: string; data?: any }) {
 function close() {
   visible.value = false
   form.value = {}
+  confirmFn.value = undefined
   dialogFormRef.value.formInstance?.resetFields()
+}
+
+/** 弹窗事件 - 确认 */
+const loading = ref(false)
+const confirmFn = ref()
+async function onConfirm() {
+  if (!confirmFn.value) return emits('confirm', { data: form.value, code: code.value })
+
+  try {
+    loading.value = true
+    const success = await confirmFn.value({ data: form.value })
+    if (success) close()
+  } catch (error) {
+  } finally {
+    loading.value = false
+  }
 }
 
 defineExpose({
@@ -73,8 +92,9 @@ defineExpose({
     v-model:visible="visible"
     v-model="form"
     :title="title"
+    :dialog="{ ...mergeProps.dialog, confirmLoading: loading }"
     @cancel="close"
-    @confirm="emits('confirm', { data: form, code, runClose: close })"
+    @confirm="onConfirm"
   />
 </template>
 
