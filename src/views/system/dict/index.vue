@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-14 20:01:46
+ * @LastEditTime: 2024-10-14 21:05:16
  * @Description: 系统模块 - 字典
 -->
 
@@ -19,6 +19,7 @@ import DictList from './DictList.vue'
 
 const plusPageRef = ref<PlusPageInstance>()
 const editDialogRef = ref<PlusDialogFormInstance>()
+const editForm = ref()
 
 const selectKey = ref('')
 const selectedIds = ref([])
@@ -56,7 +57,7 @@ function onClick(key: string) {
                 editDialogRef.open({
                   title: '修改字典项',
                   data: { ...row, dictItemValue: JSON.stringify(row.dictItemValue) },
-                  confirmFn: ({ data }) => systemService.dictApi.updateDictItem({ data, callback: getList })
+                  confirmFn: ({ form }) => systemService.dictApi.updateDictItem({ data: form, callback: getList })
                 })
             },
             {
@@ -74,7 +75,7 @@ function onClick(key: string) {
           () =>
             editDialogRef.open({
               title: '新增字典项',
-              confirmFn: ({ data }) => systemService.dictApi.createDictItem({ data, callback: getList })
+              confirmFn: ({ form }) => systemService.dictApi.createDictItem({ data: form, callback: getList })
             })
         "
       >
@@ -102,7 +103,14 @@ function onClick(key: string) {
     </PlusPage>
 
     <!-- 编辑弹窗 -->
-    <PlusDialogForm ref="editDialogRef" :form="{ columns: dictItemColumns }" />
+    <PlusDialogForm
+      ref="editDialogRef"
+      v-model="editForm"
+      :form="{
+        columns: dictItemColumns,
+        rules: { dictItemValue: [{ required: true, message: '请输入字典值' }] }
+      }"
+    />
   </div>
 </template>
 
