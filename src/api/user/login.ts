@@ -1,13 +1,14 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-15 14:32:38
+ * @LastEditTime: 2024-10-15 14:57:26
  * @Description: 字典模块
  */
 
+import type { R, Result } from '../type'
+import type { Login, RefreshTokenResult, UserResult } from './type'
+
 import { http } from '@/utils/http'
-import { R, Result } from '../type'
-import { Login, RefreshTokenResult, UserResult } from './type'
 
 /** 登录 */
 export async function getLogin(data?: object) {
@@ -17,17 +18,21 @@ export async function getLogin(data?: object) {
   } catch (error) {}
 }
 
-/** 刷新`token` */
-export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>('post', '/refresh-token', { data })
-}
-
 /** 获取动态路由 */
-export const getAsyncRoutes = () => {
-  return http.request<Result>('get', '/get-async-routes')
+export function getAsyncRoutes() {
+  try {
+    return http.request<Result>('get', '/get-async-routes')
+  } catch (error) {}
 }
 
-/** 登录 */
+/** 刷新`token` */
+export async function refreshTokenApi(data?: object) {
+  try {
+    return http.request<RefreshTokenResult>('post', '/refresh-token', { data })
+  } catch (error) {}
+}
+
+/** 登录 - 正式联调 */
 export async function login(data?: Login) {
   /** 测试数据 */
   data.username = 'admin'

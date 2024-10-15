@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-15 11:16:37
- * @LastEditTime: 2024-10-15 14:28:22
+ * @LastEditTime: 2024-10-15 14:55:11
  * @Description: store - 用户模块
  */
 
@@ -76,21 +76,6 @@ export const useUserStore = defineStore({
     SET_LORINDA(value: number) {
       this.loginDay = Number(value)
     },
-
-    /** 登入 */
-    // async loginByUsername(data) {
-    //   return new Promise<UserResult>((resolve, reject) => {
-    //     /** 登录接口 - 存储 token 和 用户信息 */
-    //     userService.LoginApi.getLogin(data)
-    //       .then((data) => {
-    //         if (data?.success) setToken(data.data)
-    //         resolve(data)
-    //       })
-    //       .catch((error) => {
-    //         reject(error)
-    //       })
-    //   })
-    // },
 
     /** 登入 */
     async loginByUsername(data): Promise<UserResult> {
