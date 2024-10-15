@@ -5,6 +5,8 @@
  * @Description: 统一类型定义
  */
 
+export * from './user/type'
+
 export type Result<T = any> = {
   code: number
   message: string

@@ -46,7 +46,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       loading.value = true
 
       useUserStoreHook()
-        .loginByUsername({ username: ruleForm.username, password: 'admin123' })
+        .loginByUsername(ruleForm)
         .then((res) => {
           if (res.success) {
             // 获取后端路由
@@ -104,12 +104,7 @@ onBeforeUnmount(() => {
             <h2 class="outline-none">{{ title }}</h2>
           </Motion>
 
-          <el-form
-            ref="ruleFormRef"
-            :model="ruleForm"
-            :rules="loginRules"
-            size="large"
-          >
+          <el-form ref="ruleFormRef" :model="ruleForm" :rules="loginRules" size="large">
             <Motion :delay="100">
               <el-form-item
                 :rules="[
@@ -121,12 +116,7 @@ onBeforeUnmount(() => {
                 ]"
                 prop="username"
               >
-                <el-input
-                  v-model="ruleForm.username"
-                  clearable
-                  placeholder="账号"
-                  :prefix-icon="useRenderIcon(User)"
-                />
+                <el-input v-model="ruleForm.username" clearable placeholder="账号" :prefix-icon="useRenderIcon(User)" />
               </el-form-item>
             </Motion>
 
