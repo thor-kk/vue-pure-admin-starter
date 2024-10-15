@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-15 11:16:37
- * @LastEditTime: 2024-10-15 14:21:37
+ * @LastEditTime: 2024-10-15 14:28:22
  * @Description: store - 用户模块
  */
 
@@ -78,18 +78,26 @@ export const useUserStore = defineStore({
     },
 
     /** 登入 */
-    async loginByUsername(data) {
-      return new Promise<UserResult>((resolve, reject) => {
-        /** 登录接口 - 存储 token 和 用户信息 */
-        userService.LoginApi.getLogin(data)
-          .then((data) => {
-            if (data?.success) setToken(data.data)
-            resolve(data)
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      })
+    // async loginByUsername(data) {
+    //   return new Promise<UserResult>((resolve, reject) => {
+    //     /** 登录接口 - 存储 token 和 用户信息 */
+    //     userService.LoginApi.getLogin(data)
+    //       .then((data) => {
+    //         if (data?.success) setToken(data.data)
+    //         resolve(data)
+    //       })
+    //       .catch((error) => {
+    //         reject(error)
+    //       })
+    //   })
+    // },
+
+    /** 登入 */
+    async loginByUsername(data): Promise<UserResult> {
+      const res = await userService.LoginApi.getLogin(data)
+      /** 存储 token 和 用户信息 */
+      if (res?.success) setToken(res.data)
+      return res
     },
 
     /** 前端登出（不调用接口） */

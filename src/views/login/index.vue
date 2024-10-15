@@ -38,30 +38,27 @@ const ruleForm = reactive({
 })
 
 /** 登录操作 */
-const onLogin = async (formEl: FormInstance | undefined) => {
+async function onLogin(formEl: FormInstance | undefined) {
   if (!formEl) return
 
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      loading.value = true
+  const valid = await formEl.validate()
+  if (!valid) return
 
-      useUserStoreHook()
-        .loginByUsername(ruleForm)
-        .then((res) => {
-          if (res.success) {
-            // 获取后端路由
-            return initRouter().then(() => {
-              router.push(getTopMenu(true).path).then(() => {
-                message('登录成功', { type: 'success' })
-              })
-            })
-          } else {
-            message('登录失败', { type: 'error' })
-          }
-        })
-        .finally(() => (loading.value = false))
+  try {
+    loading.value = true
+    const res = await useUserStoreHook().loginByUsername(ruleForm)
+    if (res.success) {
+      await initRouter()
+      /** 获取所有菜单中的第一个菜单（顶级菜单） */
+      router.push(getTopMenu(true).path)
     }
-  })
+
+    message('登录成功', { type: 'success' })
+  } catch (error) {
+    message('登录失败', { type: 'error' })
+  } finally {
+    loading.value = false
+  }
 }
 
 /** 使用公共函数，避免`removeEventListener`失效 */
