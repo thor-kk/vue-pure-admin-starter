@@ -9,9 +9,7 @@ import { useRenderIcon } from '@/components/pure/ReIcon/src/hooks'
 import { cloneDeep, isAllEmpty, deviceDetection } from '@pureadmin/utils'
 
 export function useMenu() {
-  const form = reactive({
-    title: ''
-  })
+  const form = reactive({ title: '' })
 
   const formRef = ref()
   const dataList = ref([])

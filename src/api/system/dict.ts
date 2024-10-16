@@ -1,19 +1,16 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-15 09:34:58
+ * @LastEditTime: 2024-10-16 15:59:29
  * @Description: 字典模块
  */
+
+import type { Result } from '../type'
 
 import { http } from '@/utils/http'
 import { ElMessage } from 'element-plus'
 import { ProMessageBox } from '@/components'
 import { successCallback } from '../utils'
-
-type Result = {
-  success: boolean
-  data: { data: Array<any>; total: number }
-}
 
 /** 获取字典 */
 export async function getDictList(data?: any) {
