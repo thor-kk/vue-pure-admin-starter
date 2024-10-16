@@ -2,10 +2,10 @@ import editForm from '../form.vue'
 import { handleTree } from '@/utils/tree'
 import { message } from '@/utils/message'
 import { getMenuList } from '@/api/system/menu'
-import { addDialog } from '@/components/ReDialog'
+import { addDialog } from '@/components/pure/ReDialog'
 import { reactive, ref, onMounted, h } from 'vue'
 import type { FormItemProps } from '../utils/types'
-import { useRenderIcon } from '@/components/ReIcon/src/hooks'
+import { useRenderIcon } from '@/components/pure/ReIcon/src/hooks'
 import { cloneDeep, isAllEmpty, deviceDetection } from '@pureadmin/utils'
 
 export function useMenu() {

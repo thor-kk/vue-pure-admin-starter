@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import ReCol from '@/components/ReCol'
+import ReCol from '@/components/pure/ReCol'
 import { formRules } from './utils/rule'
 import { FormProps } from './utils/types'
-import { IconSelect } from '@/components/ReIcon'
-import Segmented from '@/components/ReSegmented'
-import ReAnimateSelector from '@/components/ReAnimateSelector'
+import { IconSelect } from '@/components/pure/ReIcon'
+import Segmented from '@/components/pure/ReSegmented'
+import ReAnimateSelector from '@/components/pure/ReAnimateSelector'
 import {
   menuTypeOptions,
   showLinkOptions,

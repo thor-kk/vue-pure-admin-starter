@@ -1,4 +1,4 @@
-import type { OptionsType } from '@/components/ReSegmented'
+import type { OptionsType } from '@/components/pure/ReSegmented'
 
 const menuTypeOptions: Array<OptionsType> = [
   {

@@ -1,24 +1,22 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-16 14:10:56
- * @LastEditTime: 2024-10-16 14:37:51
+ * @LastEditTime: 2024-10-16 15:46:22
  * @Description: 系统管理 - 菜单管理
 -->
 
 <script setup lang="ts">
+defineOptions({ name: 'page-system-menu' })
+
 import { ref } from 'vue'
 import { useMenu } from './utils/hook'
-import { PureTableBar } from '@/components/RePureTableBar'
-import { useRenderIcon } from '@/components/ReIcon/src/hooks'
+import { PureTableBar } from '@/components/pure/RePureTableBar'
+import { useRenderIcon } from '@/components/pure/ReIcon/src/hooks'
 
 import Delete from '@iconify-icons/ep/delete'
 import EditPen from '@iconify-icons/ep/edit-pen'
 import Refresh from '@iconify-icons/ep/refresh'
 import AddFill from '@iconify-icons/ri/add-circle-line'
-
-defineOptions({
-  name: 'SystemMenu'
-})
 
 const formRef = ref()
 const tableRef = ref()
@@ -85,6 +83,7 @@ const { form, loading, columns, dataList, onSearch, resetForm, openDialog, handl
             >
               修改
             </el-button>
+
             <el-button
               v-show="row.menuType !== 3"
               class="reset-margin"
@@ -96,10 +95,8 @@ const { form, loading, columns, dataList, onSearch, resetForm, openDialog, handl
             >
               新增
             </el-button>
-            <el-popconfirm
-              :title="`是否确认删除菜单名称为${row.title}的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
-              @confirm="handleDelete(row)"
-            >
+
+            <el-popconfirm title="是否确认删除这条数据" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(Delete)">
                   删除
