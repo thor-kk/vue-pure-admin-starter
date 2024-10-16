@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-12 14:55:06
+ * @LastEditTime: 2024-10-16 16:07:27
  * @Description: Plus - 高级页面
 -->
 
@@ -83,6 +83,6 @@ function handleCollapse() {
 
 <style scoped lang="scss">
 :deep(.plus-page__table_wrapper) {
-  margin-top: 8px;
+  margin-top: 8px !important;
 }
 </style>
