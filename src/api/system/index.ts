@@ -1,8 +1,24 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:36:24
- * @LastEditTime: 2024-10-09 10:37:34
+ * @LastEditTime: 2024-10-17 16:18:43
  * @Description: 模块统一导出
  */
 
+/** 用户模块 */
+export * as userApi from './user'
+
+/** 角色模块 */
+export * as roleApi from './role'
+
+/** 部门模块 */
+export * as deptApi from './dept'
+
+/** 菜单模块 */
+export * as menuApi from './menu'
+
+/** 字典模块 */
 export * as dictApi from './dict'
+
+/** 授权模块 */
+export * as relationApi from './relation'

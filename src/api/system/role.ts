@@ -1,31 +1,23 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-10-16 15:58:17
- * @Description: 菜单管理
+ * @LastEditTime: 2024-10-17 16:13:07
+ * @Description: 角色模块
  */
 
-type ResultTable = {
-  success: boolean
-  data?: {
-    /** 列表数据 */
-    list: Array<any>
-    /** 总条目数 */
-    total?: number
-    /** 每页显示条目个数 */
-    pageSize?: number
-    /** 当前页数 */
-    currentPage?: number
-  }
-}
-
-import type { Result } from '../type'
+import type { Result, ResultTable } from '../type'
 
 import { http } from '@/utils/http'
 
-/** 获取系统管理-角色管理列表 */
+/** 获取角色列表 */
 export const getRoleList = (data?: object) => {
   return http.request<ResultTable>('post', '/role', { data })
+}
+
+/** 获取所有角色列表 */
+export async function getAllRoleList() {
+  const res = await http.request<Result>('get', '/list-all-role')
+  return res
 }
 
 /** 获取角色管理-权限-菜单权限 */

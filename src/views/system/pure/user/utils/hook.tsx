@@ -16,7 +16,7 @@ import { usePublicHooks } from '../../hooks'
 import userAvatar from '@/assets/user.jpg'
 import { ElForm, ElInput, ElFormItem, ElProgress, ElMessageBox } from 'element-plus'
 import { addDialog, ReCropperPreview } from '@/components'
-import { getRoleIds, getDeptList, getUserList, getAllRoleList } from '@/api/system/user'
+import { systemService } from '@/api'
 
 export function useUser(tableRef: Ref, treeRef: Ref) {
   const form = reactive({ deptId: '', username: '', phone: '', status: '' })
@@ -215,9 +215,12 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     onSearch()
   }
 
+  /**
+   * todo 查询
+   */
   async function onSearch() {
     loading.value = true
-    const { data } = await getUserList(toRaw(form))
+    const { data } = await systemService.userApi.getUserList(toRaw(form))
     dataList.value = data.list
     pagination.total = data.total
     pagination.pageSize = data.pageSize
@@ -395,7 +398,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   /** 分配角色 */
   async function handleRole(row) {
     // 选中的角色列表
-    const ids = (await getRoleIds({ userId: row.id })).data ?? []
+    const ids = (await systemService.relationApi.getUserRoleIds({ userId: row.id })).data ?? []
     addDialog({
       title: `分配 ${row.username} 用户的角色`,
       props: {
@@ -426,13 +429,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     onSearch()
 
     // 归属部门
-    const { data } = await getDeptList()
+    const { data } = await systemService.deptApi.getDeptList()
     higherDeptOptions.value = handleTree(data)
     treeData.value = handleTree(data)
     treeLoading.value = false
 
     // 角色列表
-    roleOptions.value = (await getAllRoleList()).data
+    roleOptions.value = (await systemService.roleApi.getAllRoleList()).data
   })
 
   return {
