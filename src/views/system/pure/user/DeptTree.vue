@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { useRenderIcon } from '@/components/pure/ReIcon/src/hooks'
 import { ref, computed, watch, getCurrentInstance } from 'vue'
+import { IconifyCollection, useRenderIcon } from '@/components'
 
-import Dept from '@iconify-icons/ri/git-branch-line'
-// import Reset from "@iconify-icons/ri/restart-line";
-import More2Fill from '@iconify-icons/ri/more-2-fill'
-import OfficeBuilding from '@iconify-icons/ep/office-building'
-import LocationCompany from '@iconify-icons/ep/add-location'
 import ExpandIcon from './svg/expand.svg?component'
 import UnExpandIcon from './svg/unexpand.svg?component'
 
@@ -17,10 +12,7 @@ interface Tree {
   children?: Tree[]
 }
 
-defineProps({
-  treeLoading: Boolean,
-  treeData: Array
-})
+defineProps({ treeLoading: Boolean, treeData: Array })
 
 const emit = defineEmits(['tree-select'])
 
@@ -29,10 +21,7 @@ const isExpand = ref(true)
 const searchValue = ref('')
 const highlightMap = ref({})
 const { proxy } = getCurrentInstance()
-const defaultProps = {
-  children: 'children',
-  label: 'name'
-}
+const defaultProps = { children: 'children', label: 'name' }
 const buttonClass = computed(() => {
   return [
     '!h-[20px]',
@@ -63,6 +52,7 @@ function nodeClick(value) {
       v.highlight = false
     }
   })
+
   emit(
     'tree-select',
     highlightMap.value[nodeId]?.highlight
@@ -104,7 +94,7 @@ defineExpose({ onTreeReset })
         </template>
       </el-input>
       <el-dropdown :hide-on-click="false">
-        <IconifyIconOffline class="w-[28px] cursor-pointer" width="18px" :icon="More2Fill" />
+        <IconifyIconOffline class="w-[28px] cursor-pointer" width="18px" :icon="IconifyCollection.More2Fill" />
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
@@ -118,17 +108,17 @@ defineExpose({ onTreeReset })
                 {{ isExpand ? '折叠全部' : '展开全部' }}
               </el-button>
             </el-dropdown-item>
-            <!-- <el-dropdown-item>
+            <el-dropdown-item>
               <el-button
                 :class="buttonClass"
                 link
                 type="primary"
-                :icon="useRenderIcon(Reset)"
+                :icon="useRenderIcon(IconifyCollection.Reset)"
                 @click="onTreeReset"
               >
                 重置状态
               </el-button>
-            </el-dropdown-item> -->
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -163,7 +153,15 @@ defineExpose({ onTreeReset })
             background: highlightMap[node.id]?.highlight ? 'var(--el-color-primary-light-7)' : 'transparent'
           }"
         >
-          <IconifyIconOffline :icon="data.type === 1 ? OfficeBuilding : data.type === 2 ? LocationCompany : Dept" />
+          <IconifyIconOffline
+            :icon="
+              data.type === 1
+                ? IconifyCollection.OfficeBuilding
+                : data.type === 2
+                  ? IconifyCollection.LocationCompany
+                  : IconifyCollection.Dept
+            "
+          />
           {{ node.label }}
         </span>
       </template>

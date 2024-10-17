@@ -1,29 +1,25 @@
+import type { PaginationProps } from '@pureadmin/table'
+import type { FormItemProps, RoleFormItemProps } from '../utils/types'
+import type { Ref } from 'vue'
+
+import { zxcvbn } from '@zxcvbn-ts/core'
+import { h, ref, toRaw, watch, computed, reactive, onMounted } from 'vue'
+import { getKeyList, isAllEmpty, hideTextAtIndex, deviceDetection } from '@pureadmin/utils'
+
 import './reset.css'
 import dayjs from 'dayjs'
+import { handleTree, message } from '@/utils'
 import roleForm from '../form/role.vue'
 import editForm from '../form/index.vue'
-import { zxcvbn } from '@zxcvbn-ts/core'
-import { handleTree } from '@/utils/tree'
-import { message } from '@/utils/message'
-import userAvatar from '@/assets/user.jpg'
 import { usePublicHooks } from '../../hooks'
-import { addDialog } from '@/components/pure/ReDialog'
-import type { PaginationProps } from '@pureadmin/table'
-import ReCropperPreview from '@/components/pure/ReCropperPreview'
-import type { FormItemProps, RoleFormItemProps } from '../utils/types'
-import { getKeyList, isAllEmpty, hideTextAtIndex, deviceDetection } from '@pureadmin/utils'
+
+import userAvatar from '@/assets/user.jpg'
 import { ElForm, ElInput, ElFormItem, ElProgress, ElMessageBox } from 'element-plus'
-import { type Ref, h, ref, toRaw, watch, computed, reactive, onMounted } from 'vue'
+import { addDialog, ReCropperPreview } from '@/components'
 import { getRoleIds, getDeptList, getUserList, getAllRoleList } from '@/api/system/user'
 
 export function useUser(tableRef: Ref, treeRef: Ref) {
-  const form = reactive({
-    // 左侧部门树的id
-    deptId: '',
-    username: '',
-    phone: '',
-    status: ''
-  })
+  const form = reactive({ deptId: '', username: '', phone: '', status: '' })
   const formRef = ref()
   const ruleFormRef = ref()
   const dataList = ref([])
@@ -36,12 +32,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   const treeData = ref([])
   const treeLoading = ref(true)
   const selectedNum = ref(0)
-  const pagination = reactive<PaginationProps>({
-    total: 0,
-    pageSize: 10,
-    currentPage: 1,
-    background: true
-  })
+  const pagination = reactive<PaginationProps>({ total: 0, pageSize: 10, currentPage: 1, background: true })
   const columns: TableColumnList = [
     {
       label: '勾选列', // 如果需要表格多选，此处label必须设置

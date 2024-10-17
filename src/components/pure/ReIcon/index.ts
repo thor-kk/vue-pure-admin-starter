@@ -1,15 +1,18 @@
-import iconifyIconOffline from "./src/iconifyIconOffline";
-import iconifyIconOnline from "./src/iconifyIconOnline";
-import iconSelect from "./src/Select.vue";
-import fontIcon from "./src/iconfont";
+import iconifyIconOffline from './src/iconifyIconOffline'
+import iconifyIconOnline from './src/iconifyIconOnline'
+import iconSelect from './src/Select.vue'
+import fontIcon from './src/iconfont'
 
 /** 本地图标组件 */
-const IconifyIconOffline = iconifyIconOffline;
+const IconifyIconOffline = iconifyIconOffline
 /** 在线图标组件 */
-const IconifyIconOnline = iconifyIconOnline;
+const IconifyIconOnline = iconifyIconOnline
 /** `IconSelect`图标选择器组件 */
-const IconSelect = iconSelect;
+const IconSelect = iconSelect
 /** `iconfont`组件 */
-const FontIcon = fontIcon;
+const FontIcon = fontIcon
 
-export { IconifyIconOffline, IconifyIconOnline, IconSelect, FontIcon };
+export { IconifyIconOffline, IconifyIconOnline, IconSelect, FontIcon }
+
+export * from './src/hooks'
+export * as IconifyCollection from './icon'

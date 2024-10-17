@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import ReCol from '@/components/pure/ReCol'
+import { ReCol } from '@/components'
 import { RoleFormProps } from '../utils/types'
 
 const props = withDefaults(defineProps<RoleFormProps>(), {
-  formInline: () => ({
-    username: '',
-    nickname: '',
-    roleOptions: [],
-    ids: []
-  })
+  formInline: () => ({ username: '', nickname: '', roleOptions: [], ids: [] })
 })
 
 const newFormInline = ref(props.formInline)
@@ -20,7 +15,7 @@ const newFormInline = ref(props.formInline)
     <el-row :gutter="30">
       <!-- <re-col>
         <el-form-item label="用户名称" prop="username">
-          <el-input disabled v-model="newFormInline.username" />
+          <el-input v-model="newFormInline.username" disabled />
         </el-form-item>
       </re-col> -->
       <re-col>

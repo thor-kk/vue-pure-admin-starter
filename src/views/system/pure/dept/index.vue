@@ -9,9 +9,7 @@ import EditPen from '@iconify-icons/ep/edit-pen'
 import Refresh from '@iconify-icons/ep/refresh'
 import AddFill from '@iconify-icons/ri/add-circle-line'
 
-defineOptions({
-  name: 'SystemDept'
-})
+defineOptions({ name: 'SystemDept' })
 
 const formRef = ref()
 const tableRef = ref()

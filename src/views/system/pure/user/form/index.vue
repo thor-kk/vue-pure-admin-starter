@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import ReCol from '@/components/pure/ReCol'
+import { ReCol } from '@/components'
 import { formRules } from '../utils/rule'
 import { FormProps } from '../utils/types'
 import { usePublicHooks } from '../../hooks'
@@ -22,14 +22,8 @@ const props = withDefaults(defineProps<FormProps>(), {
 })
 
 const sexOptions = [
-  {
-    value: 0,
-    label: '男'
-  },
-  {
-    value: 1,
-    label: '女'
-  }
+  { value: 0, label: '男' },
+  { value: 1, label: '女' }
 ]
 const ruleFormRef = ref()
 const { switchStyle } = usePublicHooks()
