@@ -11,6 +11,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.1
         version: 2.3.1(vue@3.4.38(typescript@5.5.4))
+      '@imengyu/vue3-context-menu':
+        specifier: 1.4.2
+        version: 1.4.2
       '@pureadmin/descriptions':
         specifier: ^1.2.1
         version: 1.2.1(echarts@5.5.1)(element-plus@2.8.0(vue@3.4.38(typescript@5.5.4)))(typescript@5.5.4)
@@ -870,6 +873,9 @@ packages:
     resolution: {integrity: sha512-CQnYqLiQD5LOAaXhBrmj1mdL2/NCJvwcC4jtW2Z8ukhThiFkLDkutarTOV2trfc9EXqUqRs0KqXOL9pZ/IyysA==}
     peerDependencies:
       vue: '>=3'
+
+  '@imengyu/vue3-context-menu@1.4.2':
+    resolution: {integrity: sha512-oSXPjGw9cdf+fIpk3KJEqDVBK/VV7RgvO7GMLaSUGqfY/aoZByvTRtrM7tF57ad/X4SJ7TQx1ccxyRyMYVOPLg==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -4475,6 +4481,8 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
       vue: 3.4.38(typescript@5.5.4)
+
+  '@imengyu/vue3-context-menu@1.4.2': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:

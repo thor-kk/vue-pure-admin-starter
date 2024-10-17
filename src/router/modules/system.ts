@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-10-17 14:08:59
+ * @LastEditTime: 2024-10-17 14:21:04
  * @Description: router - 系统管理
  */
 
@@ -38,6 +38,12 @@ export default {
       name: 'page-system-dict',
       meta: { title: '字典管理', showParent: true },
       component: () => import('@/views/system/dict/index.vue')
+    },
+    {
+      path: '/system/dict-plus',
+      name: 'page-system-dict-plus',
+      meta: { title: '字典管理-plus', showParent: true },
+      component: () => import('@/views/system/dict-plus/index.vue')
     }
   ]
 } satisfies RouteConfigsTable

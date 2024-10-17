@@ -1,117 +1,110 @@
-<!--
- * @Author: Yyy
- * @Date: 2024-10-08 14:27:05
- * @LastEditTime: 2024-10-14 21:05:16
- * @Description: 系统模块 - 字典
--->
-
 <script setup lang="ts">
-defineOptions({ name: 'page-system-dict' })
-
-import type { PlusDialogFormInstance, PlusPageInstance } from '@/components'
-
 import { ref } from 'vue'
-import { PlusPage, ProSwitch, ProStatusText, ProColorText, ProButton, PlusDialogForm } from '@/components'
-import { systemService } from '@/api'
-import { dictItemColumns } from './data'
+import tree from './tree.vue'
+import { useDict } from './utils/hook'
+import { isAllEmpty } from '@pureadmin/utils'
+import { PureTableBar } from '@/components'
+import { useRenderIcon } from '@/components/pure/ReIcon/src/hooks'
 
-import DictList from './DictList.vue'
+import Delete from '@iconify-icons/ep/delete'
+import EditPen from '@iconify-icons/ep/edit-pen'
+import AddFill from '@iconify-icons/ri/add-circle-line'
 
-const plusPageRef = ref<PlusPageInstance>()
-const editDialogRef = ref<PlusDialogFormInstance>()
-const editForm = ref()
+defineOptions({
+  name: 'SystemDict'
+})
 
-const selectKey = ref('')
-const selectedIds = ref([])
+const treeRef = ref()
+const tableRef = ref()
 
-function getList() {
-  plusPageRef.value.getList()
-}
-
-function onClick(key: string) {
-  selectKey.value = key
-  getList()
-}
+const {
+  dictId,
+  loading,
+  columns,
+  dataList,
+  pagination,
+  deviceDetection,
+  onSearch,
+  openDialog,
+  onTreeSelect,
+  handleDelete,
+  handleSizeChange,
+  handleCurrentChange
+} = useDict()
 </script>
 
 <template>
-  <div class="flex h-full">
-    <DictList class="mr-2 h-full" style="min-width: 250px" @click="({ key }) => onClick(key)" />
-
-    <PlusPage
-      ref="plusPageRef"
-      style="width: calc(100% - 250px)"
-      :columns="dictItemColumns"
-      :request="(search) => systemService.dictApi.getDict({ key: selectKey, ...search })"
-      :table="{
-        isSelection: true,
-        onSelectionChange: (rows) => (selectedIds = rows.map((item) => item.id)),
-        actionBar: {
-          width: 140,
-          align: 'center',
-          buttons: [
-            {
-              text: '修改',
-              props: { type: 'primary' },
-              onClick: ({ row }) =>
-                editDialogRef.open({
-                  title: '修改字典项',
-                  data: { ...row, dictItemValue: JSON.stringify(row.dictItemValue) },
-                  confirmFn: ({ form }) => systemService.dictApi.updateDictItem({ data: form, callback: getList })
-                })
-            },
-            {
-              text: '删除',
-              props: { type: 'danger' },
-              onClick: ({ row }) => systemService.dictApi.deleteDictItem({ ids: [row.id], callback: getList })
-            }
-          ]
-        }
-      }"
-    >
-      <ProButton
-        :disabled="!selectKey"
-        @click="
-          () =>
-            editDialogRef.open({
-              title: '新增字典项',
-              confirmFn: ({ form }) => systemService.dictApi.createDictItem({ data: form, callback: getList })
-            })
-        "
+  <div :class="['flex', 'justify-between', deviceDetection() && 'flex-wrap']" class="h-full">
+    <tree ref="treeRef" :class="['mr-2', deviceDetection() ? 'w-full' : 'min-w-[200px]']" @tree-select="onTreeSelect" />
+    <div :class="[deviceDetection() ? ['w-full'] : 'w-[calc(100%-200px)]']">
+      <PureTableBar
+        class="!mt-0"
+        title="字典管理（左侧字典树可通过右键单击进行修改和删除）"
+        :columns="columns"
+        @refresh="onSearch"
       >
-        新增字典项
-      </ProButton>
-
-      <ProButton
-        :disabled="!selectKey"
-        @click="() => systemService.dictApi.deleteDictItem({ ids: selectedIds, callback: getList })"
-      >
-        批量删除
-      </ProButton>
-
-      <template #plus-cell-dictItemName="{ row }">
-        <ProStatusText :text="row.dictItemName" :color="row.color" />
-      </template>
-
-      <template #plus-cell-color="{ row }">
-        <ProColorText :text="row.color" :color="row.color" />
-      </template>
-
-      <template #plus-cell-status="{ row }">
-        <ProSwitch v-model="row['status']" dict="status" />
-      </template>
-    </PlusPage>
-
-    <!-- 编辑弹窗 -->
-    <PlusDialogForm
-      ref="editDialogRef"
-      v-model="editForm"
-      :form="{
-        columns: dictItemColumns,
-        rules: { dictItemValue: [{ required: true, message: '请输入字典值' }] }
-      }"
-    />
+        <template #buttons>
+          <el-button type="primary" :disabled="isAllEmpty(dictId)" :icon="useRenderIcon(AddFill)" @click="openDialog()">
+            新增字典详情
+          </el-button>
+        </template>
+        <template v-slot="{ size, dynamicColumns }">
+          <pure-table
+            ref="tableRef"
+            row-key="id"
+            adaptive
+            :adaptiveConfig="{ offsetBottom: 96 }"
+            align-whole="center"
+            table-layout="auto"
+            :loading="loading"
+            :size="size"
+            :data="dataList"
+            :columns="dynamicColumns"
+            :pagination="pagination"
+            :paginationSmall="size === 'small' ? true : false"
+            :header-cell-style="{
+              background: 'var(--el-fill-color-light)',
+              color: 'var(--el-text-color-primary)'
+            }"
+            @page-size-change="handleSizeChange"
+            @page-current-change="handleCurrentChange"
+          >
+            <template #operation="{ row }">
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(EditPen)"
+                @click="openDialog('修改', row)"
+              >
+                修改
+              </el-button>
+              <el-popconfirm :title="`是否确定删除字典标签为${row.label}的这条数据`" @confirm="handleDelete(row)">
+                <template #reference>
+                  <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(Delete)">
+                    删除
+                  </el-button>
+                </template>
+              </el-popconfirm>
+            </template>
+          </pure-table>
+        </template>
+      </PureTableBar>
+    </div>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.el-dropdown-menu__item i) {
+  margin: 0;
+}
+
+:deep(.el-button:focus-visible) {
+  outline: none;
+}
+
+.main-content {
+  // margin: 24px 24px 0 !important;
+}
+</style>

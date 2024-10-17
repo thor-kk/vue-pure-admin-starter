@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-16 16:04:01
+ * @LastEditTime: 2024-10-17 14:19:55
  * @Description: 字典模块
  */
 
@@ -13,6 +13,20 @@ import { successCallback } from '../utils'
 type Result = {
   success: boolean
   data: { data: Array<any>; total: number }
+}
+
+type ResultTable = {
+  success: boolean
+  data?: {
+    /** 列表数据 */
+    list: Array<any>
+    /** 总条目数 */
+    total?: number
+    /** 每页显示条目个数 */
+    pageSize?: number
+    /** 当前页数 */
+    currentPage?: number
+  }
 }
 
 /** 获取字典 */
@@ -60,4 +74,14 @@ export async function deleteDictItem({ ids, callback }: { ids: string[]; callbac
     const res = await http.request<Result>('delete', '/dict/item', { data: { ids } })
     successCallback({ success: res.success, callback })
   } catch (error) {}
+}
+
+/** 字典管理-左侧树 */
+export const getDictTree = () => {
+  return http.request<Result>('get', '/dict-tree')
+}
+
+/** 字典管理-根据字典 dictId 查字典详情 */
+export const getDictDetail = async (data?: object) => {
+  return http.request<ResultTable>('post', '/dict-detail', { data })
 }
