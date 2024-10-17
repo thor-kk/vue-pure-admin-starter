@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-10-17 14:07:10
+ * @LastEditTime: 2024-10-17 14:08:59
  * @Description: router - 系统管理
  */
 
@@ -21,12 +21,12 @@ export default {
       meta: { title: '角色管理' },
       component: () => import('@/views/system/role/index.vue')
     },
-    // {
-    //   path: '/system/dept',
-    //   name: 'page-system-dept',
-    //   meta: { title: '部门管理' },
-    //   component: () => import('@/views/system/dept/index.vue')
-    // },
+    {
+      path: '/system/dept',
+      name: 'page-system-dept',
+      meta: { title: '部门管理' },
+      component: () => import('@/views/system/dept/index.vue')
+    },
     {
       path: '/system/menu',
       name: 'page-system-menu',
