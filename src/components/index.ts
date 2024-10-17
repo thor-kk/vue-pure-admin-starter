@@ -18,3 +18,5 @@ export * from './plus/PlusPage'
 export * from './plus/PlusDialogForm'
 
 /** Pure 组件 */
+export * from './pure/RePureTableBar'
+export * from './pure/ReIcon'
