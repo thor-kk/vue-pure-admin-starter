@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-10-18 15:33:56
+ * @LastEditTime: 2024-10-18 15:37:37
  * @Description: router - 系统监控
  */
 
@@ -20,6 +20,12 @@ export default {
       name: 'page-monitor-logs-login',
       meta: { title: '登录日志' },
       component: () => import('@/views/monitor/logs/login/index.vue')
+    },
+    {
+      path: '/monitor/logs/operation',
+      name: 'page-monitor-logs-operation',
+      meta: { title: '操作日志' },
+      component: () => import('@/views/monitor/logs/operation/index.vue')
     }
   ]
 } satisfies RouteConfigsTable
