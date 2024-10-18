@@ -26,6 +26,12 @@ export default {
       name: 'page-monitor-logs-operation',
       meta: { title: '操作日志' },
       component: () => import('@/views/monitor/logs/operation/index.vue')
+    },
+    {
+      path: '/monitor/logs/request',
+      name: 'page-monitor-logs-request',
+      meta: { title: '请求日志' },
+      component: () => import('@/views/monitor/logs/request/index.vue')
     }
   ]
 } satisfies RouteConfigsTable
