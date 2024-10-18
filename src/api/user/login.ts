@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-15 14:57:26
+ * @LastEditTime: 2024-10-18 16:47:17
  * @Description: 字典模块
  */
 
@@ -19,7 +19,7 @@ export async function getLogin(data?: object) {
 }
 
 /** 获取动态路由 */
-export function getAsyncRoutes() {
+export async function getAsyncRoutes() {
   try {
     return http.request<Result>('get', '/get-async-routes')
   } catch (error) {}

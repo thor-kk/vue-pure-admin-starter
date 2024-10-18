@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-15 10:51:34
- * @LastEditTime: 2024-10-17 16:04:42
+ * @LastEditTime: 2024-10-18 16:45:17
  * @Description: 公共类型定义
  */
 
@@ -20,6 +20,11 @@ export interface ResultTable {
     pageSize?: number
     currentPage?: number
   }
+}
+
+export interface PlusResult {
+  success: boolean
+  data: { data: Array<any>; total: number }
 }
 
 export interface R<T = any> {

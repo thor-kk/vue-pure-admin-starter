@@ -1,8 +1,8 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-10-16 15:58:17
- * @Description: 菜单管理
+ * @LastEditTime: 2024-10-18 16:35:08
+ * @Description: 菜单模块
  */
 
 import type { Result } from '../type'

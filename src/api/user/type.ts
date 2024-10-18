@@ -1,4 +1,4 @@
-export type UserResult = {
+export interface UserResult {
   success: boolean
   data: {
     /** 头像 */
@@ -20,7 +20,7 @@ export type UserResult = {
   }
 }
 
-export type RefreshTokenResult = {
+export interface RefreshTokenResult {
   success: boolean
   data: {
     /** `token` */
@@ -32,4 +32,7 @@ export type RefreshTokenResult = {
   }
 }
 
-export type Login = { username: string; password: string }
+export interface Login {
+  username: string
+  password: string
+}

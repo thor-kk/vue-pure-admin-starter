@@ -1,38 +1,21 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:34:31
- * @LastEditTime: 2024-10-17 14:19:55
+ * @LastEditTime: 2024-10-18 16:46:11
  * @Description: 字典模块
  */
+
+import type { PlusResult, Result, ResultTable } from '../type'
 
 import { http } from '@/utils/http'
 import { ElMessage } from 'element-plus'
 import { ProMessageBox } from '@/components'
 import { successCallback } from '../utils'
 
-type Result = {
-  success: boolean
-  data: { data: Array<any>; total: number }
-}
-
-type ResultTable = {
-  success: boolean
-  data?: {
-    /** 列表数据 */
-    list: Array<any>
-    /** 总条目数 */
-    total?: number
-    /** 每页显示条目个数 */
-    pageSize?: number
-    /** 当前页数 */
-    currentPage?: number
-  }
-}
-
 /** 获取字典 */
 export async function getDictList(data?: any) {
   try {
-    const res = await http.request<Result>('get', '/dict/list', { params: data })
+    const res = await http.request<PlusResult>('get', '/dict/list', { params: data })
     if (res.success) return res.data
   } catch (error) {}
 }
@@ -40,7 +23,7 @@ export async function getDictList(data?: any) {
 /** 新增字典项 */
 export async function createDictItem({ data, callback }: { data?: any; callback?: Function }): Promise<boolean> {
   try {
-    const res = await http.request<Result>('post', '/dict/create', { data })
+    const res = await http.request<PlusResult>('post', '/dict/create', { data })
     return successCallback({ success: res.success, callback })
   } catch (error) {}
 }
@@ -48,7 +31,7 @@ export async function createDictItem({ data, callback }: { data?: any; callback?
 /** 修改字典项 */
 export async function updateDictItem({ data, callback }: { data?: any; callback?: Function }): Promise<boolean> {
   try {
-    const res = await http.request<Result>('put', '/dict/update', { data })
+    const res = await http.request<PlusResult>('put', '/dict/update', { data })
     return successCallback({ success: res.success, callback })
   } catch (error) {}
 }
@@ -58,7 +41,7 @@ export async function getDict(data?: { key: string }) {
   if (!data.key) return
 
   try {
-    const res = await http.request<Result>('get', '/dict', { params: data })
+    const res = await http.request<PlusResult>('get', '/dict', { params: data })
     if (res.success) return res.data
   } catch (error) {}
 }
@@ -71,17 +54,19 @@ export async function deleteDictItem({ ids, callback }: { ids: string[]; callbac
   if (!isConfirm) return
 
   try {
-    const res = await http.request<Result>('delete', '/dict/item', { data: { ids } })
+    const res = await http.request<PlusResult>('delete', '/dict/item', { data: { ids } })
     successCallback({ success: res.success, callback })
   } catch (error) {}
 }
 
-/** 字典管理-左侧树 */
-export const getDictTree = () => {
-  return http.request<Result>('get', '/dict-tree')
+/** 获取字典列表 - pure */
+export async function getDictTree() {
+  const res = await http.request<Result>('get', '/dict-tree')
+  return res
 }
 
-/** 字典管理-根据字典 dictId 查字典详情 */
-export const getDictDetail = async (data?: object) => {
-  return http.request<ResultTable>('post', '/dict-detail', { data })
+/** 获取字典详情 - pure */
+export async function getDictDetail(data?: object) {
+  const res = await http.request<ResultTable>('post', '/dict-detail', { data })
+  return res
 }

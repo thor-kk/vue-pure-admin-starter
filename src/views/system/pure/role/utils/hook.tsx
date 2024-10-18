@@ -8,7 +8,7 @@ import { addDialog } from '@/components/pure/ReDialog'
 import type { FormItemProps } from '../utils/types'
 import type { PaginationProps } from '@pureadmin/table'
 import { getKeyList, deviceDetection } from '@pureadmin/utils'
-import { getRoleList, getRoleMenu, getRoleMenuIds } from '@/api/system/role'
+import { systemService } from '@/api'
 import { type Ref, reactive, ref, onMounted, h, toRaw, watch } from 'vue'
 
 export function useRole(treeRef: Ref) {
@@ -151,7 +151,7 @@ export function useRole(treeRef: Ref) {
 
   async function onSearch() {
     loading.value = true
-    const { data } = await getRoleList(toRaw(form))
+    const { data } = await systemService.roleApi.getRoleList(toRaw(form))
     dataList.value = data.list
     pagination.total = data.total
     pagination.pageSize = data.pageSize
@@ -217,7 +217,7 @@ export function useRole(treeRef: Ref) {
     if (id) {
       curRow.value = row
       isShow.value = true
-      const { data } = await getRoleMenuIds({ id })
+      const { data } = await systemService.relationApi.getRoleMenuIds({ id })
       treeRef.value.setCheckedKeys(data)
     } else {
       curRow.value = null
@@ -256,7 +256,7 @@ export function useRole(treeRef: Ref) {
 
   onMounted(async () => {
     onSearch()
-    const { data } = await getRoleMenu()
+    const { data } = await systemService.relationApi.getRoleMenu()
     treeIds.value = getKeyList(data, 'id')
     treeData.value = handleTree(data)
   })
