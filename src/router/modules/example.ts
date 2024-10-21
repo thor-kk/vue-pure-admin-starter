@@ -7,7 +7,7 @@
 
 export default {
   path: '/example',
-  meta: { title: '示例', rank: 1001 },
+  meta: { title: '示例展示', icon: 'carbon:demo', rank: 1001 },
   children: [
     {
       path: '/page',
