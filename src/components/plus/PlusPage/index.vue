@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-16 16:07:27
+ * @LastEditTime: 2024-10-21 13:52:20
  * @Description: Plus - 高级页面
 -->
 
@@ -10,7 +10,7 @@ import type { PlusColumn, PlusPageInstance, PlusPageProps } from 'plus-pro-compo
 
 import { merge } from 'lodash'
 import { PlusPage } from 'plus-pro-components'
-import { ref, defineExpose, computed } from 'vue'
+import { ref, computed } from 'vue'
 
 interface Props extends PlusPageProps {}
 
