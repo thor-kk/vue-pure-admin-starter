@@ -1,13 +1,13 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-10-21 14:13:28
+ * @LastEditTime: 2024-10-21 14:26:27
  * @Description: 示例
  */
 
 export default {
   path: '/example',
-  meta: { title: '示例展示', icon: 'carbon:demo', rank: 1001 },
+  meta: { title: '示例展示', icon: 'carbon:demo', rank: 9999 },
   children: [
     {
       path: '/page',

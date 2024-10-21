@@ -51,5 +51,15 @@
     "v-ripple"
   ],
   "vscodeCustomCodeColor.highlightValueColor": "#b392f0",
-  "cSpell.words": ["cascader", "echarts", "iconify", "ISREMEMBERED", "popconfirm", "pureadmin", "vueuse", "zxcvbn"]
+  "cSpell.words": [
+    "cascader",
+    "echarts",
+    "iconify",
+    "ISREMEMBERED",
+    "mmstemplate",
+    "popconfirm",
+    "pureadmin",
+    "vueuse",
+    "zxcvbn"
+  ]
 }

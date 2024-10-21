@@ -1,13 +1,13 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-10-18 15:37:37
+ * @LastEditTime: 2024-10-21 14:30:43
  * @Description: router - 系统监控
  */
 
 export default {
   path: '/monitor',
-  meta: { title: '系统监控', icon: 'icon-park-outline:system', rank: 1000 },
+  meta: { title: '系统监控', icon: 'material-symbols:monitor-outline', rank: 1000 },
   children: [
     {
       path: '/monitor/online',
