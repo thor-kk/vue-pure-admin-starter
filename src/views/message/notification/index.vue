@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-21 14:23:50
- * @LastEditTime: 2024-10-21 15:36:04
+ * @LastEditTime: 2024-10-22 14:30:15
  * @Description: 消息管理 - 通知公告
 -->
 
@@ -11,13 +11,13 @@ defineOptions({ name: 'page-message-notification' })
 import { onMounted, ref } from 'vue'
 import { columns } from './data'
 import { PureTableBar, ProButton } from '@/components'
-import { systemService } from '@/api'
+import { messageService } from '@/api'
 
 const dataList = ref([])
 const selectedNum = ref(0)
 
 async function onSearch() {
-  const { data } = await systemService.roleApi.getRoleList({ code: '', name: '', status: '' })
+  const { data } = await messageService.notificationApi.getNoticeList({})
   dataList.value = data.list
 }
 

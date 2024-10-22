@@ -7,15 +7,19 @@ export const columns: TableColumnList = [
   },
   {
     label: '通知编号',
-    prop: 'id'
+    prop: 'no'
   },
   {
     label: '通知标题',
-    prop: 'name'
+    prop: 'title'
   },
   {
-    label: '通知标识',
-    prop: 'code'
+    label: '通知类型',
+    prop: 'type'
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime'
   },
   {
     label: '操作',

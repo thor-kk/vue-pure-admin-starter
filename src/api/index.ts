@@ -8,6 +8,9 @@
 /** 系统服务 */
 export * as systemService from './system'
 
+/** 消息服务 */
+export * as messageService from './message'
+
 /** 用户服务 */
 export * as userService from './user/index'
 
