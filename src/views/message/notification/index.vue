@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-10-21 14:23:50
- * @LastEditTime: 2024-10-22 14:30:15
+ * @LastEditTime: 2024-10-22 16:29:03
  * @Description: 消息管理 - 通知公告
 -->
 
@@ -36,10 +36,18 @@ function onSelectionCancel() {
   selectedNum.value = 0
   tableRef.value.getTableRef().clearSelection()
 }
+
+function handleCollapse() {
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
+}
 </script>
 
 <template>
   <div>
+    <el-card shadow="never">
+      <PlusSearch :columns="columns" :show-number="2" :collapse-transition="false" @collapse="handleCollapse" />
+    </el-card>
+
     <PureTableBar :columns="columns" @refresh="onSearch">
       <template #title>
         <ProButton type="primary">添加公告</ProButton>
