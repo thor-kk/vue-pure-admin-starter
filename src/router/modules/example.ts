@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-10-21 14:26:27
+ * @LastEditTime: 2024-11-05 15:29:56
  * @Description: 示例
  */
 
@@ -16,8 +16,14 @@ export default {
         {
           path: '/page/plus',
           name: 'page-plus',
-          meta: { title: 'Plus页面', showParent: true },
+          meta: { title: 'Plus页面' },
           component: () => import('@/views/example/page/plus/index.vue')
+        },
+        {
+          path: '/page/pro',
+          name: 'page-pro',
+          meta: { title: 'Pro页面' },
+          component: () => import('@/views/example/page/pro/index.vue')
         }
       ]
     },

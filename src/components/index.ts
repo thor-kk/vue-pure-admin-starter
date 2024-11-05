@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-19 20:03:03
- * @LastEditTime: 2024-10-17 15:59:13
+ * @LastEditTime: 2024-11-05 15:30:44
  * @Description: 统一入口
  */
 
@@ -12,6 +12,7 @@ export * from './pro/ProStatusText'
 export * from './pro/ProColorText'
 export * from './pro/ProButton'
 export * from './pro/ProMessageBox'
+export * from './pro/ProPage'
 
 /** Plus 组件 */
 export * from './plus/PlusPage'
