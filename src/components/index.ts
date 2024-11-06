@@ -13,6 +13,7 @@ export * from './pro/ProColorText'
 export * from './pro/ProButton'
 export * from './pro/ProMessageBox'
 export * from './pro/ProPage'
+export * from './pro/ProDetail'
 
 /** Plus 组件 */
 export * from './plus/PlusPage'
