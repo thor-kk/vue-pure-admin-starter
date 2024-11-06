@@ -5,7 +5,9 @@ import { ProDetail } from '@/components'
 </script>
 
 <template>
-  <ProDetail />
+  <div>
+    <ProDetail> 详情 </ProDetail>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>
