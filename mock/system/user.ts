@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-18 16:48:12
- * @LastEditTime: 2024-10-18 16:55:29
+ * @LastEditTime: 2024-11-07 10:06:21
  * @Description: 用户模块 mock
  */
 
@@ -18,7 +18,7 @@ export default defineFakeRoute([
         {
           avatar: 'https://avatars.githubusercontent.com/u/44761321',
           username: 'admin',
-          nickname: '小铭',
+          nickname: '小铭' + new Date(),
           phone: '15888886789',
           email: faker.internet.email(),
           sex: 0,
@@ -43,8 +43,8 @@ export default defineFakeRoute([
         }
       ]
 
-      list = list.filter((item) => item.username.includes(body?.username))
-      list = list.filter((item) => String(item.status).includes(String(body?.status)))
+      // list = list.filter((item) => item.username.includes(body?.username))
+      // list = list.filter((item) => String(item.status).includes(String(body?.status)))
       if (body.phone) list = list.filter((item) => item.phone === body.phone)
       if (body.deptId) list = list.filter((item) => item.dept.id === body.deptId)
 

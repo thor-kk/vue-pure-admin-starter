@@ -1,32 +1,72 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-11-05 15:27:46
- * @LastEditTime: 2024-11-05 16:01:52
+ * @LastEditTime: 2024-11-07 10:24:13
  * @Description: pro - 高级页面
 -->
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import type { PaginationProps } from '@pureadmin/table'
+
+import { ref, reactive, onMounted } from 'vue'
 import { PureTableBar } from '@/components'
 
 interface Props {
   /** 列配置 */
   columns: any[]
+  /** api 接口 */
+  api: any
   /** 表格头样式 */
   headerCellStyle: any
+  /** 分页配置 */
+  pagination: PaginationProps
+  /** 高度自适应 */
+  adaptive: boolean
+  /** 高度自适应配置 */
+  adaptiveConfig: any
 }
 
 const props = withDefaults(defineProps<Partial<Props>>(), {
-  headerCellStyle: { background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }
+  headerCellStyle: () => ({ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }),
+  pagination: () => ({ total: 0, pageSize: 10, currentPage: 1, background: true }),
+  adaptive: true,
+  adaptiveConfig: () => ({ offsetBottom: 96 })
 })
+
+onMounted(() => {
+  onSearch()
+})
+
+/**
+ * ! 分页逻辑
+ */
+const pagination = reactive<PaginationProps>(props.pagination)
+
+function handleSizeChange(val: number) {
+  pagination.pageSize = val
+  onSearch()
+}
+
+function handleCurrentChange(val: number) {
+  pagination.currentPage = val
+  onSearch()
+}
 
 /**
  * ! 业务逻辑
  */
 
-const tableRef = ref()
+const tableRef = ref(null)
+const tableData = ref([])
 
-function onSearch() {}
+async function onSearch() {
+  const { pageSize, currentPage } = pagination
+  const searchParams = { pageSize, currentPage }
+
+  const { data, total } = await props.api(searchParams)
+  pagination.total = total
+  tableData.value = data
+}
 
 /**
  * ! 批量逻辑
@@ -69,10 +109,19 @@ function onSelectionCancel() {
         <pure-table
           ref="tableRef"
           :columns="dynamicColumns"
+          :data="tableData"
           :size="size"
           :header-cell-style="props.headerCellStyle"
-          :pagination="{ total: 0, pageSize: 10, currentPage: 1, background: true }"
-        ></pure-table>
+          :adaptive="props.adaptive"
+          :adaptiveConfig="props.adaptiveConfig"
+          :pagination="{ ...pagination, size }"
+          @page-size-change="handleSizeChange"
+          @page-current-change="handleCurrentChange"
+        >
+          <template v-for="item in props.columns.filter((item) => item.slot)" :key="item.slot" #[item.slot]="scope">
+            <slot :name="item.slot" v-bind="scope" />
+          </template>
+        </pure-table>
       </template>
     </PureTableBar>
   </div>
