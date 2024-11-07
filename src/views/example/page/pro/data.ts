@@ -2,6 +2,13 @@ import type { ProPageColumn } from '@/components'
 
 export const tableConfig: ProPageColumn[] = [
   {
+    label: '勾选列', // 如果需要表格多选，此处label必须设置
+    type: 'selection',
+    prop: 'selection',
+    fixed: 'left',
+    reserveSelection: true // 数据刷新后保留选项
+  },
+  {
     label: '名称',
     prop: 'nickname'
   },

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-11-05 15:27:46
- * @LastEditTime: 2024-11-07 10:24:13
+ * @LastEditTime: 2024-11-07 10:48:41
  * @Description: pro - 高级页面
 -->
 
@@ -12,6 +12,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { PureTableBar } from '@/components'
 
 interface Props {
+  /** 唯一标识 */
+  rowKey: string
   /** 列配置 */
   columns: any[]
   /** api 接口 */
@@ -24,13 +26,17 @@ interface Props {
   adaptive: boolean
   /** 高度自适应配置 */
   adaptiveConfig: any
+  /** 统一对齐 */
+  alignWhole: string
 }
 
 const props = withDefaults(defineProps<Partial<Props>>(), {
   headerCellStyle: () => ({ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }),
   pagination: () => ({ total: 0, pageSize: 10, currentPage: 1, background: true }),
   adaptive: true,
-  adaptiveConfig: () => ({ offsetBottom: 96 })
+  adaptiveConfig: () => ({ offsetBottom: 96 }),
+  alignWhole: 'center',
+  rowKey: 'id'
 })
 
 onMounted(() => {
@@ -72,6 +78,11 @@ async function onSearch() {
  * ! 批量逻辑
  */
 const selectedNum = ref(0)
+
+function handleSelectionChange(val) {
+  selectedNum.value = val.length
+  tableRef.value.setAdaptive()
+}
 function onSelectionCancel() {
   selectedNum.value = 0
   tableRef.value.getTableRef().clearSelection()
@@ -81,6 +92,10 @@ function onSelectionCancel() {
 <template>
   <div>
     <PureTableBar :columns="columns" @refresh="onSearch">
+      <template #title>
+        <slot name="action"><div /></slot>
+      </template>
+
       <template v-slot="{ size, dynamicColumns }">
         <!-- 批量操作 -->
         <div
@@ -95,28 +110,28 @@ function onSelectionCancel() {
             >
               已选 {{ selectedNum }} 项
             </span>
+
             <el-button type="primary" text @click="onSelectionCancel"> 取消选择 </el-button>
           </div>
 
-          <el-popconfirm title="是否确认删除?">
-            <template #reference>
-              <el-button type="danger" text class="mr-1"> 批量删除 </el-button>
-            </template>
-          </el-popconfirm>
+          <slot name="subAction"></slot>
         </div>
 
         <!-- pure 表格 -->
         <pure-table
           ref="tableRef"
+          :row-key="props.rowKey"
           :columns="dynamicColumns"
           :data="tableData"
           :size="size"
+          :alignWhole="props.alignWhole"
           :header-cell-style="props.headerCellStyle"
           :adaptive="props.adaptive"
           :adaptiveConfig="props.adaptiveConfig"
           :pagination="{ ...pagination, size }"
           @page-size-change="handleSizeChange"
           @page-current-change="handleCurrentChange"
+          @selection-change="handleSelectionChange"
         >
           <template v-for="item in props.columns.filter((item) => item.slot)" :key="item.slot" #[item.slot]="scope">
             <slot :name="item.slot" v-bind="scope" />
