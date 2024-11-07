@@ -6,7 +6,8 @@ export const tableConfig: ProPageColumn[] = [
     type: 'selection',
     prop: 'selection',
     fixed: 'left',
-    reserveSelection: true // 数据刷新后保留选项
+    reserveSelection: true, // 数据刷新后保留选项
+    hideInSearch: true
   },
   {
     label: '名称',
@@ -16,6 +17,7 @@ export const tableConfig: ProPageColumn[] = [
     label: '操作',
     prop: 'operation',
     slot: 'operation',
-    fixed: 'right'
+    fixed: 'right',
+    hideInSearch: true
   }
 ]

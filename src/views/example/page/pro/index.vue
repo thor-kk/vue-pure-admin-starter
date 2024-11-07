@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-11-05 15:29:09
- * @LastEditTime: 2024-11-07 10:53:31
+ * @LastEditTime: 2024-11-07 13:51:37
  * @Description: 页面示例 - Pro Page
 -->
 
@@ -11,7 +11,7 @@ defineOptions({ name: 'page-pro' })
 import { ProPage } from '@/components'
 import { tableConfig } from './data'
 import { systemService } from '@/api'
-</script>
+</script>·
 
 <template>
   <ProPage :columns="tableConfig" :api="(searchParams) => systemService.userApi.getUserList2(searchParams)">
@@ -19,7 +19,7 @@ import { systemService } from '@/api'
       <el-button> 新增 </el-button>
     </template>
 
-    <template #subAction="{}">
+    <template #select="{}">
       <el-popconfirm title="是否确认删除?">
         <template #reference>
           <el-button type="danger" text class="mr-1"> 批量删除 </el-button>

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-11-05 15:27:46
- * @LastEditTime: 2024-11-07 10:48:41
+ * @LastEditTime: 2024-11-07 14:17:07
  * @Description: pro - 高级页面
 -->
 
@@ -87,10 +87,21 @@ function onSelectionCancel() {
   selectedNum.value = 0
   tableRef.value.getTableRef().clearSelection()
 }
+
+/**
+ * ! 搜索模块逻辑
+ */
+function handleCollapse() {
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
+}
 </script>
 
 <template>
   <div>
+    <el-card shadow="never">
+      <PlusSearch :columns="columns" :show-number="2" :collapse-transition="false" @collapse="handleCollapse" />
+    </el-card>
+
     <PureTableBar :columns="columns" @refresh="onSearch">
       <template #title>
         <slot name="action"><div /></slot>
@@ -114,7 +125,7 @@ function onSelectionCancel() {
             <el-button type="primary" text @click="onSelectionCancel"> 取消选择 </el-button>
           </div>
 
-          <slot name="subAction"></slot>
+          <slot name="select"></slot>
         </div>
 
         <!-- pure 表格 -->
