@@ -109,7 +109,7 @@ function resolvePath(routePath) {
       <el-text
         v-if="
           (!item?.meta.icon && isCollapse && layout === 'vertical' && item?.pathList?.length === 1) ||
-          (!onlyOneChild.meta.icon && isCollapse && layout === 'mix' && item?.pathList?.length === 2)
+          (!onlyOneChild.meta.icon && isCollapse && /mix|double/.test(layout) && item?.pathList?.length === 2)
         "
         truncated
         class="!w-full !pl-4 !text-inherit"

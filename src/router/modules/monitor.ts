@@ -7,6 +7,7 @@
 
 export default {
   path: '/monitor',
+  redirect: '/monitor/online',
   meta: { title: '系统监控', icon: 'material-symbols:monitor-outline', rank: 1000 },
   children: [
     {

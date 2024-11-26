@@ -1,12 +1,13 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-10-22 14:33:14
+ * @LastEditTime: 2024-11-26 22:48:03
  * @Description: router - 消息管理
  */
 
 export default {
   path: '/message',
+  redirect: '/message/notification',
   meta: { title: '消息管理', icon: 'ri:message-2-line', rank: 1001 },
   children: [
     {

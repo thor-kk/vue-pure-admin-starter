@@ -14,6 +14,7 @@ import LayTag from './components/lay-tag/index.vue'
 import LayNavbar from './components/lay-navbar/index.vue'
 import LayContent from './components/lay-content/index.vue'
 import LaySetting from './components/lay-setting/index.vue'
+import NavDouble from './components/lay-sidebar/NavDouble.vue'
 import NavVertical from './components/lay-sidebar/NavVertical.vue'
 import NavHorizontal from './components/lay-sidebar/NavHorizontal.vue'
 import BackTopIcon from '@/assets/svg/back_top.svg?component'
@@ -128,9 +129,7 @@ const LayHeader = defineComponent({
       },
       {
         default: () => [
-          !pureSetting.hiddenSideBar && (layout.value.includes('vertical') || layout.value.includes('mix'))
-            ? h(LayNavbar)
-            : null,
+          !pureSetting.hiddenSideBar && /vertical|mix|double/.test(layout.value) ? h(LayNavbar) : null,
           !pureSetting.hiddenSideBar && layout.value.includes('horizontal') ? h(NavHorizontal) : null,
           h(LayTag)
         ]
@@ -148,7 +147,14 @@ const LayHeader = defineComponent({
       @click="useAppStoreHook().toggleSideBar()"
     />
     <NavVertical v-show="!pureSetting.hiddenSideBar && (layout.includes('vertical') || layout.includes('mix'))" />
-    <div :class="['main-container', pureSetting.hiddenSideBar ? 'main-hidden' : '']">
+    <NavDouble v-show="layout.includes('double')" />
+    <div
+      :class="[
+        useAppStoreHook().isShowDouble ? 'double-show' : 'double-hidden',
+        'main-container',
+        pureSetting.hiddenSideBar ? 'main-hidden' : ''
+      ]"
+    >
       <div v-if="set.fixedHeader">
         <LayHeader />
         <!-- 主体内容 -->
