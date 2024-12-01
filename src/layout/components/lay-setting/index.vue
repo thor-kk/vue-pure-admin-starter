@@ -465,7 +465,7 @@ onUnmounted(() => removeMatchMedia)
             @change="tagsChange"
           />
         </li>
-        <li>
+        <!-- <li>
           <span class="dark:text-white">隐藏页脚</span>
           <el-switch
             v-model="settings.hideFooter"
@@ -474,7 +474,7 @@ onUnmounted(() => removeMatchMedia)
             inactive-text="关"
             @change="hideFooterChange"
           />
-        </li>
+        </li> -->
         <li>
           <span class="dark:text-white">Logo</span>
           <el-switch
