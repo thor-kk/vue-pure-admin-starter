@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-01 22:48:28
+ * @LastEditTime: 2024-12-01 22:54:55
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -11,7 +11,6 @@ defineOptions({ name: 'components-pro-page' })
 
 import { PureTableBar } from '@/components'
 import { Props } from './type'
-import { ref } from 'vue'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,

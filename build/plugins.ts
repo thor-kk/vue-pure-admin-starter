@@ -15,6 +15,7 @@ import { themePreprocessorPlugin } from '@pureadmin/theme'
 import { genScssMultipleScopeVars } from '../src/layout/theme'
 import { vitePluginFakeServer } from 'vite-plugin-fake-server'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import AutoImport from 'unplugin-auto-import/vite'
 
 export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression): PluginOption[] {
   const lifecycle = process.env.npm_lifecycle_event
@@ -23,6 +24,7 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
     // jsx、tsx语法支持
     vueJsx(),
     vueDevTools(),
+    AutoImport({ imports: ['vue'] }),
     checker({
       typescript: true,
       vueTsc: true,
