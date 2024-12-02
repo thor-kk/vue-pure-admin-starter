@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-02 10:21:41
+ * @LastEditTime: 2024-12-02 10:32:27
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -23,6 +23,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 /** 查询条件 */
 const searchForm = ref()
+const searchColumns = computed(() => props.columns.filter((item) => item.showSearch))
+
+/** 表格 */
+const tableColumns = computed(() => props.columns.filter((item) => !item.hideTable))
 
 /** 分页 */
 const pagination = ref({
@@ -73,10 +77,10 @@ function onTableResize() {
 <template>
   <div>
     <!-- 查询条件 -->
-    <el-card shadow="never">
+    <el-card v-if="searchColumns.length" shadow="never">
       <PlusSearch
         v-model="searchForm"
-        :columns="columns"
+        :columns="searchColumns"
         :show-number="props.searchFormShowNum"
         @change="onSearch"
         @search="onSearch"
@@ -86,7 +90,7 @@ function onTableResize() {
     </el-card>
 
     <!-- table bar -->
-    <PureTableBar :columns="props.columns" @refresh="onSearch" @fullscreen="onTableResize">
+    <PureTableBar :columns="tableColumns" @refresh="onSearch" @fullscreen="onTableResize">
       <!-- 主要操作 -->
       <template #title>
         <div />
