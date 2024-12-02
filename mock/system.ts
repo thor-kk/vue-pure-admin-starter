@@ -45,7 +45,7 @@ export default defineFakeRoute([
   {
     url: '/role',
     method: 'post',
-    response: ({ body }) => {
+    response: ({}) => {
       let list = [
         {
           createTime: 1605456000000, // 时间戳（毫秒ms）
@@ -66,9 +66,9 @@ export default defineFakeRoute([
           remark: '普通角色拥有部分权限'
         }
       ]
-      list = list.filter((item) => item.name.includes(body?.name))
-      list = list.filter((item) => String(item.status).includes(String(body?.status)))
-      if (body.code) list = list.filter((item) => item.code === body.code)
+      // list = list.filter((item) => item.name.includes(body?.name))
+      // list = list.filter((item) => String(item.status).includes(String(body?.status)))
+      // if (body.code) list = list.filter((item) => item.code === body.code)
       return {
         success: true,
         data: {

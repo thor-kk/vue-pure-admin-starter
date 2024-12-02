@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-15 10:51:34
- * @LastEditTime: 2024-10-18 16:45:17
+ * @LastEditTime: 2024-12-02 09:39:01
  * @Description: 公共类型定义
  */
 
@@ -22,13 +22,15 @@ export interface ResultTable {
   }
 }
 
-export interface PlusResult {
-  success: boolean
-  data: { data: Array<any>; total: number }
-}
-
 export interface R<T = any> {
-  code: number
-  message: string
+  code: 200 | 401 | 500
+  msg: string
   data: T
 }
+
+export interface Page<T = any> {
+  total: number
+  records: T[]
+}
+
+export type RPage<T = any> = R<Page<T>>

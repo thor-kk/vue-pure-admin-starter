@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:50:29
- * @LastEditTime: 2024-12-01 22:49:13
+ * @LastEditTime: 2024-12-02 09:44:29
  * @Description: crud
 -->
 
@@ -9,12 +9,13 @@
 defineOptions({ name: 'views-example-crud' })
 
 import { ProPageV2 } from '@/components'
-import { columns, data } from './data'
+import { systemService } from '@/api'
+import { columns } from './data'
 </script>
 
 <template>
   <div>
-    <ProPageV2 :columns :data />
+    <ProPageV2 :columns :api="systemService.roleApi.getRolePage" />
   </div>
 </template>
 

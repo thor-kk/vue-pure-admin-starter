@@ -4,9 +4,3 @@ export const columns = [
     prop: 'name'
   }
 ]
-
-export const data = [
-  {
-    name: '张三'
-  }
-]

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-01 22:54:55
+ * @LastEditTime: 2024-12-02 09:46:06
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -27,20 +27,43 @@ const pagination = ref({
 
 function onPageSizeChange(val) {
   pagination.value.pageSize = val
-  console.log(pagination.value)
+  onSearch()
 }
 
 function onPageCurrentChange(val) {
   pagination.value.pageNum = val
-  console.log(pagination.value)
+  onSearch()
 }
+
+/** 查询 */
+const tableData = ref([])
+
+async function onSearch() {
+  /** 查询参数 */
+  const searchParams = {
+    pageSize: pagination.value.pageSize,
+    pageNum: pagination.value.pageNum
+  }
+
+  try {
+    const { total, records } = await props.api(searchParams)
+    pagination.value.total = total
+    tableData.value = records
+  } catch (error) {
+    console.log('🚀 ~ onSearch ~ error:', error)
+  }
+}
+
+onMounted(() => {
+  onSearch()
+})
 </script>
 
 <template>
   <div>
     <!-- 查询条件 -->
 
-    <PureTableBar :columns="props.columns">
+    <PureTableBar :columns="props.columns" @refresh="onSearch">
       <!-- 主要操作 -->
       <template #title>
         <div />
@@ -50,7 +73,7 @@ function onPageCurrentChange(val) {
         <!-- 表格 -->
         <PureTable
           :columns="dynamicColumns"
-          :data="props.data"
+          :data="tableData"
           :size
           :adaptive="props.tableAdaptive"
           :pagination="{
