@@ -11,4 +11,6 @@ export interface Props {
   paginationPageSize?: number
   /** 分页 - 每页显示个数选择器的选项设置 */
   paginationPageSizes?: number[]
+  /** 查询表单 - 条件个数 */
+  searchFormShowNum?: number
 }

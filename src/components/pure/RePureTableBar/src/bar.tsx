@@ -39,7 +39,7 @@ const props = {
 export default defineComponent({
   name: 'PureTableBar',
   props,
-  emits: ['refresh'],
+  emits: ['refresh', 'fullscreen'],
   setup(props, { emit, slots, attrs }) {
     const size = ref('default')
     const loading = ref(false)
@@ -298,7 +298,10 @@ export default defineComponent({
                 class={['w-[16px]', iconClass.value]}
                 icon={isFullscreen.value ? ExitFullscreen : Fullscreen}
                 v-tippy={isFullscreen.value ? '退出全屏' : '全屏'}
-                onClick={() => (isFullscreen.value = !isFullscreen.value)}
+                onClick={() => {
+                  isFullscreen.value = !isFullscreen.value
+                  emit('fullscreen')
+                }}
               />
             </div>
           </div>

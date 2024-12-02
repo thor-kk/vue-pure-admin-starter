@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-02 09:46:06
+ * @LastEditTime: 2024-12-02 10:21:41
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -9,14 +9,20 @@
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
+import type { Props } from './type'
+
+import { PlusSearch } from 'plus-pro-components'
 import { PureTableBar } from '@/components'
-import { Props } from './type'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
   paginationPageSize: 15,
-  paginationPageSizes: () => [10, 15, 30, 50, 100]
+  paginationPageSizes: () => [10, 15, 30, 50, 100],
+  searchFormShowNum: 2
 })
+
+/** 查询条件 */
+const searchForm = ref()
 
 /** 分页 */
 const pagination = ref({
@@ -57,13 +63,30 @@ async function onSearch() {
 onMounted(() => {
   onSearch()
 })
+
+/** 重新计算表格高度 */
+function onTableResize() {
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
+}
 </script>
 
 <template>
   <div>
     <!-- 查询条件 -->
+    <el-card shadow="never">
+      <PlusSearch
+        v-model="searchForm"
+        :columns="columns"
+        :show-number="props.searchFormShowNum"
+        @change="onSearch"
+        @search="onSearch"
+        @reset="onSearch"
+        @collapse="onTableResize"
+      />
+    </el-card>
 
-    <PureTableBar :columns="props.columns" @refresh="onSearch">
+    <!-- table bar -->
+    <PureTableBar :columns="props.columns" @refresh="onSearch" @fullscreen="onTableResize">
       <!-- 主要操作 -->
       <template #title>
         <div />
