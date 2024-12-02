@@ -13,10 +13,11 @@ export const columns: ProColumns[] = [
     label: '状态',
     prop: 'status',
     showSearch: true,
-    el: 'select',
+    slot: { table: true },
+    el: { search: 'select', table: 'switch' },
     elProps: {},
     options: statusOptions.data,
-    formatter: (row) => statusOptions.data.find((item) => item.value === row.status)?.label
+    formatter: ({ row }) => statusOptions.data.find((item) => item.value === row.status)?.label
   },
   {
     label: '日期',

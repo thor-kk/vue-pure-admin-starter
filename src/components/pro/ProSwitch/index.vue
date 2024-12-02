@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-10-14 15:12:51
+ * @LastEditTime: 2024-12-02 16:01:05
  * @Description: Plus - 高级页面
 -->
 
@@ -14,7 +14,7 @@ import { useDictStoreHook } from '@/store'
 
 interface Props extends Partial<SwitchProps> {
   /** 引用的字典项 */
-  dict: string
+  dict?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -26,6 +26,8 @@ const defaultConfig: Partial<Props> = {}
 const mergeProps = ref()
 
 watchEffect(async () => {
+  if (!props.dict) return
+
   /** 查询字典 */
   const dict = await useDictStoreHook().getDict(props.dict)
   const activeItem = dict.find((item) => item.identifier === 'active')
@@ -42,7 +44,7 @@ const model = defineModel()
 </script>
 
 <template>
-  <el-switch v-bind="mergeProps" v-model="model" />
+  <el-switch v-bind="mergeProps" v-model="model" :active-value="1" :inactive-value="0" />
 </template>
 
 <style scoped lang="scss"></style>

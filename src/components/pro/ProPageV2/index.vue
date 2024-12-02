@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-02 14:40:37
+ * @LastEditTime: 2024-12-02 15:56:02
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -13,7 +13,7 @@ import type { Props } from './type'
 import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch } from 'plus-pro-components'
-import { PureTableBar } from '@/components'
+import { ProSwitch, PureTableBar } from '@/components'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -24,6 +24,10 @@ const props = withDefaults(defineProps<Props>(), {
   searchFormCollapseTransition: false
 })
 
+const emits = defineEmits<{
+  (e: 'table-row-change', data?: { row: any }): void
+}>()
+
 /** 查询条件 */
 const searchForm = ref()
 const searchColumns = computed(() =>
@@ -32,14 +36,26 @@ const searchColumns = computed(() =>
     .map((item) => {
       return {
         ...item,
-        valueType: item.el,
+        valueType: item.el?.search ?? '',
         fieldProps: item.elProps
       } as PlusColumn
     })
 )
 
 /** 表格 */
-const tableColumns = computed(() => props.columns.filter((item) => !item.hideTable))
+const tableColumns = computed(() =>
+  props.columns
+    .filter((item) => !item.hideTable)
+    .map((item) => {
+      if (item.el?.table === 'switch') item.el.table = ProSwitch
+
+      return {
+        ...item,
+        formatter: item.formatter ? (row) => item.formatter({ row }) : undefined,
+        slot: item.slot?.table && item.prop
+      }
+    })
+)
 
 /** 分页 */
 const pagination = ref({
@@ -127,7 +143,16 @@ function onTableResize() {
           }"
           @page-size-change="onPageSizeChange"
           @page-current-change="onPageCurrentChange"
-        />
+        >
+          <template v-for="item in tableColumns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
+            <component
+              :is="item.el.table"
+              v-model="row[item.prop]"
+              v-bind="item.elProps"
+              @change="() => emits('table-row-change', { row })"
+            />
+          </template>
+        </PureTable>
       </template>
     </PureTableBar>
   </div>

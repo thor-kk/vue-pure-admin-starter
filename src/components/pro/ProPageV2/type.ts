@@ -1,6 +1,7 @@
+import type { Component } from 'vue'
 import { Page } from '@/api'
 
-type El =
+type ElType =
   /** 输入框（用于：查询表单、编辑表单） */
   | 'input'
   /** 下拉选择（用于：查询表单、编辑表单） */
@@ -22,14 +23,16 @@ export interface ProColumns {
   label: string
   /** 字段 */
   prop: string
-  /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中会有不同映射）*/
-  el?: El
+  /** 插槽（表格、查询表单、编辑表单、描述列表分别开启） */
+  slot?: { table?: boolean; search?: boolean; form?: boolean; desc?: boolean }
+  /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中分别映射）*/
+  el?: { table?: ElType | Component; search?: ElType; form?: ElType; desc?: ElType }
   /** 通用组件传递的属性 */
   elProps?: ElProps
   /** 选项（用于下拉选择组件） */
   options?: { label: string; value: any }[]
   /** 格式化（用于表格翻译） */
-  formatter?: (row: any) => string
+  formatter?: ({ row }: { row: any }) => string
   /** 查询表单展示（因为大部分字段用不到查询条件，所以只需要特定展示即可） */
   showSearch?: boolean
   /** 表格隐藏 */

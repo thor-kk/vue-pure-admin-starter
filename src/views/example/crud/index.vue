@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:50:29
- * @LastEditTime: 2024-12-02 09:44:29
+ * @LastEditTime: 2024-12-02 15:54:39
  * @Description: crud
 -->
 
@@ -15,7 +15,7 @@ import { columns } from './data'
 
 <template>
   <div>
-    <ProPageV2 :columns :api="systemService.roleApi.getRolePage" />
+    <ProPageV2 :columns :api="systemService.roleApi.getRolePage" @table-row-change="({ row }) => console.log(row)" />
   </div>
 </template>
 
