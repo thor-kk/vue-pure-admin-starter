@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-08 14:30:36
- * @LastEditTime: 2024-10-14 14:13:34
+ * @LastEditTime: 2024-12-02 14:29:18
  * @Description: 字典模块
  */
 
@@ -21,7 +21,12 @@ export const useDictStore = defineStore({
   id: 'store-dict',
 
   state: (): dictType => ({
-    dict: {},
+    dict: {
+      status: [
+        { label: '禁用', value: 0 },
+        { label: '启用', value: 1 }
+      ]
+    },
     loadingPromises: {}
   }),
 

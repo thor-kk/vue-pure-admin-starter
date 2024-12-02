@@ -1,4 +1,7 @@
 import type { ProColumns } from '@/components'
+import { systemService } from '@/api'
+
+const statusOptions = await systemService.dictApi.getDict({ key: 'status' })
 
 export const columns: ProColumns[] = [
   {
@@ -7,7 +10,16 @@ export const columns: ProColumns[] = [
     showSearch: true
   },
   {
-    label: '备注',
-    prop: 'remark'
+    label: '状态',
+    prop: 'status',
+    showSearch: true,
+    el: 'select',
+    elProps: {},
+    options: statusOptions.data,
+    formatter: (row) => statusOptions.data.find((item) => item.value === row.status)?.label
+  },
+  {
+    label: '日期',
+    prop: 'data'
   }
 ]

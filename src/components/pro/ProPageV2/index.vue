@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-02 10:32:27
+ * @LastEditTime: 2024-12-02 14:40:37
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -10,20 +10,33 @@
 defineOptions({ name: 'components-pro-page' })
 
 import type { Props } from './type'
+import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch } from 'plus-pro-components'
 import { PureTableBar } from '@/components'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
+  tableAlignWhole: 'center',
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
-  searchFormShowNum: 2
+  searchFormShowNum: 2,
+  searchFormCollapseTransition: false
 })
 
 /** 查询条件 */
 const searchForm = ref()
-const searchColumns = computed(() => props.columns.filter((item) => item.showSearch))
+const searchColumns = computed(() =>
+  props.columns
+    .filter((item) => item.showSearch)
+    .map((item) => {
+      return {
+        ...item,
+        valueType: item.el,
+        fieldProps: item.elProps
+      } as PlusColumn
+    })
+)
 
 /** 表格 */
 const tableColumns = computed(() => props.columns.filter((item) => !item.hideTable))
@@ -81,6 +94,7 @@ function onTableResize() {
       <PlusSearch
         v-model="searchForm"
         :columns="searchColumns"
+        :collapse-transition="props.searchFormCollapseTransition"
         :show-number="props.searchFormShowNum"
         @change="onSearch"
         @search="onSearch"
@@ -102,6 +116,7 @@ function onTableResize() {
           :columns="dynamicColumns"
           :data="tableData"
           :size
+          :align-whole="props.tableAlignWhole"
           :adaptive="props.tableAdaptive"
           :pagination="{
             total: pagination.total,

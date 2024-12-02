@@ -52,7 +52,9 @@ export default defineFakeRoute([
                 status: true,
                 color: '#67c23a',
                 sort: 1,
-                identifier: 'active'
+                identifier: 'active',
+                label: '已启用',
+                value: 1
               },
               {
                 id: '2',
@@ -61,7 +63,9 @@ export default defineFakeRoute([
                 status: true,
                 color: '#f56c6c',
                 sort: 2,
-                identifier: 'inactive'
+                identifier: 'inactive',
+                label: '未启用',
+                value: 0
               }
             ],
             total: 2
