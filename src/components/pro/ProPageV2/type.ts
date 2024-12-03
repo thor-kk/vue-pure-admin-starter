@@ -11,6 +11,7 @@ type ElType =
   | 'switch'
   /** 事件（用于：查询表单、编辑表单） */
   | 'time'
+  | 'link'
 
 /** 组件属性 */
 interface ElProps {
@@ -41,6 +42,7 @@ export interface ProColumns {
   hideTable?: boolean
   /** 表单隐藏 */
   hideForm?: boolean
+  code?: string
 }
 
 export interface Props {

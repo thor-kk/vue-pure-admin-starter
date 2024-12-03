@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:50:29
- * @LastEditTime: 2024-12-03 14:31:59
+ * @LastEditTime: 2024-12-03 14:44:24
  * @Description: crud
 -->
 
@@ -23,10 +23,6 @@ import { columns } from './data'
           code: 'add',
           text: '新增',
           confirm: ({ data }) => console.log(data)
-        },
-        {
-          text: '其他',
-          click: () => console.log('其他')
         }
       ]"
       :table-btn="[

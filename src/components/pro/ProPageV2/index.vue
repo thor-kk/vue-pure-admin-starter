@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-03 14:36:06
+ * @LastEditTime: 2024-12-03 14:54:41
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -14,6 +14,7 @@ import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { ProSwitch, PureTableBar, ProButton } from '@/components'
+import { ElLink } from 'element-plus'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -56,6 +57,7 @@ const tableColumns = computed(() => {
     /** 字段映射 */
     return columns.map((item) => {
       if (item.el?.table === 'switch') item.el.table = ProSwitch
+      if (item.el?.table === 'link') item.el.table = ElLink
 
       return {
         ...item,
@@ -230,7 +232,10 @@ function onBtnClick(data: any) {
               v-model="row[item.prop]"
               v-bind="item.elProps"
               @change="() => emits('table-row-change', { row })"
-            />
+              @click="() => onBtnClick({ code: item.code, row })"
+            >
+              {{ row[item.prop] }}
+            </component>
           </template>
         </PureTable>
       </template>
