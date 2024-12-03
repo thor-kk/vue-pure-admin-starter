@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-03 14:21:52
+ * @LastEditTime: 2024-12-03 14:36:06
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -9,10 +9,10 @@
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
-import type { ProColumns, Props } from './type'
+import type { Props } from './type'
 import type { PlusColumn } from 'plus-pro-components'
 
-import { PlusSearch, PlusDialogForm } from 'plus-pro-components'
+import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { ProSwitch, PureTableBar, ProButton } from '@/components'
 
 const props = withDefaults(defineProps<Props>(), {
@@ -127,13 +127,33 @@ const editColumns = computed(() =>
     })
 )
 
+/** 描述列表 */
+const descData = ref()
+const detailVisible = ref(false)
+const descColumns = computed(() =>
+  props.columns
+    .filter((item) => !item.hideForm)
+    .map((item) => {
+      return {
+        ...item,
+        formatter: item.formatter ? (_, col) => item.formatter({ row: col.row }) : undefined,
+        valueType: item.el?.form ?? '',
+        fieldProps: item.elProps
+      } as PlusColumn
+    })
+)
+
 /** 按钮点击事件 */
 const editConfirm = ref()
 function onBtnClick(data: any) {
-  const { code, confirm, click } = data
+  const { code, confirm, click, row } = data
   if (code === 'add') {
     editVisible.value = true
     editConfirm.value = confirm
+  }
+  if (code === 'detail') {
+    detailVisible.value = true
+    descData.value = row
   }
   click && click()
 }
@@ -197,7 +217,8 @@ function onBtnClick(data: any) {
                 :key="item.text"
                 type="primary"
                 link
-                @click="() => onBtnClick({ code: item.code, confirm: item.confirm, click: item.click })"
+                :size
+                @click="() => onBtnClick({ code: item.code, confirm: item.confirm, click: item.click, row })"
               >
                 {{ item.text }}
               </el-button>
@@ -222,7 +243,16 @@ function onBtnClick(data: any) {
       :form="{ columns: editColumns }"
       @confirm="() => editConfirm({ data: editForm })"
     />
+
+    <!-- 详情列表 -->
+    <el-dialog v-model="detailVisible" shadow="never" title="详情">
+      <PlusDescriptions :column="3" :columns="descColumns" :data="descData" />
+    </el-dialog>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.el-descriptions__header) {
+  margin-bottom: 0;
+}
+</style>

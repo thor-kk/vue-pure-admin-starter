@@ -51,7 +51,12 @@ export interface Props {
   /** 主要操作按钮 */
   mainBtn?: { code?: 'add' | 'edit'; confirm?: ({ data }: { data: any }) => any; text?: string; click?: any }[]
   /** 表格操作按钮 */
-  tableBtn?: { code?: 'add' | 'edit'; confirm?: ({ data }: { data: any }) => any; text: string; click?: any }[]
+  tableBtn?: {
+    code?: 'add' | 'edit' | 'detail'
+    confirm?: ({ data }: { data: any }) => any
+    text: string
+    click?: any
+  }[]
   /** 表格 - 自适应高度 */
   tableAdaptive?: boolean
   /** 表格 - 统一对齐方式 */
