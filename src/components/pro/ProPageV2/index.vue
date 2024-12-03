@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-03 09:17:10
+ * @LastEditTime: 2024-12-03 14:21:52
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -9,10 +9,10 @@
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
-import type { Props } from './type'
+import type { ProColumns, Props } from './type'
 import type { PlusColumn } from 'plus-pro-components'
 
-import { PlusSearch } from 'plus-pro-components'
+import { PlusSearch, PlusDialogForm } from 'plus-pro-components'
 import { ProSwitch, PureTableBar, ProButton } from '@/components'
 
 const props = withDefaults(defineProps<Props>(), {
@@ -43,10 +43,18 @@ const searchColumns = computed(() =>
 )
 
 /** 表格 */
-const tableColumns = computed(() =>
-  props.columns
-    .filter((item) => !item.hideTable)
-    .map((item) => {
+const tableColumns = computed(() => {
+  {
+    /** 过滤 */
+    const columns = props.columns.filter((item) => !item.hideTable)
+
+    /** 操作列 */
+    if (props.tableBtn && props.tableBtn.length > 0) {
+      columns.push({ label: '操作', prop: 'operation', slot: { table: true } })
+    }
+
+    /** 字段映射 */
+    return columns.map((item) => {
       if (item.el?.table === 'switch') item.el.table = ProSwitch
 
       return {
@@ -55,7 +63,8 @@ const tableColumns = computed(() =>
         slot: item.slot?.table && item.prop
       }
     })
-)
+  }
+})
 
 /** 分页 */
 const pagination = ref({
@@ -102,6 +111,32 @@ onMounted(() => {
 function onTableResize() {
   setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
 }
+
+/** 编辑弹窗 */
+const editForm = ref()
+const editVisible = ref(false)
+const editColumns = computed(() =>
+  props.columns
+    .filter((item) => !item.hideForm)
+    .map((item) => {
+      return {
+        ...item,
+        valueType: item.el?.form ?? '',
+        fieldProps: item.elProps
+      } as PlusColumn
+    })
+)
+
+/** 按钮点击事件 */
+const editConfirm = ref()
+function onBtnClick(data: any) {
+  const { code, confirm, click } = data
+  if (code === 'add') {
+    editVisible.value = true
+    editConfirm.value = confirm
+  }
+  click && click()
+}
 </script>
 
 <template>
@@ -124,9 +159,15 @@ function onTableResize() {
     <PureTableBar :columns="tableColumns" @refresh="onSearch" @fullscreen="onTableResize">
       <!-- 主要操作 -->
       <template #title>
-        <template v-if="props.mainBtn">
-          <ProButton v-for="item in props.mainBtn" :key="item.text">{{ item.text }}</ProButton>
-        </template>
+        <div v-if="props.mainBtn && props.mainBtn.length > 0" class="flex">
+          <ProButton
+            v-for="item in props.mainBtn"
+            :key="item.text"
+            @click="() => onBtnClick({ code: item.code, confirm: item.confirm, click: item.click })"
+          >
+            {{ item.text }}
+          </ProButton>
+        </div>
         <div v-else />
       </template>
 
@@ -149,8 +190,22 @@ function onTableResize() {
           @page-current-change="onPageCurrentChange"
         >
           <template v-for="item in tableColumns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
+            <!-- 操作列 -->
+            <div v-if="item.prop === 'operation'">
+              <el-button
+                v-for="item in props.tableBtn"
+                :key="item.text"
+                type="primary"
+                link
+                @click="() => onBtnClick({ code: item.code, confirm: item.confirm, click: item.click })"
+              >
+                {{ item.text }}
+              </el-button>
+            </div>
+
             <component
-              :is="item.el.table"
+              :is="item.el?.table"
+              v-else
               v-model="row[item.prop]"
               v-bind="item.elProps"
               @change="() => emits('table-row-change', { row })"
@@ -159,6 +214,14 @@ function onTableResize() {
         </PureTable>
       </template>
     </PureTableBar>
+
+    <!-- 编辑弹窗 -->
+    <PlusDialogForm
+      v-model:visible="editVisible"
+      v-model="editForm"
+      :form="{ columns: editColumns }"
+      @confirm="() => editConfirm({ data: editForm })"
+    />
   </div>
 </template>
 
