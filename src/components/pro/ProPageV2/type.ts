@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 import { Page } from '@/api'
 
+/** 组件类型 */
 type ElType =
   /** 输入框（用于：查询表单、编辑表单） */
   | 'input'
@@ -11,6 +12,7 @@ type ElType =
   /** 事件（用于：查询表单、编辑表单） */
   | 'time'
 
+/** 组件属性 */
 interface ElProps {
   /** 提示语（用于输入框组件） */
   placeholder?: string
@@ -44,6 +46,10 @@ export interface Props {
   columns: ProColumns[]
   /** 请求接口 */
   api: (searchParams: any) => Promise<Page>
+  /** 主要操作按钮 */
+  mainBtn?: any[]
+  /** 表格操作按钮 */
+  tableBtn?: any[]
   /** 表格 - 自适应高度 */
   tableAdaptive?: boolean
   /** 表格 - 统一对齐方式 */

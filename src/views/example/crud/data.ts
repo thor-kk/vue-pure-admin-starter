@@ -21,6 +21,6 @@ export const columns: ProColumns[] = [
   },
   {
     label: '日期',
-    prop: 'data'
+    prop: 'createTime'
   }
 ]

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-02 15:56:02
+ * @LastEditTime: 2024-12-03 09:17:10
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -13,7 +13,7 @@ import type { Props } from './type'
 import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch } from 'plus-pro-components'
-import { ProSwitch, PureTableBar } from '@/components'
+import { ProSwitch, PureTableBar, ProButton } from '@/components'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -80,6 +80,7 @@ const tableData = ref([])
 async function onSearch() {
   /** 查询参数 */
   const searchParams = {
+    ...searchForm.value,
     pageSize: pagination.value.pageSize,
     pageNum: pagination.value.pageNum
   }
@@ -123,7 +124,10 @@ function onTableResize() {
     <PureTableBar :columns="tableColumns" @refresh="onSearch" @fullscreen="onTableResize">
       <!-- 主要操作 -->
       <template #title>
-        <div />
+        <template v-if="props.mainBtn">
+          <ProButton v-for="item in props.mainBtn" :key="item.text">{{ item.text }}</ProButton>
+        </template>
+        <div v-else />
       </template>
 
       <template v-slot="{ dynamicColumns, size }">
