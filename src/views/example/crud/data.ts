@@ -7,7 +7,7 @@ export const columns: ProColumns[] = [
   {
     label: '姓名',
     prop: 'name',
-    code: 'detail',
+    actionCode: 'detail',
     slot: { table: true },
     el: { table: 'link' },
     elProps: { type: 'primary' },

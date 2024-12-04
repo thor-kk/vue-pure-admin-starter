@@ -9,8 +9,9 @@ type ElType =
   | 'select'
   /** 开关（用于：表格、编辑表单） */
   | 'switch'
-  /** 事件（用于：查询表单、编辑表单） */
+  /** 时间（用于：查询表单、编辑表单） */
   | 'time'
+  /** 链接（用于：表格） */
   | 'link'
 
 /** 组件属性 */
@@ -42,8 +43,12 @@ export interface ProColumns {
   hideTable?: boolean
   /** 表单隐藏 */
   hideForm?: boolean
-  code?: string
+  /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
+  actionCode?: ActionCode
 }
+
+/** CRUD编码 */
+export type ActionCode = 'add' | 'edit' | 'detail'
 
 /** 操作按钮 */
 export interface ActionBtn {
@@ -52,7 +57,7 @@ export interface ActionBtn {
   /** 按钮点击事件（表格按钮会传递当前行数据 row） */
   click?: (args?: { row: any }) => void
   /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
-  code?: 'add' | 'edit' | 'detail'
+  code?: ActionCode
   /** CRUD事件（对应编辑弹框的确认按钮，会传递表单数据 form，需要返回一个 boolean，判断是否继续执行） */
   confirm?: (args?: { form: any }) => boolean | Promise<boolean> | any
   /** CRUD数据（通常用于传入编辑弹窗的回显数据） */

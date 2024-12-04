@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-04 09:56:28
+ * @LastEditTime: 2024-12-04 14:19:08
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -146,7 +146,7 @@ const descColumns = computed(() =>
 )
 
 /** 按钮点击事件 */
-const editConfirm = ref()
+const editConfirm = ref<(args: { form: any }) => any>()
 function onBtnClick(args: ActionBtn) {
   const { code, confirm, data, click } = args
   /** 新增 */
@@ -254,7 +254,7 @@ function onBtnClick(args: ActionBtn) {
               v-model="row[item.prop]"
               v-bind="item.elProps"
               @change="() => emits('table-row-change', { row })"
-              @click="() => onBtnClick({ code: item.code as any, data: row })"
+              @click="() => onBtnClick({ code: item.actionCode, data: row })"
             >
               {{ row[item.prop] }}
             </component>
@@ -268,7 +268,7 @@ function onBtnClick(args: ActionBtn) {
       v-model:visible="editVisible"
       v-model="editForm"
       :form="{ columns: editColumns }"
-      @confirm="() => editConfirm({ data: editForm })"
+      @confirm="() => editConfirm({ form: editForm })"
     />
 
     <!-- 详情列表 -->
