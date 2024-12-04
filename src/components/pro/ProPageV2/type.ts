@@ -27,6 +27,12 @@ export interface ProColumns {
   label: string
   /** 字段 */
   prop: string
+  /** 表格类型 */
+  type?: 'index' | 'selection'
+  /** 表格列固定 */
+  fixed?: 'left' | 'right'
+  /** 宽度 */
+  width?: string | number
   /** 插槽（表格、查询表单、编辑表单、描述列表分别开启） */
   slot?: { table?: boolean; search?: boolean; form?: boolean; desc?: boolean }
   /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中分别映射）*/
@@ -77,6 +83,8 @@ export interface Props {
   tableAdaptive?: boolean
   /** 表格 - 统一对齐方式 */
   tableAlignWhole?: 'center' | 'left' | 'right'
+  /** 表格 - 显示序号索引 */
+  tableIndex?: boolean
   /** 分页 - 默认条目个数 */
   paginationPageSize?: number
   /** 分页 - 每页显示个数选择器的选项设置 */

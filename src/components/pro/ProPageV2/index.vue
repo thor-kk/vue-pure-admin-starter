@@ -1,9 +1,11 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-04 14:41:41
+ * @LastEditTime: 2024-12-04 15:50:34
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
+ ? 编辑表单组件
+ ? 描述列表组件
 -->
 
 <script setup lang="ts">
@@ -19,6 +21,7 @@ import { ElLink } from 'element-plus'
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
   tableAlignWhole: 'center',
+  tableIndex: true,
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchFormShowNum: 2,
@@ -49,9 +52,14 @@ const tableColumns = computed(() => {
     /** 过滤 */
     const columns = props.columns.filter((item) => !item.hideTable)
 
+    /** 序号列 */
+    if (props.tableIndex) {
+      columns.unshift({ label: '序号', prop: 'index', type: 'index', width: 60, fixed: 'left' })
+    }
+
     /** 操作列 */
     if (props.tableBtn && props.tableBtn.length > 0) {
-      columns.push({ label: '操作', prop: 'operation', slot: { table: true } })
+      columns.push({ label: '操作', prop: 'operation', fixed: 'right', slot: { table: true } })
     }
 
     /** 字段映射 */
