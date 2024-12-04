@@ -45,20 +45,29 @@ export interface ProColumns {
   code?: string
 }
 
+/** 操作按钮 */
+export interface ActionBtn {
+  /** 按钮文本 */
+  text?: string
+  /** 按钮点击事件（表格按钮会传递当前行数据 row） */
+  click?: (args?: { row: any }) => void
+  /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
+  code?: 'add' | 'edit' | 'detail'
+  /** CRUD事件（对应编辑弹框的确认按钮，会传递表单数据 form，需要返回一个 boolean，判断是否继续执行） */
+  confirm?: (args?: { form: any }) => boolean | Promise<boolean> | any
+  /** CRUD数据（通常用于传入编辑弹窗的回显数据） */
+  data?: (args?: { row: any }) => any
+}
+
 export interface Props {
   /** 配置 */
   columns: ProColumns[]
   /** 请求接口 */
-  api: (searchParams: any) => Promise<Page>
+  api: (args?: { searchParams: any }) => Promise<Page>
   /** 主要操作按钮 */
-  mainBtn?: { code?: 'add' | 'edit'; confirm?: ({ data }: { data: any }) => any; text?: string; click?: any }[]
+  mainBtn?: ActionBtn[]
   /** 表格操作按钮 */
-  tableBtn?: {
-    code?: 'add' | 'edit' | 'detail'
-    confirm?: ({ data }: { data: any }) => any
-    text: string
-    click?: any
-  }[]
+  tableBtn?: ActionBtn[]
   /** 表格 - 自适应高度 */
   tableAdaptive?: boolean
   /** 表格 - 统一对齐方式 */

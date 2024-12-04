@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-03 14:54:41
+ * @LastEditTime: 2024-12-04 09:56:28
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -9,7 +9,7 @@
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
-import type { Props } from './type'
+import type { ActionBtn, Props } from './type'
 import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
@@ -147,16 +147,30 @@ const descColumns = computed(() =>
 
 /** 按钮点击事件 */
 const editConfirm = ref()
-function onBtnClick(data: any) {
-  const { code, confirm, click, row } = data
+function onBtnClick(args: ActionBtn) {
+  const { code, confirm, data, click } = args
+  /** 新增 */
   if (code === 'add') {
     editVisible.value = true
     editConfirm.value = confirm
+    return
   }
+
+  /** 编辑 */
+  if (code === 'edit') {
+    editVisible.value = true
+    editForm.value = data()
+    editConfirm.value = confirm
+    return
+  }
+
+  /** 详情 */
   if (code === 'detail') {
     detailVisible.value = true
-    descData.value = row
+    descData.value = data
+    return
   }
+
   click && click()
 }
 </script>
@@ -220,7 +234,15 @@ function onBtnClick(data: any) {
                 type="primary"
                 link
                 :size
-                @click="() => onBtnClick({ code: item.code, confirm: item.confirm, click: item.click, row })"
+                @click="
+                  () =>
+                    onBtnClick({
+                      code: item.code,
+                      confirm: item.confirm,
+                      click: () => item.click({ row }),
+                      data: () => item.data({ row })
+                    })
+                "
               >
                 {{ item.text }}
               </el-button>
@@ -232,7 +254,7 @@ function onBtnClick(data: any) {
               v-model="row[item.prop]"
               v-bind="item.elProps"
               @change="() => emits('table-row-change', { row })"
-              @click="() => onBtnClick({ code: item.code, row })"
+              @click="() => onBtnClick({ code: item.code as any, data: row })"
             >
               {{ row[item.prop] }}
             </component>
