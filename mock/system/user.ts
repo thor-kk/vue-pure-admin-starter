@@ -1,8 +1,8 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-18 16:48:12
- * @LastEditTime: 2024-11-07 10:06:21
- * @Description: 用户模块 mock
+ * @LastEditTime: 2024-12-04 14:45:35
+ * @Description: 用户模块
  */
 
 import { defineFakeRoute } from 'vite-plugin-fake-server/client'
@@ -11,14 +11,14 @@ import { faker } from '@faker-js/faker/locale/zh_CN'
 export default defineFakeRoute([
   /** 获取用户列表 */
   {
-    url: '/user/list',
-    method: 'post',
-    response: ({ body }) => {
+    url: '/user/page',
+    method: 'get',
+    response: ({}) => {
       let list = [
         {
           avatar: 'https://avatars.githubusercontent.com/u/44761321',
           username: 'admin',
-          nickname: '小铭' + new Date(),
+          nickname: '小铭',
           phone: '15888886789',
           email: faker.internet.email(),
           sex: 0,
@@ -43,14 +43,9 @@ export default defineFakeRoute([
         }
       ]
 
-      // list = list.filter((item) => item.username.includes(body?.username))
-      // list = list.filter((item) => String(item.status).includes(String(body?.status)))
-      if (body.phone) list = list.filter((item) => item.phone === body.phone)
-      if (body.deptId) list = list.filter((item) => item.dept.id === body.deptId)
-
       return {
-        success: true,
-        data: { list, total: list.length, pageSize: 10, currentPage: 1 }
+        code: 200,
+        data: { records: list, total: list.length }
       }
     }
   }

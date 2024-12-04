@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-04 14:19:08
+ * @LastEditTime: 2024-12-04 14:41:41
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
 -->
@@ -97,7 +97,7 @@ async function onSearch() {
   }
 
   try {
-    const { total, records } = await props.api(searchParams)
+    const { total, records } = await props.api({ searchParams })
     pagination.value.total = total
     tableData.value = records
   } catch (error) {

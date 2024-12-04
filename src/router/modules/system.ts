@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-11-26 22:47:16
+ * @LastEditTime: 2024-12-04 14:29:15
  * @Description: router - 系统管理
  */
 
@@ -10,6 +10,12 @@ export default {
   redirect: '/system/user',
   meta: { title: '系统管理', icon: 'icon-park-outline:system', rank: 999 },
   children: [
+    {
+      path: '/system/user/v2',
+      name: 'page-system-user-v2',
+      meta: { title: '用户管理-v2' },
+      component: () => import('@/views/system/user/index.vue')
+    },
     {
       path: '/system/user',
       name: 'page-system-user',
