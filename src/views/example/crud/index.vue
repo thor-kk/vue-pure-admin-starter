@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:50:29
- * @LastEditTime: 2024-12-03 14:44:24
+ * @LastEditTime: 2024-12-03 15:22:51
  * @Description: crud
 -->
 
@@ -32,8 +32,8 @@ import { columns } from './data'
           click: () => console.log('编辑')
         },
         {
-          code: 'detail',
-          text: '详情'
+          text: '删除',
+          click: () => console.log('删除')
         }
       ]"
       @table-row-change="({ row }) => console.log(row)"
