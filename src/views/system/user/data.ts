@@ -14,7 +14,16 @@ export const columns: ProColumns[] = [
     prop: 'nickname',
     showSearch: true
   },
-  { label: '性别', prop: 'sex' },
+  {
+    label: '性别',
+    prop: 'sex',
+    el: { table: 'tag' },
+    dict: { table: true },
+    options: [
+      { value: 1, label: '男' },
+      { value: 0, label: '女' }
+    ]
+  },
   {
     label: '部门',
     prop: 'dept',

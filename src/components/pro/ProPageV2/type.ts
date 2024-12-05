@@ -15,6 +15,8 @@ type ElType =
   | 'link'
   /** 头像（用于：表格） */
   | 'avatar'
+  /** 标签（用于：表格） */
+  | 'tag'
 
 /** 组件属性 */
 interface ElProps {
@@ -44,7 +46,7 @@ export interface ActionBtn {
 }
 
 export interface ProColumns {
-  /** 标题 */
+  /** 标签 */
   label: string
   /** 字段 */
   prop: string
@@ -62,6 +64,8 @@ export interface ProColumns {
   elProps?: { table?: ElProps | (({ row }) => ElProps); search?: ElProps; form?: ElProps; desc?: ElProps }
   /** 选项（用于下拉选择组件） */
   options?: { label: string; value: any }[]
+  /** 是否是字典（开启后可以根据 value 值和 options 自动翻译） */
+  dict?: { table: boolean }
   /** 格式化（用于表格翻译） */
   formatter?: ({ row }: { row: any }) => string
   /** 查询表单展示（因为大部分字段用不到查询条件，所以只需要特定展示即可） */

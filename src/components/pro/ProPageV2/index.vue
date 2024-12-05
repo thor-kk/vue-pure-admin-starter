@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-05 14:15:05
+ * @LastEditTime: 2024-12-05 14:46:06
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -16,7 +16,7 @@ import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { ProSwitch, PureTableBar, ProButton } from '@/components'
-import { ElAvatar, ElLink } from 'element-plus'
+import { ElAvatar, ElLink, ElTag } from 'element-plus'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -68,10 +68,24 @@ const tableColumns = computed(() => {
       if (item.el?.table === 'switch') item.el.table = ProSwitch
       if (item.el?.table === 'link') item.el.table = ElLink
       if (item.el?.table === 'avatar') item.el.table = ElAvatar
+      if (item.el?.table === 'tag') item.el.table = ElTag
+
+      /** 格式化 */
+      function handelFormatter() {
+        if (item.formatter) {
+          return (row) => item.formatter({ row })
+        }
+
+        if (item.dict?.table && item.options) {
+          return (row) => item.options.find((dict) => dict.value === row[item.prop]).label
+        }
+
+        return undefined
+      }
 
       return {
         ...item,
-        formatter: item.formatter ? (row) => item.formatter({ row }) : undefined,
+        formatter: handelFormatter(),
         slot: item.el?.table && item.prop
       }
     })
@@ -264,11 +278,13 @@ function onBtnClick(args: ActionBtn) {
               v-else
               v-model="row[item.prop]"
               class="align-middle"
-              v-bind="typeof item.elProps.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
+              v-bind="typeof item.elProps?.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
               @change="() => emits('table-row-change', { row })"
               @click="() => onBtnClick({ code: item.actionCode, data: row })"
             >
-              {{ row[item.prop] }}
+              {{
+                item.dict?.table ? item.options?.find((dict) => dict.value === row[item.prop]).label : row[item.prop]
+              }}
             </component>
           </template>
         </PureTable>
