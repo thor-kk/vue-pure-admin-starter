@@ -2,7 +2,12 @@ import dayjs from 'dayjs'
 import { ProColumns } from '@/components'
 
 export const columns: ProColumns[] = [
-  { label: '头像', prop: 'avatar' },
+  {
+    label: '头像',
+    prop: 'avatar',
+    el: { table: 'avatar' },
+    elProps: { table: ({ row }) => ({ src: row.avatar, size: 'small' }) }
+  },
   { label: '登录名', prop: 'username' },
   {
     label: '用户名',

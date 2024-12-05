@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-04 15:50:34
+ * @LastEditTime: 2024-12-05 14:09:35
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -16,7 +16,7 @@ import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { ProSwitch, PureTableBar, ProButton } from '@/components'
-import { ElLink } from 'element-plus'
+import { ElAvatar, ElLink } from 'element-plus'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -41,7 +41,7 @@ const searchColumns = computed(() =>
       return {
         ...item,
         valueType: item.el?.search ?? '',
-        fieldProps: item.elProps
+        fieldProps: item.elProps?.search
       } as PlusColumn
     })
 )
@@ -66,11 +66,12 @@ const tableColumns = computed(() => {
     return columns.map((item) => {
       if (item.el?.table === 'switch') item.el.table = ProSwitch
       if (item.el?.table === 'link') item.el.table = ElLink
+      if (item.el?.table === 'avatar') item.el.table = ElAvatar
 
       return {
         ...item,
         formatter: item.formatter ? (row) => item.formatter({ row }) : undefined,
-        slot: item.slot?.table && item.prop
+        slot: item.el?.table && item.prop
       }
     })
   }
@@ -132,7 +133,7 @@ const editColumns = computed(() =>
       return {
         ...item,
         valueType: item.el?.form ?? '',
-        fieldProps: item.elProps
+        fieldProps: item.elProps?.form
       } as PlusColumn
     })
 )
@@ -260,7 +261,8 @@ function onBtnClick(args: ActionBtn) {
               :is="item.el?.table"
               v-else
               v-model="row[item.prop]"
-              v-bind="item.elProps"
+              class="align-middle"
+              v-bind="typeof item.elProps.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
               @change="() => emits('table-row-change', { row })"
               @click="() => onBtnClick({ code: item.actionCode, data: row })"
             >

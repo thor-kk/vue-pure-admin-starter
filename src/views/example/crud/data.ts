@@ -10,7 +10,7 @@ export const columns: ProColumns[] = [
     actionCode: 'detail',
     slot: { table: true },
     el: { table: 'link' },
-    elProps: { type: 'primary' },
+    elProps: { table: { type: 'primary' } },
     showSearch: true
   },
   {

@@ -13,13 +13,34 @@ type ElType =
   | 'time'
   /** 链接（用于：表格） */
   | 'link'
+  /** 头像（用于：表格） */
+  | 'avatar'
 
 /** 组件属性 */
 interface ElProps {
   /** 提示语（用于输入框组件） */
   placeholder?: string
+  /** 图片链接（用于头像组件） */
+  src?: string
   /** 其他扩展 */
   [key: string]: any
+}
+
+/** CRUD编码 */
+export type ActionCode = 'add' | 'edit' | 'detail'
+
+/** 操作按钮 */
+export interface ActionBtn {
+  /** 按钮文本 */
+  text?: string
+  /** 按钮点击事件（表格按钮会传递当前行数据 row） */
+  click?: (args?: { row: any }) => void
+  /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
+  code?: ActionCode
+  /** CRUD事件（对应编辑弹框的确认按钮，会传递表单数据 form，需要返回一个 boolean，判断是否继续执行） */
+  confirm?: (args?: { form: any }) => boolean | Promise<boolean> | any
+  /** CRUD数据（通常用于传入编辑弹窗的回显数据） */
+  data?: (args?: { row: any }) => any
 }
 
 export interface ProColumns {
@@ -38,7 +59,7 @@ export interface ProColumns {
   /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中分别映射）*/
   el?: { table?: ElType | Component; search?: ElType; form?: ElType; desc?: ElType }
   /** 通用组件传递的属性 */
-  elProps?: ElProps
+  elProps?: { table?: ElProps | (({ row }) => ElProps); search?: ElProps; form?: ElProps; desc?: ElProps }
   /** 选项（用于下拉选择组件） */
   options?: { label: string; value: any }[]
   /** 格式化（用于表格翻译） */
@@ -51,23 +72,6 @@ export interface ProColumns {
   hideForm?: boolean
   /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
   actionCode?: ActionCode
-}
-
-/** CRUD编码 */
-export type ActionCode = 'add' | 'edit' | 'detail'
-
-/** 操作按钮 */
-export interface ActionBtn {
-  /** 按钮文本 */
-  text?: string
-  /** 按钮点击事件（表格按钮会传递当前行数据 row） */
-  click?: (args?: { row: any }) => void
-  /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
-  code?: ActionCode
-  /** CRUD事件（对应编辑弹框的确认按钮，会传递表单数据 form，需要返回一个 boolean，判断是否继续执行） */
-  confirm?: (args?: { form: any }) => boolean | Promise<boolean> | any
-  /** CRUD数据（通常用于传入编辑弹窗的回显数据） */
-  data?: (args?: { row: any }) => any
 }
 
 export interface Props {
