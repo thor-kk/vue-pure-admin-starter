@@ -35,7 +35,20 @@ export const columns: ProColumns[] = [
     prop: 'email',
     hideTable: true
   },
-  { label: '状态', prop: 'status' },
+  {
+    label: '状态',
+    prop: 'status',
+    el: { table: 'switch' },
+    elProps: {
+      table: {
+        activeValue: 1,
+        activeText: '开启',
+        inactiveValue: 0,
+        inactiveText: '关闭',
+        inlinePrompt: true
+      }
+    }
+  },
   {
     label: '创建时间',
     prop: 'createTime',

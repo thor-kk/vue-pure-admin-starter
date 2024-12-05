@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-05 14:46:06
+ * @LastEditTime: 2024-12-05 14:50:49
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -15,8 +15,8 @@ import type { ActionBtn, Props } from './type'
 import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
-import { ProSwitch, PureTableBar, ProButton } from '@/components'
-import { ElAvatar, ElLink, ElTag } from 'element-plus'
+import { PureTableBar, ProButton } from '@/components'
+import { ElAvatar, ElLink, ElSwitch, ElTag } from 'element-plus'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -65,7 +65,7 @@ const tableColumns = computed(() => {
 
     /** 字段映射 */
     return columns.map((item) => {
-      if (item.el?.table === 'switch') item.el.table = ProSwitch
+      if (item.el?.table === 'switch') item.el.table = ElSwitch
       if (item.el?.table === 'link') item.el.table = ElLink
       if (item.el?.table === 'avatar') item.el.table = ElAvatar
       if (item.el?.table === 'tag') item.el.table = ElTag

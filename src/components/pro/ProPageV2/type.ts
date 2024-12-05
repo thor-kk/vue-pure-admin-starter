@@ -24,6 +24,16 @@ interface ElProps {
   placeholder?: string
   /** 图片链接（用于头像组件） */
   src?: string
+  /** 激活值（用于开关组件） */
+  activeValue?: string | boolean | number
+  /** 激活文字（用于开关组件） */
+  activeText?: string
+  /** 未激活值（用于开关组件） */
+  inactiveValue?: string | boolean | number
+  /** 未激活文字（用于开关组件） */
+  inactiveText?: string
+  /** 文字内联（用于开关组件） */
+  inlinePrompt?: boolean
   /** 其他扩展 */
   [key: string]: any
 }
