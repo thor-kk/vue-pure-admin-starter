@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-05 15:27:23
+ * @LastEditTime: 2024-12-05 16:42:16
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -15,7 +15,7 @@ import type { ActionBtn, Props } from './type'
 import type { PlusColumn } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
-import { PureTableBar, ProButton } from '@/components'
+import { PureTableBar, ProButton, ProTag } from '@/components'
 import { ElAvatar, ElLink, ElSwitch, ElTag } from 'element-plus'
 
 const props = withDefaults(defineProps<Props>(), {
@@ -79,7 +79,7 @@ const tableColumns = computed(() => {
       if (item.el?.table === 'switch') item.el.table = ElSwitch
       if (item.el?.table === 'link') item.el.table = ElLink
       if (item.el?.table === 'avatar') item.el.table = ElAvatar
-      if (item.el?.table === 'tag') item.el.table = ElTag
+      if (item.el?.table === 'tag') item.el.table = ProTag
 
       /** 格式化 */
       function handelFormatter() {
@@ -174,8 +174,8 @@ const descColumns = computed(() =>
       return {
         ...item,
         formatter: item.formatter ? (_, col) => item.formatter({ row: col.row }) : undefined,
-        valueType: item.el?.form ?? '',
-        fieldProps: item.elProps
+        valueType: item.el?.desc ?? '',
+        fieldProps: item.elProps?.desc
       } as PlusColumn
     })
 )
@@ -291,6 +291,7 @@ function onBtnClick(args: ActionBtn) {
               v-model="row[item.prop]"
               class="align-middle"
               v-bind="typeof item.elProps?.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
+              :options="item.options"
               @change="() => emits('table-row-change', { row })"
               @click="() => onBtnClick({ code: item.actionCode, data: row })"
             >

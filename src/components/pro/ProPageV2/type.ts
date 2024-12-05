@@ -73,14 +73,14 @@ export interface ProColumns {
   /** 通用组件传递的属性 */
   elProps?: { table?: ElProps | (({ row }) => ElProps); search?: ElProps; form?: ElProps; desc?: ElProps }
   /** 选项（用于下拉选择组件） */
-  options?: { label: string; value: any }[]
+  options?: { label: string; value: any; tagType?: 'primary' | 'danger' }[]
   /** 是否是字典（开启后可以根据 value 值和 options 自动翻译） */
   dict?: { table: boolean }
   /** 格式化（用于表格翻译） */
   formatter?: ({ row }: { row: any }) => string
-  /** 查询表单展示（因为大部分字段用不到查询条件，所以只需要特定展示即可） */
   /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
   actionCode?: ActionCode
+  /** 查询表单展示（因为大部分字段用不到查询条件，所以只需要特定展示即可） */
   showSearch?: boolean
   /** 表格隐藏 */
   hideTable?: boolean

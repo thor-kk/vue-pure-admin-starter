@@ -22,11 +22,11 @@ export const columns: ProColumns[] = [
   {
     label: '性别',
     prop: 'sex',
-    el: { table: 'tag' },
-    dict: { table: true },
+    el: { table: 'tag', desc: 'tag' },
+    elProps: { table: { effect: 'plain' } },
     options: [
-      { value: 1, label: '男' },
-      { value: 0, label: '女' }
+      { value: 0, label: '男', tagType: 'primary' },
+      { value: 1, label: '女', tagType: 'danger' }
     ]
   },
   {
