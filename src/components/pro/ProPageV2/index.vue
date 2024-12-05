@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-05 14:09:35
+ * @LastEditTime: 2024-12-05 14:15:05
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -22,6 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
   tableAlignWhole: 'center',
   tableIndex: true,
+  tableShowOverflowTooltip: true,
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchFormShowNum: 2,
@@ -223,6 +224,7 @@ function onBtnClick(args: ActionBtn) {
           :data="tableData"
           :size
           :align-whole="props.tableAlignWhole"
+          :show-overflow-tooltip="props.tableShowOverflowTooltip"
           :adaptive="props.tableAdaptive"
           :pagination="{
             total: pagination.total,

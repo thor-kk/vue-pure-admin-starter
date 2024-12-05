@@ -48,11 +48,11 @@ export interface ProColumns {
   label: string
   /** 字段 */
   prop: string
-  /** 表格类型 */
+  /** 表格列类型 */
   type?: 'index' | 'selection'
   /** 表格列固定 */
   fixed?: 'left' | 'right'
-  /** 宽度 */
+  /** 宽度（用于表格） */
   width?: string | number
   /** 插槽（表格、查询表单、编辑表单、描述列表分别开启） */
   slot?: { table?: boolean; search?: boolean; form?: boolean; desc?: boolean }
@@ -89,6 +89,8 @@ export interface Props {
   tableAlignWhole?: 'center' | 'left' | 'right'
   /** 表格 - 显示序号索引 */
   tableIndex?: boolean
+  /** 表格 - 显示溢出工具提示 */
+  tableShowOverflowTooltip?: boolean
   /** 分页 - 默认条目个数 */
   paginationPageSize?: number
   /** 分页 - 每页显示个数选择器的选项设置 */
