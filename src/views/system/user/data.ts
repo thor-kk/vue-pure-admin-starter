@@ -23,7 +23,7 @@ export const columns: ProColumns[] = [
     label: '性别',
     prop: 'sex',
     el: { table: 'tag', desc: 'tag' },
-    elProps: { table: { effect: 'plain' } },
+    elProps: { table: { effect: 'plain' }, desc: { effect: 'plain' } },
     options: [
       { value: 0, label: '男', tagType: 'primary' },
       { value: 1, label: '女', tagType: 'danger' }

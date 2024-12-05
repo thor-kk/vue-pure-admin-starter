@@ -69,7 +69,7 @@ export interface ProColumns {
   /** 插槽（表格、查询表单、编辑表单、描述列表分别开启） */
   slot?: { table?: boolean; search?: boolean; form?: boolean; desc?: boolean }
   /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中分别映射）*/
-  el?: { table?: ElType | Component; search?: ElType; form?: ElType; desc?: ElType }
+  el?: { table?: ElType | Component; search?: ElType; form?: ElType; desc?: ElType | Component }
   /** 通用组件传递的属性 */
   elProps?: { table?: ElProps | (({ row }) => ElProps); search?: ElProps; form?: ElProps; desc?: ElProps }
   /** 选项（用于下拉选择组件） */

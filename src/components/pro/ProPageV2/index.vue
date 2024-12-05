@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-05 16:42:16
+ * @LastEditTime: 2024-12-05 17:25:08
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -171,6 +171,13 @@ const descColumns = computed(() =>
   props.columns
     .filter((item) => !item.hideDesc)
     .map((item) => {
+      if (item.el?.desc === 'tag') {
+        item.el.desc = ProTag
+
+        if (!item.slot) item.slot = {}
+        item.slot.desc = true
+      }
+
       return {
         ...item,
         formatter: item.formatter ? (_, col) => item.formatter({ row: col.row }) : undefined,
@@ -314,7 +321,21 @@ function onBtnClick(args: ActionBtn) {
 
     <!-- 详情列表 -->
     <el-dialog v-model="detailVisible" shadow="never" title="详情">
-      <PlusDescriptions :column="3" :columns="descColumns" :data="descData" />
+      <PlusDescriptions :column="3" :columns="descColumns" :data="descData">
+        <template
+          v-for="item in descColumns.filter((item) => item.slot)"
+          :key="item.prop"
+          #[`plus-desc-${item.prop}`]="{ row }"
+        >
+          <component
+            :is="item.valueType"
+            v-model="row[item.prop]"
+            class="align-middle"
+            v-bind="item.elProps?.desc"
+            :options="item.options"
+          />
+        </template>
+      </PlusDescriptions>
     </el-dialog>
   </div>
 </template>
