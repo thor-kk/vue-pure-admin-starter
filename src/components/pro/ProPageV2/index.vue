@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-05 14:50:49
+ * @LastEditTime: 2024-12-05 15:27:23
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -65,6 +65,17 @@ const tableColumns = computed(() => {
 
     /** 字段映射 */
     return columns.map((item) => {
+      /** CRUD */
+      if (item.actionCode === 'detail') {
+        if (!item.el) item.el = {}
+        item.el.table = 'link'
+
+        if (!item.elProps) {
+          item.elProps = {}
+          item.elProps.table = { type: 'primary' }
+        }
+      }
+
       if (item.el?.table === 'switch') item.el.table = ElSwitch
       if (item.el?.table === 'link') item.el.table = ElLink
       if (item.el?.table === 'avatar') item.el.table = ElAvatar
@@ -158,7 +169,7 @@ const descData = ref()
 const detailVisible = ref(false)
 const descColumns = computed(() =>
   props.columns
-    .filter((item) => !item.hideForm)
+    .filter((item) => !item.hideDesc)
     .map((item) => {
       return {
         ...item,
@@ -173,6 +184,7 @@ const descColumns = computed(() =>
 const editConfirm = ref<(args: { form: any }) => any>()
 function onBtnClick(args: ActionBtn) {
   const { code, confirm, data, click } = args
+
   /** 新增 */
   if (code === 'add') {
     editVisible.value = true

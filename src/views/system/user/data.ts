@@ -6,9 +6,14 @@ export const columns: ProColumns[] = [
     label: '头像',
     prop: 'avatar',
     el: { table: 'avatar' },
-    elProps: { table: ({ row }) => ({ src: row.avatar, size: 'small' }) }
+    elProps: { table: ({ row }) => ({ src: row.avatar, size: 'small' }) },
+    hideDesc: true
   },
-  { label: '登录名', prop: 'username' },
+  {
+    label: '登录名',
+    prop: 'username',
+    actionCode: 'detail'
+  },
   {
     label: '用户名',
     prop: 'nickname',

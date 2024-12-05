@@ -79,13 +79,15 @@ export interface ProColumns {
   /** 格式化（用于表格翻译） */
   formatter?: ({ row }: { row: any }) => string
   /** 查询表单展示（因为大部分字段用不到查询条件，所以只需要特定展示即可） */
+  /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
+  actionCode?: ActionCode
   showSearch?: boolean
   /** 表格隐藏 */
   hideTable?: boolean
   /** 表单隐藏 */
   hideForm?: boolean
-  /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
-  actionCode?: ActionCode
+  /** 描述列表隐藏 */
+  hideDesc?: boolean
 }
 
 export interface Props {
