@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-06 14:40:36
+ * @LastEditTime: 2024-12-06 14:47:20
  * @Description: 用户管理
 -->
 
@@ -17,7 +17,20 @@ import { columns } from './data'
   <ProPageV2
     :columns
     :api="systemService.userApi.getUserPage"
+    :main-btn="[
+      {
+        text: '新增',
+        code: 'add',
+        confirm: ({ form }) => systemService.userApi.createUser({ data: form })
+      }
+    ]"
     :table-btn="[
+      {
+        text: '编辑',
+        code: 'edit',
+        data: ({ row }) => row,
+        confirm: ({ form }) => systemService.userApi.updateUser({ data: form })
+      },
       {
         text: '删除',
         code: 'delete',

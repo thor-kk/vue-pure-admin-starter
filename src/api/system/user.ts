@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-12-06 14:21:27
+ * @LastEditTime: 2024-12-06 14:46:02
  * @Description: 用户模块
  */
 
@@ -20,13 +20,33 @@ export async function getUserPage(args?: { searchParams: any }) {
   }
 }
 
+/** 新增用户 */
+export async function createUser(args?: { data: any }) {
+  try {
+    const res = await http.request<R>('post', baseUrl + '/user/create', { data: args.data })
+    return successCallback({ success: res.code === 200 })
+  } catch (error) {
+    console.log('🚀 ~ createUser ~ error:', error)
+  }
+}
+
+/** 更新用户 */
+export async function updateUser(args?: { data: any }) {
+  try {
+    const res = await http.request<R>('put', baseUrl + '/user/update', { data: args.data })
+    return successCallback({ success: res.code === 200 })
+  } catch (error) {
+    console.log('🚀 ~ updateUser ~ error:', error)
+  }
+}
+
 /** 删除用户 */
 export async function deleteUser(args?: { userId: string }) {
   try {
     const res = await http.request<R>('delete', baseUrl + `/user/delete/${args.userId}`)
     return successCallback({ success: res.code === 200 })
   } catch (error) {
-    console.log('🚀 ~ getUserPage ~ error:', error)
+    console.log('🚀 ~ deleteUser ~ error:', error)
   }
 }
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-06 14:41:04
+ * @LastEditTime: 2024-12-06 14:50:10
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -223,6 +223,12 @@ async function onBtnClick(args: ActionBtn) {
 
   click && click()
 }
+
+async function formConfirm() {
+  const isSuccess = await editConfirm.value({ form: editForm.value })
+  if (isSuccess) onSearch()
+  editVisible.value = false
+}
 </script>
 
 <template>
@@ -323,7 +329,7 @@ async function onBtnClick(args: ActionBtn) {
       v-model:visible="editVisible"
       v-model="editForm"
       :form="{ columns: editColumns }"
-      @confirm="() => editConfirm({ form: editForm })"
+      @confirm="() => formConfirm()"
     />
 
     <!-- 详情列表 -->

@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-18 16:48:12
- * @LastEditTime: 2024-12-06 14:28:14
+ * @LastEditTime: 2024-12-06 14:46:42
  * @Description: 用户模块
  */
 
@@ -53,6 +53,26 @@ export default defineFakeRoute([
   {
     url: 'user/delete/:userId',
     method: 'delete',
+    response: ({}) => {
+      return {
+        code: 200
+      }
+    }
+  },
+  /** 创建用户 */
+  {
+    url: 'user/create',
+    method: 'post',
+    response: ({}) => {
+      return {
+        code: 200
+      }
+    }
+  },
+  /** 更新用户 */
+  {
+    url: 'user/update',
+    method: 'put',
     response: ({}) => {
       return {
         code: 200
