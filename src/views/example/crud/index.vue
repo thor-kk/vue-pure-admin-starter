@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:50:29
- * @LastEditTime: 2024-12-04 14:12:40
+ * @LastEditTime: 2024-12-06 15:46:04
  * @Description: crud
 -->
 
@@ -15,30 +15,7 @@ import { columns } from './data'
 
 <template>
   <div>
-    <ProPageV2
-      :columns
-      :api="systemService.roleApi.getRolePage"
-      :main-btn="[
-        {
-          code: 'create',
-          text: '新增',
-          api: ({ form }) => console.log(form)
-        }
-      ]"
-      :table-btn="[
-        {
-          code: 'update',
-          text: '编辑',
-          data: ({ row }) => console.log(row),
-          api: ({ form }) => console.log(form)
-        },
-        {
-          text: '删除',
-          click: ({ row }) => console.log('删除', row)
-        }
-      ]"
-      @table-row-change="({ row }) => console.log(row)"
-    />
+    <ProPageV2 :columns="[]" :api="systemService.userApi.getUserPage" />
   </div>
 </template>
 
