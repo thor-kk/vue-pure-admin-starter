@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-06 15:30:01
+ * @LastEditTime: 2024-12-06 17:57:30
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -33,8 +33,39 @@ const emits = defineEmits<{
   (e: 'table-row-change', data?: { row: any }): void
 }>()
 
-/** 查询条件 */
+/**
+ * ! 查询
+ */
+
+/** 查询 */
+async function onSearch() {
+  /** 查询参数 */
+  const searchParams = {
+    ...searchForm.value,
+    pageSize: pagination.value.pageSize,
+    pageNum: pagination.value.pageNum
+  }
+
+  try {
+    const { total, records } = await props.api({ searchParams })
+    pagination.value.total = total
+    tableData.value = records
+  } catch (error) {
+    console.log('🚀 ~ onSearch ~ error:', error)
+  }
+}
+
+/** 生命周期函数 */
+onMounted(() => {
+  onSearch()
+})
+
+/**
+ * ! 查询表单
+ */
+
 const searchForm = ref()
+
 const searchColumns = computed(() =>
   props.columns
     .filter((item) => item.showSearch)
@@ -47,7 +78,33 @@ const searchColumns = computed(() =>
     })
 )
 
-/** 表格 */
+/**
+ * ! 分页
+ */
+const pagination = ref({
+  total: 0,
+  pageNum: 1,
+  pageSize: props.paginationPageSize
+})
+
+function onPageSizeChange(val) {
+  pagination.value.pageSize = val
+  onSearch()
+}
+
+function onPageCurrentChange(val) {
+  pagination.value.pageNum = val
+  onSearch()
+}
+
+/**
+ * ! 表格
+ */
+
+/** 表格数据 */
+const tableData = ref([])
+
+/** 表格列 */
 const tableColumns = computed(() => {
   {
     /** 过滤 */
@@ -103,53 +160,26 @@ const tableColumns = computed(() => {
   }
 })
 
-/** 分页 */
-const pagination = ref({
-  total: 0,
-  pageNum: 1,
-  pageSize: props.paginationPageSize
-})
+/** 主要按钮 */
+const handleMainBtn = computed(() =>
+  props.mainBtn.map((item) => {
+    if (item.code === 'create') item.text = '新增'
+    return item
+  })
+)
 
-function onPageSizeChange(val) {
-  pagination.value.pageSize = val
-  onSearch()
-}
+/** 操作按钮 */
+const handleTableBtn = computed(() =>
+  props.tableBtn.map((item) => {
+    if (item.code === 'update') item.text = '修改'
+    if (item.code === 'delete') item.text = '删除'
+    return item
+  })
+)
 
-function onPageCurrentChange(val) {
-  pagination.value.pageNum = val
-  onSearch()
-}
-
-/** 查询 */
-const tableData = ref([])
-
-async function onSearch() {
-  /** 查询参数 */
-  const searchParams = {
-    ...searchForm.value,
-    pageSize: pagination.value.pageSize,
-    pageNum: pagination.value.pageNum
-  }
-
-  try {
-    const { total, records } = await props.api({ searchParams })
-    pagination.value.total = total
-    tableData.value = records
-  } catch (error) {
-    console.log('🚀 ~ onSearch ~ error:', error)
-  }
-}
-
-onMounted(() => {
-  onSearch()
-})
-
-/** 重新计算表格高度 */
-function onTableResize() {
-  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
-}
-
-/** 编辑弹窗 */
+/**
+ * ! 编辑弹窗
+ */
 const editForm = ref()
 const editVisible = ref(false)
 const editColumns = computed(() =>
@@ -164,7 +194,9 @@ const editColumns = computed(() =>
     })
 )
 
-/** 描述列表 */
+/**
+ * ! 描述列表
+ */
 const descData = ref()
 const detailVisible = ref(false)
 const descColumns = computed(() =>
@@ -187,8 +219,12 @@ const descColumns = computed(() =>
     })
 )
 
-/** 按钮点击事件 */
+/**
+ * ! 按钮点击事件
+ */
 const editConfirm = ref<(args: { form: any }) => any>()
+
+/** 按钮点击逻辑 */
 async function onBtnClick(args: ActionBtn) {
   const { code, api, data, click } = args
 
@@ -224,31 +260,26 @@ async function onBtnClick(args: ActionBtn) {
   click && click()
 }
 
+/** 表单点击逻辑 */
 async function formConfirm() {
   const isSuccess = await editConfirm.value({ form: editForm.value })
   if (isSuccess) onSearch()
   editVisible.value = false
 }
 
-const handleMainBtn = computed(() =>
-  props.mainBtn.map((item) => {
-    if (item.code === 'create') item.text = '新增'
-    return item
-  })
-)
+/**
+ * ! 其他逻辑
+ */
 
-const handleTableBtn = computed(() =>
-  props.tableBtn.map((item) => {
-    if (item.code === 'update') item.text = '修改'
-    if (item.code === 'delete') item.text = '删除'
-    return item
-  })
-)
+/** 重新计算表格高度 */
+function onTableResize() {
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
+}
 </script>
 
 <template>
   <div>
-    <!-- 查询条件 -->
+    <!-- 查询表单 -->
     <el-card v-if="searchColumns.length" shadow="never">
       <PlusSearch
         v-model="searchForm"
@@ -262,7 +293,7 @@ const handleTableBtn = computed(() =>
       />
     </el-card>
 
-    <!-- table bar -->
+    <!-- 表格 -->
     <PureTableBar :columns="tableColumns" @refresh="onSearch" @fullscreen="onTableResize">
       <!-- 主要操作 -->
       <template #title>
@@ -279,7 +310,6 @@ const handleTableBtn = computed(() =>
       </template>
 
       <template v-slot="{ dynamicColumns, size }">
-        <!-- 表格 -->
         <PureTable
           :columns="dynamicColumns"
           :data="tableData"

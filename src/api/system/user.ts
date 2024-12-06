@@ -9,6 +9,7 @@ import type { R, ResultTable, RPage } from '../type'
 
 import { http } from '@/utils/http'
 import { baseUrl, successCallback } from '../utils'
+import { ProMessageBox } from '@/components'
 
 /** 获取用户分页列表 */
 export async function getUserPage(args?: { searchParams: any }) {
@@ -42,6 +43,9 @@ export async function updateUser(args?: { data: any }) {
 
 /** 删除用户 */
 export async function deleteUser(args?: { userId: string }) {
+  const isConfirm = await ProMessageBox({ type: 'delete' })
+  if (!isConfirm) return
+
   try {
     const res = await http.request<R>('delete', baseUrl + `/user/delete/${args.userId}`)
     return successCallback({ success: res.code === 200 })
