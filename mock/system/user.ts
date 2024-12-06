@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-18 16:48:12
- * @LastEditTime: 2024-12-04 14:52:05
+ * @LastEditTime: 2024-12-06 14:28:14
  * @Description: 用户模块
  */
 
@@ -9,7 +9,7 @@ import { defineFakeRoute } from 'vite-plugin-fake-server/client'
 import { faker } from '@faker-js/faker/locale/zh_CN'
 
 export default defineFakeRoute([
-  /** 获取用户列表 */
+  /** 获取用户分页列表 */
   {
     url: '/user/page',
     method: 'get',
@@ -46,6 +46,16 @@ export default defineFakeRoute([
       return {
         code: 200,
         data: { records: list, total: list.length }
+      }
+    }
+  },
+  /** 删除用户 */
+  {
+    url: 'user/delete/:userId',
+    method: 'delete',
+    response: ({}) => {
+      return {
+        code: 200
       }
     }
   }

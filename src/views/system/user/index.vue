@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-05 14:52:03
+ * @LastEditTime: 2024-12-06 14:40:36
  * @Description: 用户管理
 -->
 
@@ -14,7 +14,18 @@ import { columns } from './data'
 </script>
 
 <template>
-  <ProPageV2 :columns :api="systemService.userApi.getUserPage" @table-row-change="({ row }) => console.log(row)" />
+  <ProPageV2
+    :columns
+    :api="systemService.userApi.getUserPage"
+    :table-btn="[
+      {
+        text: '删除',
+        code: 'delete',
+        click: ({ row }) => systemService.userApi.deleteUser({ userId: row.id })
+      }
+    ]"
+    @table-row-change="({ row }) => console.log(row)"
+  />
 </template>
 
 <style scoped lang="scss"></style>

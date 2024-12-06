@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-05 17:25:08
+ * @LastEditTime: 2024-12-06 14:41:04
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -97,7 +97,7 @@ const tableColumns = computed(() => {
       return {
         ...item,
         formatter: handelFormatter(),
-        slot: item.el?.table && item.prop
+        slot: (item.el?.table || item.slot?.table) && item.prop
       }
     })
   }
@@ -189,7 +189,7 @@ const descColumns = computed(() =>
 
 /** 按钮点击事件 */
 const editConfirm = ref<(args: { form: any }) => any>()
-function onBtnClick(args: ActionBtn) {
+async function onBtnClick(args: ActionBtn) {
   const { code, confirm, data, click } = args
 
   /** 新增 */
@@ -211,6 +211,13 @@ function onBtnClick(args: ActionBtn) {
   if (code === 'detail') {
     detailVisible.value = true
     descData.value = data
+    return
+  }
+
+  /** 删除 */
+  if (code === 'delete') {
+    const isSuccess = await click()
+    if (isSuccess) onSearch()
     return
   }
 

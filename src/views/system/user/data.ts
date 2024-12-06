@@ -43,16 +43,20 @@ export const columns: ProColumns[] = [
   {
     label: '状态',
     prop: 'status',
-    el: { table: 'switch' },
+    el: { table: 'switch', desc: 'tag' },
     elProps: {
       table: {
         activeValue: 1,
-        activeText: '开启',
+        activeText: '启用',
         inactiveValue: 0,
-        inactiveText: '关闭',
+        inactiveText: '禁用',
         inlinePrompt: true
       }
-    }
+    },
+    options: [
+      { value: 1, label: '启用', tagType: 'primary' },
+      { value: 0, label: '禁用', tagType: 'danger' }
+    ]
   },
   {
     label: '创建时间',

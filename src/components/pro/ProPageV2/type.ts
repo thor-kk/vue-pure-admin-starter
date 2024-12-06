@@ -39,14 +39,14 @@ interface ElProps {
 }
 
 /** CRUD编码 */
-export type ActionCode = 'add' | 'edit' | 'detail'
+export type ActionCode = 'add' | 'edit' | 'detail' | 'delete'
 
 /** 操作按钮 */
 export interface ActionBtn {
   /** 按钮文本 */
   text?: string
   /** 按钮点击事件（表格按钮会传递当前行数据 row） */
-  click?: (args?: { row: any }) => void
+  click?: (args?: { row: any }) => any
   /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗） */
   code?: ActionCode
   /** CRUD事件（对应编辑弹框的确认按钮，会传递表单数据 form，需要返回一个 boolean，判断是否继续执行） */
