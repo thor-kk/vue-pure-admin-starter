@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-06 14:47:20
+ * @LastEditTime: 2024-12-06 15:08:26
  * @Description: 用户管理
 -->
 
@@ -19,25 +19,20 @@ import { columns } from './data'
     :api="systemService.userApi.getUserPage"
     :main-btn="[
       {
-        text: '新增',
-        code: 'add',
-        confirm: ({ form }) => systemService.userApi.createUser({ data: form })
+        code: 'create',
+        api: systemService.userApi.createUser
       }
     ]"
     :table-btn="[
       {
-        text: '编辑',
-        code: 'edit',
-        data: ({ row }) => row,
-        confirm: ({ form }) => systemService.userApi.updateUser({ data: form })
+        code: 'update',
+        api: systemService.userApi.updateUser
       },
       {
-        text: '删除',
         code: 'delete',
-        click: ({ row }) => systemService.userApi.deleteUser({ userId: row.id })
+        api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id })
       }
     ]"
-    @table-row-change="({ row }) => console.log(row)"
   />
 </template>
 

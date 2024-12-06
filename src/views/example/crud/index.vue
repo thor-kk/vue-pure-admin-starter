@@ -20,17 +20,17 @@ import { columns } from './data'
       :api="systemService.roleApi.getRolePage"
       :main-btn="[
         {
-          code: 'add',
+          code: 'create',
           text: '新增',
-          confirm: ({ form }) => console.log(form)
+          api: ({ form }) => console.log(form)
         }
       ]"
       :table-btn="[
         {
-          code: 'edit',
+          code: 'update',
           text: '编辑',
           data: ({ row }) => console.log(row),
-          confirm: ({ form }) => console.log(form)
+          api: ({ form }) => console.log(form)
         },
         {
           text: '删除',

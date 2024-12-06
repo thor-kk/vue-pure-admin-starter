@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-06 14:50:10
+ * @LastEditTime: 2024-12-06 15:30:01
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件
@@ -190,20 +190,20 @@ const descColumns = computed(() =>
 /** 按钮点击事件 */
 const editConfirm = ref<(args: { form: any }) => any>()
 async function onBtnClick(args: ActionBtn) {
-  const { code, confirm, data, click } = args
+  const { code, api, data, click } = args
 
   /** 新增 */
-  if (code === 'add') {
+  if (code === 'create') {
     editVisible.value = true
-    editConfirm.value = confirm
+    editConfirm.value = api
     return
   }
 
-  /** 编辑 */
-  if (code === 'edit') {
+  /** 修改 */
+  if (code === 'update') {
     editVisible.value = true
-    editForm.value = data()
-    editConfirm.value = confirm
+    editForm.value = typeof data === 'function' ? data() : data
+    editConfirm.value = api
     return
   }
 
@@ -216,7 +216,7 @@ async function onBtnClick(args: ActionBtn) {
 
   /** 删除 */
   if (code === 'delete') {
-    const isSuccess = await click()
+    const isSuccess = await api()
     if (isSuccess) onSearch()
     return
   }
@@ -229,6 +229,21 @@ async function formConfirm() {
   if (isSuccess) onSearch()
   editVisible.value = false
 }
+
+const handleMainBtn = computed(() =>
+  props.mainBtn.map((item) => {
+    if (item.code === 'create') item.text = '新增'
+    return item
+  })
+)
+
+const handleTableBtn = computed(() =>
+  props.tableBtn.map((item) => {
+    if (item.code === 'update') item.text = '修改'
+    if (item.code === 'delete') item.text = '删除'
+    return item
+  })
+)
 </script>
 
 <template>
@@ -253,9 +268,9 @@ async function formConfirm() {
       <template #title>
         <div v-if="props.mainBtn && props.mainBtn.length > 0" class="flex">
           <ProButton
-            v-for="item in props.mainBtn"
+            v-for="item in handleMainBtn"
             :key="item.text"
-            @click="() => onBtnClick({ code: item.code, confirm: item.confirm, click: item.click })"
+            @click="() => onBtnClick({ code: item.code, api: item.api, click: item.click })"
           >
             {{ item.text }}
           </ProButton>
@@ -286,7 +301,7 @@ async function formConfirm() {
             <!-- 操作列 -->
             <div v-if="item.prop === 'operation'">
               <el-button
-                v-for="item in props.tableBtn"
+                v-for="item in handleTableBtn"
                 :key="item.text"
                 type="primary"
                 link
@@ -295,9 +310,9 @@ async function formConfirm() {
                   () =>
                     onBtnClick({
                       code: item.code,
-                      confirm: item.confirm,
+                      api: () => item.api({ row }),
                       click: () => item.click({ row }),
-                      data: () => item.data({ row })
+                      data: item.data ? () => item.data({ row }) : row
                     })
                 "
               >
