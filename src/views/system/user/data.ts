@@ -7,7 +7,8 @@ export const columns: ProColumns[] = [
     prop: 'avatar',
     el: { table: 'avatar' },
     elProps: { table: ({ row }) => ({ src: row.avatar, size: 'small' }) },
-    hideDesc: true
+    hideDesc: true,
+    hideForm: true
   },
   {
     label: '登录名',
@@ -17,13 +18,15 @@ export const columns: ProColumns[] = [
   {
     label: '用户名',
     prop: 'nickname',
-    defaultValue: { form: '表单用户名', search: '查询用户名' },
+    defaultValue: { form: '李四', search: '张三' },
+    rule: [{ required: true, message: '请输入用户名' }],
     showSearch: true
   },
   {
     label: '性别',
     prop: 'sex',
-    el: { table: 'tag', desc: 'tag' },
+    rule: [{ required: true, message: '请选择性别' }],
+    el: { table: 'tag', desc: 'tag', form: 'select' },
     elProps: { table: { effect: 'plain' }, desc: { effect: 'plain' } },
     options: [
       { value: 0, label: '男', tagType: 'primary' },
@@ -44,9 +47,17 @@ export const columns: ProColumns[] = [
   {
     label: '状态',
     prop: 'status',
-    el: { table: 'switch', desc: 'tag' },
+    defaultValue: { form: 1 },
+    el: { table: 'switch', desc: 'tag', form: 'switch' },
     elProps: {
       table: {
+        activeValue: 1,
+        activeText: '启用',
+        inactiveValue: 0,
+        inactiveText: '禁用',
+        inlinePrompt: true
+      },
+      form: {
         activeValue: 1,
         activeText: '启用',
         inactiveValue: 0,
@@ -62,6 +73,7 @@ export const columns: ProColumns[] = [
   {
     label: '创建时间',
     prop: 'createTime',
-    formatter: ({ row }) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss')
+    formatter: ({ row }) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss'),
+    hideForm: true
   }
 ]

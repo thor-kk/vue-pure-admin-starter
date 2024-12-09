@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-09 15:02:08
+ * @LastEditTime: 2024-12-09 15:37:56
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -186,6 +186,7 @@ const handleTableBtn = computed(() =>
  * ! 编辑弹窗
  */
 
+/** 表单弹窗实例 */
 const editFormRef = ref<PlusDialogFormInstance>()
 /** 表单弹窗显示 */
 const editVisible = ref(false)
@@ -195,6 +196,8 @@ const editTitle = ref(props.title)
 const editForm = ref({})
 /** 表单初始数据 */
 const defaultEditForm = ref({})
+/** 表单规则 */
+const editFormRules = ref({})
 /** 表单点击确认 Api */
 const editConfirmApi = ref<ActionBtn['api']>()
 /** 表单配置 */
@@ -203,6 +206,7 @@ const editColumns = computed(() =>
     .filter((item) => !item.hideForm)
     .map((item) => {
       defaultEditForm.value[item.prop] = item.defaultValue?.form
+      editFormRules.value[item.prop] = item.rule
 
       return {
         ...item,
@@ -215,12 +219,13 @@ const editColumns = computed(() =>
 /** 打开编辑表单弹窗 */
 function openEditForm() {
   editVisible.value = true
-  /** 默认值 - PlusDialogForm 组件会有一些问题 */
+  /** 赋予默认值 - PlusDialogForm 组件会有一些问题 */
   editForm.value = cloneDeep(defaultEditForm.value)
 }
 
-/** 表单点击取消事件 */
+/** 关闭编辑表单弹窗 */
 function closeEditForm() {
+  editVisible.value = false
   /** 重置表单校验 */
   editFormRef.value.formInstance.resetFields()
   /** 重置默认值 - PlusDialogForm 组件会有一些问题 */
@@ -231,7 +236,7 @@ function closeEditForm() {
 async function onEditFormConfirm() {
   const isSuccess = await editConfirmApi.value({ data: editForm.value })
   if (isSuccess) onSearch()
-  editVisible.value = false
+  closeEditForm()
 }
 
 /**
@@ -411,6 +416,7 @@ function onTableResize() {
       :title="editTitle"
       :form="{
         columns: editColumns,
+        rules: editFormRules,
         rowProps: { gutter: props.editForm2Col ? 20 : 0 },
         colProps: { span: props.editForm2Col ? 12 : 24 },
         labelWidth: props.editFormLabelWidth,
