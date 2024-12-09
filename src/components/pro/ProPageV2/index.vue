@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-09 16:09:31
+ * @LastEditTime: 2024-12-09 16:32:18
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -35,6 +35,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emits = defineEmits<{
   (e: 'table-row-change', data?: { row: any }): void
+  (e: 'table-status-change', data?: { row: any }): void
 }>()
 
 /**
@@ -184,6 +185,16 @@ const handleTableBtn = computed(() =>
   })
 )
 
+async function onTableRowChange(args: { row: any; column: any }) {
+  /** 表格状态改变逻辑 */
+  if (args.column.property === 'status') {
+    const isSuccess = await props.tableStatusChangeApi({ row: args.row })
+    if (isSuccess) return onSearch()
+  }
+
+  emits('table-row-change', { row: args.row })
+}
+
 /**
  * ! 编辑弹窗
  */
@@ -307,7 +318,7 @@ async function onBtnClick(args: ActionBtn) {
 
   /** 删除 */
   if (code === 'delete') {
-    const isSuccess = await api()
+    const isSuccess = await api({ row: data })
     if (isSuccess) onSearch()
     return
   }
@@ -375,7 +386,11 @@ function onTableResize() {
           @page-size-change="onPageSizeChange"
           @page-current-change="onPageCurrentChange"
         >
-          <template v-for="item in tableColumns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
+          <template
+            v-for="item in tableColumns.filter((item) => item.slot)"
+            :key="item.prop"
+            #[item.prop]="{ row, column }"
+          >
             <!-- 操作列 -->
             <div v-if="item.prop === 'operation'">
               <el-button
@@ -405,7 +420,7 @@ function onTableResize() {
               class="align-middle"
               v-bind="typeof item.elProps?.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
               :options="item.options"
-              @change="() => emits('table-row-change', { row })"
+              @change="() => onTableRowChange({ row, column })"
               @click="() => onBtnClick({ code: item.actionCode, data: row })"
             >
               {{

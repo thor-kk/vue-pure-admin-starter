@@ -38,7 +38,10 @@ export const columns: ProColumns[] = [
     prop: 'dept',
     formatter: ({ row }) => row.dept?.name
   },
-  { label: '手机号', prop: 'phone' },
+  {
+    label: '手机号',
+    prop: 'phone'
+  },
   {
     label: '邮箱',
     prop: 'email',

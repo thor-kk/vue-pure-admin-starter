@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-09 15:01:31
+ * @LastEditTime: 2024-12-09 16:30:22
  * @Description: 用户管理
 -->
 
@@ -16,6 +16,7 @@ import { columns } from './data'
 <template>
   <ProPageV2
     title="用户"
+    edit-form-2-col
     :columns
     :api="systemService.userApi.getUserPage"
     :main-btn="[
@@ -34,7 +35,7 @@ import { columns } from './data'
         api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id })
       }
     ]"
-    edit-form-2-col
+    :table-status-change-api="({ row }) => systemService.userApi.updateUser({ data: row })"
   />
 </template>
 
