@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-09 15:37:56
+ * @LastEditTime: 2024-12-09 15:48:34
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -69,12 +69,15 @@ onMounted(() => {
  * ! 查询表单
  */
 
-const searchForm = ref()
-
+/** 查询表单数据 */
+const searchForm = ref({})
+/** 查询表单配置 */
 const searchColumns = computed(() =>
   props.columns
     .filter((item) => item.showSearch)
     .map((item) => {
+      searchForm.value[item.prop] = item.defaultValue?.search
+
       return {
         ...item,
         valueType: item.el?.search ?? '',
@@ -168,7 +171,7 @@ const tableColumns = computed(() => {
 /** 主要按钮 */
 const handleMainBtn = computed(() =>
   props.mainBtn.map((item) => {
-    if (item.code === 'create') item.text = '新增'
+    if (item.code === 'create') item.text = '新增' + props.title
     return item
   })
 )
