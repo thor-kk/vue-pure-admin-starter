@@ -44,7 +44,7 @@ export interface ActionBtn {
   /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗并刷新列表） */
   code?: ActionCode
   /** CRUD Api（增删改查对应接口） */
-  api?: (args?: any) => any
+  api?: (args?: any) => Promise<boolean>
   /** CRUD回显数据（用于传入编辑弹窗的回显数据修改，可省略） */
   data?: (args?: { row: any }) => any
   /** 普通点击事件（表格按钮会传递当前行数据 row） */
@@ -62,6 +62,8 @@ export interface ProColumns {
   fixed?: 'left' | 'right'
   /** 宽度（用于表格） */
   width?: string | number
+  /** 默认值 */
+  defaultValue?: { search?: any; form?: any }
   /** 插槽（表格、查询表单、编辑表单、描述列表分别开启） */
   slot?: { table?: boolean; search?: boolean; form?: boolean; desc?: boolean }
   /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中分别映射）*/
@@ -87,6 +89,8 @@ export interface ProColumns {
 }
 
 export interface Props {
+  /** 标题 */
+  title?: string
   /** 配置 */
   columns: ProColumns[]
   /** 请求接口 */
@@ -111,4 +115,12 @@ export interface Props {
   searchFormShowNum?: number
   /** 查询表单 - 折叠动画 */
   searchFormCollapseTransition?: boolean
+  /** 编辑表单 - label 宽度 */
+  editFormLabelWidth?: number
+  /** 编辑表单 - label 显示位置 */
+  editFormLabelPosition?: 'left' | 'right' | 'top'
+  /** 编辑表单 - 校验规则错误提示 */
+  editFormHasErrorTip?: boolean
+  /** 编辑表单 - 两列显示 */
+  editForm2Col?: boolean
 }

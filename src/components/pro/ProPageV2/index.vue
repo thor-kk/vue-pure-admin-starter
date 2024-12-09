@@ -1,10 +1,10 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-06 17:57:30
+ * @LastEditTime: 2024-12-09 15:02:08
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
- ? 编辑表单组件
+ ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
  ? 描述列表组件
 -->
 
@@ -12,11 +12,13 @@
 defineOptions({ name: 'components-pro-page' })
 
 import type { ActionBtn, Props } from './type'
-import type { PlusColumn } from 'plus-pro-components'
+import type { PlusColumn, PlusDialogFormInstance } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { PureTableBar, ProButton, ProTag } from '@/components'
-import { ElAvatar, ElLink, ElSwitch, ElTag } from 'element-plus'
+import { ElAvatar, ElLink, ElSwitch } from 'element-plus'
+import { cloneDeep } from 'lodash'
+import { log } from 'console'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -26,7 +28,10 @@ const props = withDefaults(defineProps<Props>(), {
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchFormShowNum: 2,
-  searchFormCollapseTransition: false
+  searchFormCollapseTransition: false,
+  editFormLabelWidth: 80,
+  editFormLabelPosition: 'right',
+  editFormHasErrorTip: false
 })
 
 const emits = defineEmits<{
@@ -180,12 +185,25 @@ const handleTableBtn = computed(() =>
 /**
  * ! 编辑弹窗
  */
-const editForm = ref()
+
+const editFormRef = ref<PlusDialogFormInstance>()
+/** 表单弹窗显示 */
 const editVisible = ref(false)
+/** 表单弹窗标题 */
+const editTitle = ref(props.title)
+/** 表单数据 */
+const editForm = ref({})
+/** 表单初始数据 */
+const defaultEditForm = ref({})
+/** 表单点击确认 Api */
+const editConfirmApi = ref<ActionBtn['api']>()
+/** 表单配置 */
 const editColumns = computed(() =>
   props.columns
     .filter((item) => !item.hideForm)
     .map((item) => {
+      defaultEditForm.value[item.prop] = item.defaultValue?.form
+
       return {
         ...item,
         valueType: item.el?.form ?? '',
@@ -193,6 +211,28 @@ const editColumns = computed(() =>
       } as PlusColumn
     })
 )
+
+/** 打开编辑表单弹窗 */
+function openEditForm() {
+  editVisible.value = true
+  /** 默认值 - PlusDialogForm 组件会有一些问题 */
+  editForm.value = cloneDeep(defaultEditForm.value)
+}
+
+/** 表单点击取消事件 */
+function closeEditForm() {
+  /** 重置表单校验 */
+  editFormRef.value.formInstance.resetFields()
+  /** 重置默认值 - PlusDialogForm 组件会有一些问题 */
+  editForm.value = cloneDeep(defaultEditForm.value)
+}
+
+/** 编辑表单点击确认事件 */
+async function onEditFormConfirm() {
+  const isSuccess = await editConfirmApi.value({ data: editForm.value })
+  if (isSuccess) onSearch()
+  editVisible.value = false
+}
 
 /**
  * ! 描述列表
@@ -222,7 +262,6 @@ const descColumns = computed(() =>
 /**
  * ! 按钮点击事件
  */
-const editConfirm = ref<(args: { form: any }) => any>()
 
 /** 按钮点击逻辑 */
 async function onBtnClick(args: ActionBtn) {
@@ -230,16 +269,18 @@ async function onBtnClick(args: ActionBtn) {
 
   /** 新增 */
   if (code === 'create') {
-    editVisible.value = true
-    editConfirm.value = api
+    openEditForm()
+    editConfirmApi.value = api
+    editTitle.value = '新增' + props.title
     return
   }
 
   /** 修改 */
   if (code === 'update') {
-    editVisible.value = true
-    editForm.value = typeof data === 'function' ? data() : data
-    editConfirm.value = api
+    openEditForm()
+    editForm.value = typeof data === 'function' ? cloneDeep(data()) : cloneDeep(data)
+    editConfirmApi.value = api
+    editTitle.value = '修改' + props.title
     return
   }
 
@@ -258,13 +299,6 @@ async function onBtnClick(args: ActionBtn) {
   }
 
   click && click()
-}
-
-/** 表单点击逻辑 */
-async function formConfirm() {
-  const isSuccess = await editConfirm.value({ form: editForm.value })
-  if (isSuccess) onSearch()
-  editVisible.value = false
 }
 
 /**
@@ -340,7 +374,7 @@ function onTableResize() {
                   () =>
                     onBtnClick({
                       code: item.code,
-                      api: () => item.api({ row }),
+                      api: item.api,
                       click: () => item.click({ row }),
                       data: item.data ? () => item.data({ row }) : row
                     })
@@ -371,10 +405,20 @@ function onTableResize() {
 
     <!-- 编辑弹窗 -->
     <PlusDialogForm
-      v-model:visible="editVisible"
+      ref="editFormRef"
       v-model="editForm"
-      :form="{ columns: editColumns }"
-      @confirm="() => formConfirm()"
+      v-model:visible="editVisible"
+      :title="editTitle"
+      :form="{
+        columns: editColumns,
+        rowProps: { gutter: props.editForm2Col ? 20 : 0 },
+        colProps: { span: props.editForm2Col ? 12 : 24 },
+        labelWidth: props.editFormLabelWidth,
+        labelPosition: props.editFormLabelPosition
+      }"
+      :hasErrorTip="props.editFormHasErrorTip"
+      @confirm="onEditFormConfirm"
+      @cancel="closeEditForm"
     />
 
     <!-- 详情列表 -->

@@ -17,6 +17,7 @@ export const columns: ProColumns[] = [
   {
     label: '用户名',
     prop: 'nickname',
+    defaultValue: { form: '表单用户名', search: '查询用户名' },
     showSearch: true
   },
   {
@@ -32,7 +33,7 @@ export const columns: ProColumns[] = [
   {
     label: '部门',
     prop: 'dept',
-    formatter: ({ row }) => row.dept.name
+    formatter: ({ row }) => row.dept?.name
   },
   { label: '手机号', prop: 'phone' },
   {
