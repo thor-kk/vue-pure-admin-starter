@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-09 15:48:34
+ * @LastEditTime: 2024-12-09 16:09:31
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -15,10 +15,9 @@ import type { ActionBtn, Props } from './type'
 import type { PlusColumn, PlusDialogFormInstance } from 'plus-pro-components'
 
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
-import { PureTableBar, ProButton, ProTag } from '@/components'
-import { ElAvatar, ElLink, ElSwitch } from 'element-plus'
+import { PureTableBar, ProButton, ProTag, ProSwitchV2 } from '@/components'
+import { ElAvatar, ElLink } from 'element-plus'
 import { cloneDeep } from 'lodash'
-import { log } from 'console'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -141,7 +140,7 @@ const tableColumns = computed(() => {
         }
       }
 
-      if (item.el?.table === 'switch') item.el.table = ElSwitch
+      if (item.el?.table === 'switch') item.el.table = ProSwitchV2
       if (item.el?.table === 'link') item.el.table = ElLink
       if (item.el?.table === 'avatar') item.el.table = ElAvatar
       if (item.el?.table === 'tag') item.el.table = ProTag
@@ -210,6 +209,13 @@ const editColumns = computed(() =>
     .map((item) => {
       defaultEditForm.value[item.prop] = item.defaultValue?.form
       editFormRules.value[item.prop] = item.rule
+
+      if (item.el?.form === 'switch') {
+        item.el.form = ProSwitchV2
+
+        if (!item.slot) item.slot = {}
+        item.slot.form = true
+      }
 
       return {
         ...item,
@@ -428,7 +434,21 @@ function onTableResize() {
       :hasErrorTip="props.editFormHasErrorTip"
       @confirm="onEditFormConfirm"
       @cancel="closeEditForm"
-    />
+    >
+      <template
+        v-for="item in editColumns.filter((item) => item.slot)"
+        :key="item.prop"
+        #[`plus-field-${item.prop}`]="{}"
+      >
+        <component
+          :is="item.valueType"
+          v-model="editForm[item.prop]"
+          class="align-middle"
+          v-bind="item.elProps?.form"
+          :options="item.options"
+        />
+      </template>
+    </PlusDialogForm>
 
     <!-- 详情列表 -->
     <el-dialog v-model="detailVisible" shadow="never" title="详情">

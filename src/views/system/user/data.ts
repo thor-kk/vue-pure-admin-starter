@@ -49,25 +49,9 @@ export const columns: ProColumns[] = [
     prop: 'status',
     defaultValue: { form: 1 },
     el: { table: 'switch', desc: 'tag', form: 'switch' },
-    elProps: {
-      table: {
-        activeValue: 1,
-        activeText: '启用',
-        inactiveValue: 0,
-        inactiveText: '禁用',
-        inlinePrompt: true
-      },
-      form: {
-        activeValue: 1,
-        activeText: '启用',
-        inactiveValue: 0,
-        inactiveText: '禁用',
-        inlinePrompt: true
-      }
-    },
     options: [
-      { value: 1, label: '启用', tagType: 'primary' },
-      { value: 0, label: '禁用', tagType: 'danger' }
+      { value: 1, label: '启用', tagType: 'primary', switch: 'active' },
+      { value: 0, label: '禁用', tagType: 'danger', switch: 'inactive' }
     ]
   },
   {
