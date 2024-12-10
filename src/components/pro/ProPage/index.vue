@@ -67,9 +67,9 @@ const tableData = ref([])
 
 async function onSearch() {
   const { pageSize, currentPage } = pagination
-  const searchParams = { pageSize, currentPage }
+  const params = { pageSize, currentPage }
 
-  const { data, total } = await props.api(searchParams)
+  const { data, total } = await props.api(params)
   pagination.total = total
   tableData.value = data
 }

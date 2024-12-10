@@ -100,7 +100,7 @@ export interface Props {
   /** 配置 */
   columns: ProColumns[]
   /** 请求接口 */
-  api: (args?: { searchParams: any }) => Promise<Page>
+  api: (params?: object) => Promise<Page>
   /** 表格状态改变接口 */
   tableStatusChangeApi?: (args?: { row: any }) => Promise<boolean>
   /** 主要操作按钮 */

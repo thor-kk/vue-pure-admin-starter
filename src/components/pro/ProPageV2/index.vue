@@ -54,7 +54,7 @@ async function onSearch() {
   }
 
   try {
-    const { total, records } = await props.api({ searchParams })
+    const { total, records } = await props.api(searchParams)
     pagination.value.total = total
     tableData.value = records
   } catch (error) {
