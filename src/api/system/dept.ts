@@ -1,13 +1,24 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-10-17 16:15:24
+ * @LastEditTime: 2024-12-10 14:56:52
  * @Description: 部门模块
  */
 
-import type { Result } from '../type'
+import type { R, Result } from '../type'
 
 import { http } from '@/utils/http'
+import { baseUrl } from '../utils'
+
+/** 获取部门列表树 */
+export async function getDeptTree(params?: any) {
+  try {
+    const res = await http.request<R<any[]>>('get', baseUrl + '/dept/tree', { params })
+    if (res.code === 200) return res.data
+  } catch (error) {
+    console.log('🚀 ~ getDeptTree ~ error:', error)
+  }
+}
 
 /** 获取部门列表 */
 export async function getDeptList(data?: object) {
