@@ -17,6 +17,7 @@ export * from './pro/ProPage'
 export * from './pro/ProPageV2'
 export * from './pro/ProDetail'
 export * from './pro/ProTag'
+export * from './pro/ProDeptTree'
 
 /** Plus 组件 */
 export * from './plus/PlusPage'
