@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-09 16:32:18
+ * @LastEditTime: 2024-12-10 09:36:23
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -262,8 +262,14 @@ async function onEditFormConfirm() {
 /**
  * ! 描述列表
  */
+
+/** 描述列表标题 */
+const descTitle = computed(() => props.title + '详情')
+/** 描述列表数据 */
 const descData = ref()
+/** 描述列表弹窗显示 */
 const detailVisible = ref(false)
+/** 描述列表配置 */
 const descColumns = computed(() =>
   props.columns
     .filter((item) => !item.hideDesc)
@@ -466,8 +472,8 @@ function onTableResize() {
     </PlusDialogForm>
 
     <!-- 详情列表 -->
-    <el-dialog v-model="detailVisible" shadow="never" title="详情">
-      <PlusDescriptions :column="3" :columns="descColumns" :data="descData">
+    <el-dialog v-model="detailVisible" shadow="never" :title="descTitle">
+      <PlusDescriptions :column="2" :columns="descColumns" :data="descData">
         <template
           v-for="item in descColumns.filter((item) => item.slot)"
           :key="item.prop"

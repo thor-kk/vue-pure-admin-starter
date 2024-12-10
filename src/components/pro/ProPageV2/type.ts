@@ -15,6 +15,8 @@ type ElType =
   | 'tag'
   /** 时间 */
   | 'date-picker'
+  /** 单选 */
+  | 'radio'
 
 /** 组件属性 */
 interface ElProps {

@@ -26,7 +26,7 @@ export const columns: ProColumns[] = [
     label: '性别',
     prop: 'sex',
     rule: [{ required: true, message: '请选择性别' }],
-    el: { table: 'tag', desc: 'tag', form: 'select' },
+    el: { table: 'tag', desc: 'tag', form: 'radio' },
     elProps: { table: { effect: 'plain' }, desc: { effect: 'plain' } },
     options: [
       { value: 0, label: '男', tagType: 'primary' },
