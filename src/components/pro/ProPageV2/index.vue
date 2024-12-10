@@ -1,23 +1,23 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-10 09:36:23
+ * @LastEditTime: 2024-12-10 10:28:07
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
- ? 描述列表组件
+ ? 描述列表组件 - PlusProComponents（https://plus-pro-components.com/components/descriptions.html）
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
-import type { ActionBtn, Props } from './type'
+import type { ActionBtn, ActionCode, Props } from './type'
 import type { PlusColumn, PlusDialogFormInstance } from 'plus-pro-components'
 
+import { cloneDeep } from 'lodash'
+import { ElAvatar, ElLink } from 'element-plus'
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { PureTableBar, ProButton, ProTag, ProSwitchV2 } from '@/components'
-import { ElAvatar, ElLink } from 'element-plus'
-import { cloneDeep } from 'lodash'
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -34,7 +34,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emits = defineEmits<{
+  /** 表格行改变 */
   (e: 'table-row-change', data?: { row: any }): void
+  /** 表格行状态改变 */
   (e: 'table-status-change', data?: { row: any }): void
 }>()
 
@@ -66,53 +68,13 @@ onMounted(() => {
 })
 
 /**
- * ! 查询表单
- */
-
-/** 查询表单数据 */
-const searchForm = ref({})
-/** 查询表单配置 */
-const searchColumns = computed(() =>
-  props.columns
-    .filter((item) => item.showSearch)
-    .map((item) => {
-      searchForm.value[item.prop] = item.defaultValue?.search
-
-      return {
-        ...item,
-        valueType: item.el?.search ?? '',
-        fieldProps: item.elProps?.search
-      } as PlusColumn
-    })
-)
-
-/**
- * ! 分页
- */
-const pagination = ref({
-  total: 0,
-  pageNum: 1,
-  pageSize: props.paginationPageSize
-})
-
-function onPageSizeChange(val) {
-  pagination.value.pageSize = val
-  onSearch()
-}
-
-function onPageCurrentChange(val) {
-  pagination.value.pageNum = val
-  onSearch()
-}
-
-/**
  * ! 表格
  */
 
 /** 表格数据 */
 const tableData = ref([])
 
-/** 表格列 */
+/** 表格列配置 */
 const tableColumns = computed(() => {
   {
     /** 过滤 */
@@ -168,23 +130,7 @@ const tableColumns = computed(() => {
   }
 })
 
-/** 主要按钮 */
-const handleMainBtn = computed(() =>
-  props.mainBtn.map((item) => {
-    if (item.code === 'create') item.text = '新增' + props.title
-    return item
-  })
-)
-
-/** 操作按钮 */
-const handleTableBtn = computed(() =>
-  props.tableBtn.map((item) => {
-    if (item.code === 'update') item.text = '修改'
-    if (item.code === 'delete') item.text = '删除'
-    return item
-  })
-)
-
+/** 表格行事件 - change */
 async function onTableRowChange(args: { row: any; column: any }) {
   /** 表格状态改变逻辑 */
   if (args.column.property === 'status') {
@@ -194,6 +140,51 @@ async function onTableRowChange(args: { row: any; column: any }) {
 
   emits('table-row-change', { row: args.row })
 }
+
+/**
+ * ! 分页
+ */
+
+/** 分页配置 */
+const pagination = ref({
+  total: 0,
+  pageNum: 1,
+  pageSize: props.paginationPageSize
+})
+
+/** 分页事件 - 每页条数变更 */
+function onPageSizeChange(val) {
+  pagination.value.pageSize = val
+  onSearch()
+}
+
+/** 分页事件 - 页码变更 */
+function onPageCurrentChange(val) {
+  pagination.value.pageNum = val
+  onSearch()
+}
+
+/**
+ * ! 查询表单
+ */
+
+/** 查询表单数据 */
+const searchForm = ref({})
+
+/** 查询表单配置 */
+const searchColumns = computed(() =>
+  props.columns
+    .filter((item) => item.showSearch)
+    .map((item) => {
+      searchForm.value[item.prop] = item.defaultValue?.search
+
+      return {
+        ...item,
+        valueType: item.el?.search ?? '',
+        fieldProps: item.elProps?.search
+      } as PlusColumn
+    })
+)
 
 /**
  * ! 编辑弹窗
@@ -213,6 +204,7 @@ const defaultEditForm = ref({})
 const editFormRules = ref({})
 /** 表单点击确认 Api */
 const editConfirmApi = ref<ActionBtn['api']>()
+
 /** 表单配置 */
 const editColumns = computed(() =>
   props.columns
@@ -269,6 +261,7 @@ const descTitle = computed(() => props.title + '详情')
 const descData = ref()
 /** 描述列表弹窗显示 */
 const detailVisible = ref(false)
+
 /** 描述列表配置 */
 const descColumns = computed(() =>
   props.columns
@@ -291,12 +284,35 @@ const descColumns = computed(() =>
 )
 
 /**
- * ! 按钮点击事件
+ * ! CRUD 和 按钮点击逻辑
  */
 
+/** 主要按钮 */
+const handleMainBtn = computed(() =>
+  props.mainBtn.map((item) => {
+    if (item.code === 'create') item.text = '新增' + props.title
+    return item
+  })
+)
+
+/** 操作按钮 */
+const handleTableBtn = computed(() =>
+  props.tableBtn.map((item) => {
+    if (item.code === 'update') item.text = '修改'
+    if (item.code === 'delete') item.text = '删除'
+    return item
+  })
+)
+
 /** 按钮点击逻辑 */
-async function onBtnClick(args: ActionBtn) {
-  const { code, api, data, click } = args
+async function onBtnClick(args: {
+  code?: ActionBtn['code']
+  api?: ActionBtn['api']
+  click?: ActionBtn['click']
+  row?: any
+  data?: any
+}) {
+  const { code, api, click, row, data } = args
 
   /** 新增 */
   if (code === 'create') {
@@ -309,7 +325,13 @@ async function onBtnClick(args: ActionBtn) {
   /** 修改 */
   if (code === 'update') {
     openEditForm()
-    editForm.value = typeof data === 'function' ? cloneDeep(data()) : cloneDeep(data)
+
+    if (data) {
+      editForm.value = cloneDeep(data(row))
+    } else {
+      editForm.value = cloneDeep(row)
+    }
+
     editConfirmApi.value = api
     editTitle.value = '修改' + props.title
     return
@@ -318,7 +340,7 @@ async function onBtnClick(args: ActionBtn) {
   /** 详情 */
   if (code === 'detail') {
     detailVisible.value = true
-    descData.value = data
+    descData.value = row
     return
   }
 
@@ -329,7 +351,7 @@ async function onBtnClick(args: ActionBtn) {
     return
   }
 
-  click && click()
+  click && click({ row })
 }
 
 /**
@@ -371,6 +393,7 @@ function onTableResize() {
             {{ item.text }}
           </ProButton>
         </div>
+
         <div v-else />
       </template>
 
@@ -405,15 +428,7 @@ function onTableResize() {
                 type="primary"
                 link
                 :size
-                @click="
-                  () =>
-                    onBtnClick({
-                      code: item.code,
-                      api: item.api,
-                      click: () => item.click({ row }),
-                      data: item.data ? () => item.data({ row }) : row
-                    })
-                "
+                @click="() => onBtnClick({ row, ...item })"
               >
                 {{ item.text }}
               </el-button>
@@ -427,7 +442,7 @@ function onTableResize() {
               v-bind="typeof item.elProps?.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
               :options="item.options"
               @change="() => onTableRowChange({ row, column })"
-              @click="() => onBtnClick({ code: item.actionCode, data: row })"
+              @click="() => onBtnClick({ code: item.actionCode, row })"
             >
               {{
                 item.dict?.table ? item.options?.find((dict) => dict.value === row[item.prop]).label : row[item.prop]

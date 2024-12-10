@@ -3,36 +3,36 @@ import { Page } from '@/api'
 
 /** 组件类型 */
 type ElType =
-  /** 下拉选择（用于：查询表单、编辑表单） */
+  /** 下拉选择（常用于：查询表单、编辑表单） */
   | 'select'
-  /** 开关（用于：表格、编辑表单） */
-  | 'switch'
-  /** 链接（用于：表格） */
-  | 'link'
-  /** 头像（用于：表格） */
-  | 'avatar'
-  /** 标签（用于：表格） */
-  | 'tag'
-  /** 时间 */
+  /** 时间选择（常用于：查询表单、编辑表单）*/
   | 'date-picker'
-  /** 单选 */
+  /** 单选（常用于：编辑表单）*/
   | 'radio'
+  /** 开关（常用于：表格、编辑表单） */
+  | 'switch'
+  /** 链接（常用于：表格、描述列表） */
+  | 'link'
+  /** 标签（常用于：表格、描述列表） */
+  | 'tag'
+  /** 头像（常用于：表格） */
+  | 'avatar'
 
 /** 组件属性 */
 interface ElProps {
-  /** 提示语（用于输入框组件） */
+  /** 提示语（用于输入框组件）*/
   placeholder?: string
-  /** 图片链接（用于头像组件） */
+  /** 图片链接（用于头像组件）*/
   src?: string
-  /** 激活值（用于开关组件） */
+  /** 激活值（用于开关组件）*/
   activeValue?: string | boolean | number
-  /** 激活文字（用于开关组件） */
+  /** 激活文字（用于开关组件）*/
   activeText?: string
-  /** 未激活值（用于开关组件） */
+  /** 未激活值（用于开关组件）*/
   inactiveValue?: string | boolean | number
-  /** 未激活文字（用于开关组件） */
+  /** 未激活文字（用于开关组件）*/
   inactiveText?: string
-  /** 文字内联（用于开关组件） */
+  /** 文字内联（用于开关组件）*/
   inlinePrompt?: boolean
   /** 其他扩展 */
   [key: string]: any
@@ -45,14 +45,14 @@ export type ActionCode = 'create' | 'update' | 'delete' | 'detail'
 export interface ActionBtn {
   /** 按钮文本（传入 CRUD code 时可省略） */
   text?: string
-  /** CRUD编码（可以快速打开内置编辑弹窗、描述列表弹窗并刷新列表） */
+  /** CRUD 编码（可以快速打开内置编辑弹窗、描述列表弹窗并刷新列表） */
   code?: ActionCode
   /** CRUD Api（增删改查对应接口） */
-  api?: (args?: any) => Promise<boolean>
-  /** CRUD回显数据（用于传入编辑弹窗的回显数据修改，可省略） */
-  data?: (args?: { row: any }) => any
+  api?: (args?: { data?: any; row?: any }) => Promise<boolean>
   /** 普通点击事件（表格按钮会传递当前行数据 row） */
   click?: (args?: { row: any }) => any
+  /** CRUD 回显数据（需要处理时） */
+  data?: (args?: { row: any }) => any
 }
 
 export interface ProColumns {
