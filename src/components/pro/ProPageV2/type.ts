@@ -1,42 +1,6 @@
 import type { Component } from 'vue'
+import type { ElProps, ElType } from './el'
 import { Page } from '@/api'
-
-/** 组件类型 */
-type ElType =
-  /** 下拉选择（常用于：查询表单、编辑表单） */
-  | 'select'
-  /** 时间选择（常用于：查询表单、编辑表单）*/
-  | 'date-picker'
-  /** 单选（常用于：编辑表单）*/
-  | 'radio'
-  /** 开关（常用于：表格、编辑表单） */
-  | 'switch'
-  /** 链接（常用于：表格、描述列表） */
-  | 'link'
-  /** 标签（常用于：表格、描述列表） */
-  | 'tag'
-  /** 头像（常用于：表格） */
-  | 'avatar'
-
-/** 组件属性 */
-interface ElProps {
-  /** 提示语（用于输入框组件）*/
-  placeholder?: string
-  /** 图片链接（用于头像组件）*/
-  src?: string
-  /** 激活值（用于开关组件）*/
-  activeValue?: string | boolean | number
-  /** 激活文字（用于开关组件）*/
-  activeText?: string
-  /** 未激活值（用于开关组件）*/
-  inactiveValue?: string | boolean | number
-  /** 未激活文字（用于开关组件）*/
-  inactiveText?: string
-  /** 文字内联（用于开关组件）*/
-  inlinePrompt?: boolean
-  /** 其他扩展 */
-  [key: string]: any
-}
 
 /** CRUD编码 */
 export type ActionCode = 'create' | 'update' | 'delete' | 'detail'

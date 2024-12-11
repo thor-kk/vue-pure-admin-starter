@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-11 11:00:16
+ * @LastEditTime: 2024-12-11 16:19:38
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -18,10 +18,17 @@ import { cloneDeep } from 'lodash'
 import { ElAvatar, ElLink } from 'element-plus'
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { PureTableBar, ProButton, ProTag, ProSwitchV2 } from '@/components'
+import { handleTableEl, handleFormEl, plusEl, handleDescEl } from './el'
 
 defineExpose({
+  /** 刷新列表 */
   getList: onSearch
 })
+
+const emits = defineEmits<{
+  /** 表格行 change 事件 */
+  (e: 'row-change', args?: { row?: any }): void
+}>()
 
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
@@ -37,16 +44,10 @@ const props = withDefaults(defineProps<Props>(), {
   editFormHasErrorTip: false
 })
 
-const emits = defineEmits<{
-  /** 表格行改变 */
-  (e: 'row-change', data?: { row: any }): void
-}>()
-
 /**
  * ! 查询
  */
 
-/** 查询 */
 async function onSearch() {
   /** 查询参数 */
   const searchParams = {
@@ -64,7 +65,6 @@ async function onSearch() {
   }
 }
 
-/** 生命周期函数 */
 onMounted(() => {
   onSearch()
 })
@@ -105,10 +105,8 @@ const tableColumns = computed(() => {
         }
       }
 
-      if (item.el?.table === 'switch') item.el.table = ProSwitchV2
-      if (item.el?.table === 'link') item.el.table = ElLink
-      if (item.el?.table === 'avatar') item.el.table = ElAvatar
-      if (item.el?.table === 'tag') item.el.table = ProTag
+      /** 组件映射 */
+      if (item.el?.table) item.el.table = handleTableEl(item.el.table)
 
       /** 格式化 */
       function handelFormatter() {
@@ -215,9 +213,11 @@ const editColumns = computed(() =>
       defaultEditForm.value[item.prop] = item.defaultValue?.form
       editFormRules.value[item.prop] = item.rule
 
-      if (item.el?.form === 'switch') {
-        item.el.form = ProSwitchV2
+      if (plusEl.includes(item.el?.form as string)) {
+        /** 组件映射 */
+        if (item.el?.form) item.el.form = handleFormEl(item.el.form)
 
+        /** 开启 slot */
         if (!item.slot) item.slot = {}
         item.slot.form = true
       }
@@ -269,9 +269,11 @@ const descColumns = computed(() =>
   props.columns
     .filter((item) => !item.hideDesc)
     .map((item) => {
-      if (item.el?.desc === 'tag') {
-        item.el.desc = ProTag
+      if (plusEl.includes(item.el?.desc as string)) {
+        /** 组件映射 */
+        if (item.el?.desc) item.el.desc = handleDescEl(item.el.desc)
 
+        /** 开启 slot */
         if (!item.slot) item.slot = {}
         item.slot.desc = true
       }
