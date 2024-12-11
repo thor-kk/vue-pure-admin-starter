@@ -22,7 +22,7 @@ export async function getUserPage(params?: object) {
 }
 
 /** 新增用户 */
-export async function createUser(data: any) {
+export async function createUser(data: object) {
   try {
     const res = await http.request<R>('post', baseUrl + '/user/create', { data })
     return successCallback({ success: res.code === 200 })
@@ -32,7 +32,7 @@ export async function createUser(data: any) {
 }
 
 /** 更新用户 */
-export async function updateUser(data: any) {
+export async function updateUser(data: object) {
   try {
     const res = await http.request<R>('put', baseUrl + '/user/update', { data })
     return successCallback({ success: res.code === 200 })
@@ -42,7 +42,7 @@ export async function updateUser(data: any) {
 }
 
 /** 更新用户状态 */
-export async function updateUserStatus(args: { userId: any; status: any }) {
+export async function updateUserStatus(args: { userId: string; status: string }) {
   try {
     const res = await http.request<R>('put', baseUrl + '/user/update-status', { data: args })
     return successCallback({ success: res.code === 200 })
@@ -52,7 +52,7 @@ export async function updateUserStatus(args: { userId: any; status: any }) {
 }
 
 /** 删除用户 */
-export async function deleteUser(args: { userId: any }) {
+export async function deleteUser(args: { userId: string }) {
   const isConfirm = await ProMessageBox({ type: 'delete' })
   if (!isConfirm) return
 

@@ -19,6 +19,10 @@ import { ElAvatar, ElLink } from 'element-plus'
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { PureTableBar, ProButton, ProTag, ProSwitchV2 } from '@/components'
 
+defineExpose({
+  getList: onSearch
+})
+
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
   tableAlignWhole: 'center',
