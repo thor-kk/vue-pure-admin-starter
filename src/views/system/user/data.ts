@@ -6,7 +6,7 @@ export const columns: ProColumns[] = [
     label: '头像',
     prop: 'avatar',
     el: { table: 'avatar' },
-    elProps: { table: ({ row }) => ({ src: row.avatar, size: 'small' }) },
+    elProps: { table: { size: 'small' } },
     hideDesc: true,
     hideForm: true
   },

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-11 16:47:44
+ * @LastEditTime: 2024-12-11 17:07:26
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -82,16 +82,13 @@ async function onTableRowChange(args: { row: any; column: any }) {
   emits('row-change', { row: args.row })
 }
 
-/**
- * ! 分页
- */
+/** 重新计算表格高度 */
+function onTableResize() {
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
+}
 
 /** 分页配置 */
-const pagination = ref({
-  total: 0,
-  pageNum: 1,
-  pageSize: props.paginationPageSize
-})
+const pagination = ref({ total: 0, pageNum: 1, pageSize: props.paginationPageSize })
 
 /** 分页事件 - 每页条数变更 */
 function onPageSizeChange(val) {
@@ -167,7 +164,7 @@ const descTitle = computed(() => props.title + '详情')
 /** 描述列表数据 */
 const descData = ref()
 /** 描述列表弹窗显示 */
-const detailVisible = ref(false)
+const descVisible = ref(false)
 /** 描述列表配置 */
 const descColumns = computed(() => handleDescColumns(props.columns))
 
@@ -227,7 +224,7 @@ async function onBtnClick(args: {
 
   /** 详情 */
   if (code === 'detail') {
-    detailVisible.value = true
+    descVisible.value = true
     descData.value = row
     return
   }
@@ -240,15 +237,6 @@ async function onBtnClick(args: {
   }
 
   click && click({ row })
-}
-
-/**
- * ! 其他逻辑
- */
-
-/** 重新计算表格高度 */
-function onTableResize() {
-  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
 }
 </script>
 
@@ -375,7 +363,7 @@ function onTableResize() {
     </PlusDialogForm>
 
     <!-- 详情列表 -->
-    <el-dialog v-model="detailVisible" shadow="never" :title="descTitle">
+    <el-dialog v-model="descVisible" shadow="never" :title="descTitle">
       <PlusDescriptions :column="2" :columns="descColumns" :data="descData">
         <template
           v-for="item in descColumns.filter((item) => item.slot)"

@@ -2,6 +2,7 @@ import { PlusColumn } from 'plus-pro-components'
 import { handleDescEl, handleFormEl, handleTableEl, plusEl } from './el'
 import { ProColumns } from './type'
 
+/** 分页表格 */
 export function handleTableColumns(columns: ProColumns[], tableIndex, tableBtn) {
   /** 过滤 */
   const filterColumns = columns.filter((item) => !item.hideTable)
@@ -54,6 +55,7 @@ export function handleTableColumns(columns: ProColumns[], tableIndex, tableBtn) 
   return tableColumns
 }
 
+/** 查询表单 */
 export function handleSearchColumns(columns: ProColumns[]) {
   const defaultValues = {}
 
@@ -73,6 +75,7 @@ export function handleSearchColumns(columns: ProColumns[]) {
   return searchColumns
 }
 
+/** 编辑表单 */
 export function handleFormColumns(columns: ProColumns[]) {
   const defaultValues = {}
   const rules = {}
@@ -101,6 +104,7 @@ export function handleFormColumns(columns: ProColumns[]) {
   return { formColumns, defaultValues, rules }
 }
 
+/** 描述列表 */
 export function handleDescColumns(columns: ProColumns[]) {
   const filterColumns = columns.filter((item) => !item.hideDesc)
 
