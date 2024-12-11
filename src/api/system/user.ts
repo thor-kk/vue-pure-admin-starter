@@ -1,8 +1,8 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-12-10 17:00:50
- * @Description: 用户模块
+ * @LastEditTime: 2024-12-11 10:50:47
+ * @Description: 用户管理
  */
 
 import type { R, ResultTable, RPage } from '../type'
@@ -22,9 +22,9 @@ export async function getUserPage(params?: object) {
 }
 
 /** 新增用户 */
-export async function createUser(args?: { data: any }) {
+export async function createUser(data: any) {
   try {
-    const res = await http.request<R>('post', baseUrl + '/user/create', { data: args.data })
+    const res = await http.request<R>('post', baseUrl + '/user/create', { data })
     return successCallback({ success: res.code === 200 })
   } catch (error) {
     console.log('🚀 ~ createUser ~ error:', error)
@@ -32,9 +32,19 @@ export async function createUser(args?: { data: any }) {
 }
 
 /** 更新用户 */
-export async function updateUser(args?: { data: any }) {
+export async function updateUser(data: any) {
   try {
-    const res = await http.request<R>('put', baseUrl + '/user/update', { data: args.data })
+    const res = await http.request<R>('put', baseUrl + '/user/update', { data })
+    return successCallback({ success: res.code === 200 })
+  } catch (error) {
+    console.log('🚀 ~ updateUser ~ error:', error)
+  }
+}
+
+/** 更新用户状态 */
+export async function updateUserStatus(args: { userId: any; status: any }) {
+  try {
+    const res = await http.request<R>('put', baseUrl + '/user/update-status', { data: args })
     return successCallback({ success: res.code === 200 })
   } catch (error) {
     console.log('🚀 ~ updateUser ~ error:', error)
@@ -42,7 +52,7 @@ export async function updateUser(args?: { data: any }) {
 }
 
 /** 删除用户 */
-export async function deleteUser(args?: { userId: string }) {
+export async function deleteUser(args: { userId: any }) {
   const isConfirm = await ProMessageBox({ type: 'delete' })
   if (!isConfirm) return
 
@@ -53,6 +63,10 @@ export async function deleteUser(args?: { userId: string }) {
     console.log('🚀 ~ deleteUser ~ error:', error)
   }
 }
+
+/**
+ * ! 以下代码替换完后需要删除
+ */
 
 /** 获取用户列表 */
 export async function getUserList(data?: object) {

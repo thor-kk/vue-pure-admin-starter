@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-10 10:28:07
+ * @LastEditTime: 2024-12-11 11:00:16
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -11,7 +11,7 @@
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
-import type { ActionBtn, ActionCode, Props } from './type'
+import type { ActionBtn, Props } from './type'
 import type { PlusColumn, PlusDialogFormInstance } from 'plus-pro-components'
 
 import { cloneDeep } from 'lodash'
@@ -35,9 +35,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emits = defineEmits<{
   /** 表格行改变 */
-  (e: 'table-row-change', data?: { row: any }): void
-  /** 表格行状态改变 */
-  (e: 'table-status-change', data?: { row: any }): void
+  (e: 'row-change', data?: { row: any }): void
 }>()
 
 /**
@@ -134,11 +132,11 @@ const tableColumns = computed(() => {
 async function onTableRowChange(args: { row: any; column: any }) {
   /** 表格状态改变逻辑 */
   if (args.column.property === 'status') {
-    const isSuccess = await props.tableStatusChangeApi({ row: args.row })
+    const isSuccess = await props.statusChangeApi({ row: args.row })
     if (isSuccess) return onSearch()
   }
 
-  emits('table-row-change', { row: args.row })
+  emits('row-change', { row: args.row })
 }
 
 /**
@@ -203,7 +201,7 @@ const defaultEditForm = ref({})
 /** 表单规则 */
 const editFormRules = ref({})
 /** 表单点击确认 Api */
-const editConfirmApi = ref<ActionBtn['api']>()
+const editConfirmApi = ref()
 
 /** 表单配置 */
 const editColumns = computed(() =>
@@ -246,7 +244,7 @@ function closeEditForm() {
 
 /** 编辑表单点击确认事件 */
 async function onEditFormConfirm() {
-  const isSuccess = await editConfirmApi.value({ data: editForm.value })
+  const isSuccess = await editConfirmApi.value(editForm.value)
   if (isSuccess) onSearch()
   closeEditForm()
 }
@@ -346,7 +344,7 @@ async function onBtnClick(args: {
 
   /** 删除 */
   if (code === 'delete') {
-    const isSuccess = await api({ row: data })
+    const isSuccess = await api({ row })
     if (isSuccess) onSearch()
     return
   }
