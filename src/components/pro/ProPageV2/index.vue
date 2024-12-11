@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-11 17:07:26
+ * @LastEditTime: 2024-12-11 17:44:47
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -17,7 +17,7 @@ import type { PlusDialogFormInstance } from 'plus-pro-components'
 import { cloneDeep } from 'lodash'
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
 import { PureTableBar, ProButton } from '@/components'
-import { handleDescColumns, handleFormColumns, handleSearchColumns, handleTableColumns } from './columns'
+import { handleFormColumns, searchColumnsHook, handleTableColumns, descColumnsHook } from './columns'
 
 defineExpose({
   /** 刷新列表 */
@@ -106,10 +106,7 @@ function onPageCurrentChange(val) {
  * ! 查询表单
  */
 
-/** 查询表单数据 */
-const searchForm = ref({})
-/** 查询表单配置 */
-const searchColumns = computed(() => handleSearchColumns(props.columns))
+const { searchForm, searchColumns } = searchColumnsHook(props.columns)
 
 /**
  * ! 编辑弹窗
@@ -159,14 +156,11 @@ async function onEditFormConfirm() {
  * ! 描述列表
  */
 
-/** 描述列表标题 */
-const descTitle = computed(() => props.title + '详情')
-/** 描述列表数据 */
-const descData = ref()
-/** 描述列表弹窗显示 */
-const descVisible = ref(false)
 /** 描述列表配置 */
-const descColumns = computed(() => handleDescColumns(props.columns))
+const { descColumns, descVisible, descData, descTitle } = descColumnsHook({
+  columns: props.columns,
+  title: props.title
+})
 
 /**
  * ! CRUD 和 按钮点击逻辑

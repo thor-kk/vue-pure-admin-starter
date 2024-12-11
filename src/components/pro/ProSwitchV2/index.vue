@@ -1,13 +1,13 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-12-09 16:03:23
+ * @LastEditTime: 2024-12-11 17:55:17
  * @Description: Plus - 高级开关
 -->
 
 <script setup lang="ts">
 interface Props {
-  options?: { label: string; value: any; tagType?: 'primary' | 'danger'; switch?: 'active' | 'inactive' }[]
+  options?: { label: string; value: any; switch?: 'active' | 'inactive' }[]
   inlinePrompt?: boolean
 }
 

@@ -56,23 +56,27 @@ export function handleTableColumns(columns: ProColumns[], tableIndex, tableBtn) 
 }
 
 /** 查询表单 */
-export function handleSearchColumns(columns: ProColumns[]) {
-  const defaultValues = {}
+export function searchColumnsHook(columns: ProColumns[]) {
+  /** 表单数据 */
+  const searchForm = ref({})
 
   const filterColumns = columns.filter((item) => item.showSearch)
 
-  const searchColumns = filterColumns.map((item) => {
-    defaultValues[item.prop] = item.defaultValue?.search
+  const searchColumns = computed(() =>
+    filterColumns.map((item) => {
+      /** 设置默认值 */
+      searchForm.value[item.prop] = item.defaultValue?.search
 
-    /** 字段映射 */
-    return {
-      ...item,
-      valueType: item.el?.search ?? '',
-      fieldProps: item.elProps?.search
-    } as PlusColumn
-  })
+      /** 字段映射 */
+      return {
+        ...item,
+        valueType: item.el?.search ?? '',
+        fieldProps: item.elProps?.search
+      } as PlusColumn
+    })
+  )
 
-  return searchColumns
+  return { searchColumns, searchForm }
 }
 
 /** 编辑表单 */
@@ -105,25 +109,31 @@ export function handleFormColumns(columns: ProColumns[]) {
 }
 
 /** 描述列表 */
-export function handleDescColumns(columns: ProColumns[]) {
+export function descColumnsHook({ columns, title }: { columns: ProColumns[]; title: string }) {
+  const descVisible = ref(false)
+  const descData = ref()
+  const descTitle = computed(() => title + '详情')
+
   const filterColumns = columns.filter((item) => !item.hideDesc)
 
-  const descColumns = filterColumns.map((item) => {
-    /** 组件映射 */
-    if (plusEl.includes(item.el?.desc as string)) {
-      if (item.el?.desc) item.el.desc = handleDescEl(item.el.desc)
-      if (!item.slot) item.slot = {}
-      item.slot.desc = true
-    }
+  const descColumns = computed(() =>
+    filterColumns.map((item) => {
+      /** 组件映射 */
+      if (plusEl.includes(item.el?.desc as string)) {
+        if (item.el?.desc) item.el.desc = handleDescEl(item.el.desc)
+        if (!item.slot) item.slot = {}
+        item.slot.desc = true
+      }
 
-    /** 字段映射 */
-    return {
-      ...item,
-      formatter: item.formatter ? (_, col) => item.formatter({ row: col.row }) : undefined,
-      valueType: item.el?.desc ?? '',
-      fieldProps: item.elProps?.desc
-    } as PlusColumn
-  })
+      /** 字段映射 */
+      return {
+        ...item,
+        formatter: item.formatter ? (_, col) => item.formatter({ row: col.row }) : undefined,
+        valueType: item.el?.desc ?? '',
+        fieldProps: item.elProps?.desc
+      } as PlusColumn
+    })
+  )
 
-  return descColumns
+  return { descColumns, descVisible, descData, descTitle }
 }
