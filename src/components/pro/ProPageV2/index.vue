@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-11 16:19:38
+ * @LastEditTime: 2024-12-11 16:47:44
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -12,13 +12,12 @@
 defineOptions({ name: 'components-pro-page' })
 
 import type { ActionBtn, Props } from './type'
-import type { PlusColumn, PlusDialogFormInstance } from 'plus-pro-components'
+import type { PlusDialogFormInstance } from 'plus-pro-components'
 
 import { cloneDeep } from 'lodash'
-import { ElAvatar, ElLink } from 'element-plus'
 import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
-import { PureTableBar, ProButton, ProTag, ProSwitchV2 } from '@/components'
-import { handleTableEl, handleFormEl, plusEl, handleDescEl } from './el'
+import { PureTableBar, ProButton } from '@/components'
+import { handleDescColumns, handleFormColumns, handleSearchColumns, handleTableColumns } from './columns'
 
 defineExpose({
   /** 刷新列表 */
@@ -44,12 +43,10 @@ const props = withDefaults(defineProps<Props>(), {
   editFormHasErrorTip: false
 })
 
-/**
- * ! 查询
- */
+onMounted(() => onSearch())
 
+/** 查询 */
 async function onSearch() {
-  /** 查询参数 */
   const searchParams = {
     ...searchForm.value,
     pageSize: pagination.value.pageSize,
@@ -65,70 +62,14 @@ async function onSearch() {
   }
 }
 
-onMounted(() => {
-  onSearch()
-})
-
 /**
  * ! 表格
  */
 
 /** 表格数据 */
 const tableData = ref([])
-
 /** 表格列配置 */
-const tableColumns = computed(() => {
-  {
-    /** 过滤 */
-    const columns = props.columns.filter((item) => !item.hideTable)
-
-    /** 序号列 */
-    if (props.tableIndex) {
-      columns.unshift({ label: '序号', prop: 'index', type: 'index', width: 60, fixed: 'left' })
-    }
-
-    /** 操作列 */
-    if (props.tableBtn && props.tableBtn.length > 0) {
-      columns.push({ label: '操作', prop: 'operation', fixed: 'right', slot: { table: true } })
-    }
-
-    /** 字段映射 */
-    return columns.map((item) => {
-      /** CRUD */
-      if (item.actionCode === 'detail') {
-        if (!item.el) item.el = {}
-        item.el.table = 'link'
-
-        if (!item.elProps) {
-          item.elProps = {}
-          item.elProps.table = { type: 'primary' }
-        }
-      }
-
-      /** 组件映射 */
-      if (item.el?.table) item.el.table = handleTableEl(item.el.table)
-
-      /** 格式化 */
-      function handelFormatter() {
-        if (item.formatter) {
-          return (row) => item.formatter({ row })
-        }
-
-        if (item.dict?.table && item.options) {
-          return (row) => item.options.find((dict) => dict.value === row[item.prop]).label
-        }
-
-        return undefined
-      }
-
-      return {
-        ...item,
-        formatter: handelFormatter(),
-        slot: (item.el?.table || item.slot?.table) && item.prop
-      }
-    })
-  }
-})
+const tableColumns = computed(() => handleTableColumns(props.columns, props.tableIndex, props.tableBtn))
 
 /** 表格行事件 - change */
 async function onTableRowChange(args: { row: any; column: any }) {
@@ -170,21 +111,8 @@ function onPageCurrentChange(val) {
 
 /** 查询表单数据 */
 const searchForm = ref({})
-
 /** 查询表单配置 */
-const searchColumns = computed(() =>
-  props.columns
-    .filter((item) => item.showSearch)
-    .map((item) => {
-      searchForm.value[item.prop] = item.defaultValue?.search
-
-      return {
-        ...item,
-        valueType: item.el?.search ?? '',
-        fieldProps: item.elProps?.search
-      } as PlusColumn
-    })
-)
+const searchColumns = computed(() => handleSearchColumns(props.columns))
 
 /**
  * ! 编辑弹窗
@@ -199,36 +127,13 @@ const editTitle = ref(props.title)
 /** 表单数据 */
 const editForm = ref({})
 /** 表单初始数据 */
-const defaultEditForm = ref({})
+const defaultEditForm = ref(handleFormColumns(props.columns).defaultValues)
 /** 表单规则 */
-const editFormRules = ref({})
+const editFormRules = ref(handleFormColumns(props.columns).rules)
 /** 表单点击确认 Api */
 const editConfirmApi = ref()
-
 /** 表单配置 */
-const editColumns = computed(() =>
-  props.columns
-    .filter((item) => !item.hideForm)
-    .map((item) => {
-      defaultEditForm.value[item.prop] = item.defaultValue?.form
-      editFormRules.value[item.prop] = item.rule
-
-      if (plusEl.includes(item.el?.form as string)) {
-        /** 组件映射 */
-        if (item.el?.form) item.el.form = handleFormEl(item.el.form)
-
-        /** 开启 slot */
-        if (!item.slot) item.slot = {}
-        item.slot.form = true
-      }
-
-      return {
-        ...item,
-        valueType: item.el?.form ?? '',
-        fieldProps: item.elProps?.form
-      } as PlusColumn
-    })
-)
+const editColumns = computed(() => handleFormColumns(props.columns).formColumns)
 
 /** 打开编辑表单弹窗 */
 function openEditForm() {
@@ -263,29 +168,8 @@ const descTitle = computed(() => props.title + '详情')
 const descData = ref()
 /** 描述列表弹窗显示 */
 const detailVisible = ref(false)
-
 /** 描述列表配置 */
-const descColumns = computed(() =>
-  props.columns
-    .filter((item) => !item.hideDesc)
-    .map((item) => {
-      if (plusEl.includes(item.el?.desc as string)) {
-        /** 组件映射 */
-        if (item.el?.desc) item.el.desc = handleDescEl(item.el.desc)
-
-        /** 开启 slot */
-        if (!item.slot) item.slot = {}
-        item.slot.desc = true
-      }
-
-      return {
-        ...item,
-        formatter: item.formatter ? (_, col) => item.formatter({ row: col.row }) : undefined,
-        valueType: item.el?.desc ?? '',
-        fieldProps: item.elProps?.desc
-      } as PlusColumn
-    })
-)
+const descColumns = computed(() => handleDescColumns(props.columns))
 
 /**
  * ! CRUD 和 按钮点击逻辑
