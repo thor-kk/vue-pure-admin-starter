@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-12 14:39:33
+ * @LastEditTime: 2024-12-12 14:55:22
  * @Description: 高级编辑表单
 -->
 
@@ -10,6 +10,9 @@ defineOptions({ name: 'components-pro-edit-form' })
 
 import { PlusDialogForm } from 'plus-pro-components'
 import { useColumnsHook } from './hook'
+import { cloneDeep } from 'lodash'
+
+defineExpose({ open, close })
 
 const emits = defineEmits<{
   (e: 'confirm'): void
@@ -42,11 +45,27 @@ onMounted(() => {
   emits('register', editFormRef.value)
 })
 
-const { rules, columns, defaultValues } = useColumnsHook(props.columns)
+const { columns, rules, defaultValues } = useColumnsHook(props.columns)
 
 const formData = defineModel<any>()
 const visible = defineModel<boolean>('visible')
 const editFormRef = ref()
+
+/** 打开编辑表单弹窗 */
+function open() {
+  visible.value = true
+  /** 赋予默认值 - PlusDialogForm 组件会有一些问题 */
+  formData.value = cloneDeep(defaultValues.value)
+}
+
+/** 关闭编辑表单弹窗 */
+function close() {
+  visible.value = false
+  /** 重置表单校验 */
+  editFormRef.value.formInstance?.resetFields()
+  /** 重置默认值 - PlusDialogForm 组件会有一些问题 */
+  formData.value = cloneDeep(defaultValues.value)
+}
 </script>
 
 <template>
@@ -65,7 +84,7 @@ const editFormRef = ref()
     }"
     :hasErrorTip="props.hasErrorTip"
     @confirm="() => emits('confirm')"
-    @cancel="() => emits('cancel')"
+    @cancel="close"
   >
     <template v-for="item in columns.filter((item) => item.slot)" :key="item.prop" #[`plus-field-${item.prop}`]>
       <component

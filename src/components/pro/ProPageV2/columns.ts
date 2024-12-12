@@ -80,25 +80,22 @@ export function searchColumnsHook(columns: ProPageColumns[]) {
 }
 
 /** 编辑表单 */
-export function handleFormColumns(columns: ProPageColumns[]) {
-  const defaultValues = {}
-  const rules = {}
-
+export function useFormColumns(columns: ProPageColumns[]) {
   const filterColumns = columns.filter((item) => !item.hideForm)
 
-  const formColumns = filterColumns.map((item) => {
-    defaultValues[item.prop] = item.defaultValue?.form
-    rules[item.prop] = item.rules
+  const formColumns = computed(() =>
+    filterColumns.map((item) => {
+      /** 字段映射 */
+      return {
+        ...item,
+        defaultValue: item.defaultValue?.form,
+        el: item.el?.form ?? '',
+        elProps: item.elProps?.form
+      } as PlusColumn
+    })
+  )
 
-    /** 字段映射 */
-    return {
-      ...item,
-      el: item.el?.form ?? '',
-      elProps: item.elProps?.form
-    } as PlusColumn
-  })
-
-  return { formColumns, defaultValues, rules }
+  return { formColumns }
 }
 
 /** 描述列表 */

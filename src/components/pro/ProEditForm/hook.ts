@@ -12,13 +12,13 @@ function handleEl(el: ElType | Component) {
 
 export function useColumnsHook(columns: ProColumns[]) {
   /** 规则 */
-  const rules = {}
+  const rules = ref({})
   /** 默认值 */
-  const defaultValues = {}
+  const defaultValues = ref({})
 
   const formColumns = columns.map((item) => {
-    defaultValues[item.prop] = item.defaultValue
-    rules[item.prop] = item.rules
+    defaultValues.value[item.prop] = item.defaultValue
+    rules.value[item.prop] = item.rules
 
     /** 组件映射 */
     if (needHandleEl.includes(item.el)) {

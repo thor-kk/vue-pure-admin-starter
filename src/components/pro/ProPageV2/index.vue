@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-12 14:17:10
+ * @LastEditTime: 2024-12-12 15:04:06
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -12,12 +12,11 @@
 defineOptions({ name: 'components-pro-page' })
 
 import type { ActionBtn, Props } from './type'
-import type { PlusDialogFormInstance } from 'plus-pro-components'
 
 import { cloneDeep } from 'lodash'
-import { PlusSearch, PlusDialogForm } from 'plus-pro-components'
-import { PureTableBar, ProButton, ProDesc, ProEditForm } from '@/components'
-import { handleFormColumns, searchColumnsHook, handleTableColumns, descColumnsHook } from './columns'
+import { PlusSearch } from 'plus-pro-components'
+import { PureTableBar, ProButton, ProDesc, ProEditForm, ProEditFormInstance } from '@/components'
+import { searchColumnsHook, handleTableColumns, descColumnsHook, useFormColumns } from './columns'
 
 defineExpose({
   /** 刷新列表 */
@@ -106,45 +105,25 @@ function onPageCurrentChange(val) {
 const { searchForm, searchColumns } = searchColumnsHook(props.columns)
 
 /**
- * ! 编辑弹窗
+ * ! 编辑表单
  */
 
-/** 表单弹窗实例 */
-const editFormRef = ref<PlusDialogFormInstance>()
-/** 表单弹窗显示 */
-const editVisible = ref(false)
-/** 表单弹窗标题 */
+/** 编辑表单实例 */
+const editFormRef = ref<ProEditFormInstance>()
+/** 编辑表单标题 */
 const editTitle = ref(props.title)
-/** 表单数据 */
+/** 编辑表单数据 */
 const editForm = ref({})
-/** 表单初始数据 */
-const defaultEditForm = ref(handleFormColumns(props.columns).defaultValues)
-/** 表单点击确认 Api */
+/** 编辑表单点击确认 Api */
 const editConfirmApi = ref()
-/** 表单配置 */
-const editColumns = computed(() => handleFormColumns(props.columns).formColumns)
-
-/** 打开编辑表单弹窗 */
-function openEditForm() {
-  editVisible.value = true
-  /** 赋予默认值 - PlusDialogForm 组件会有一些问题 */
-  editForm.value = cloneDeep(defaultEditForm.value)
-}
-
-/** 关闭编辑表单弹窗 */
-function closeEditForm() {
-  editVisible.value = false
-  /** 重置表单校验 */
-  editFormRef.value.formInstance?.resetFields()
-  /** 重置默认值 - PlusDialogForm 组件会有一些问题 */
-  editForm.value = cloneDeep(defaultEditForm.value)
-}
+/** 编辑表单列配置 */
+const { formColumns } = useFormColumns(props.columns)
 
 /** 编辑表单点击确认事件 */
 async function onEditFormConfirm() {
   const isSuccess = await editConfirmApi.value(editForm.value)
   if (isSuccess) onSearch()
-  closeEditForm()
+  editFormRef.value.close()
 }
 
 /**
@@ -190,7 +169,7 @@ async function onBtnClick(args: {
 
   /** 新增 */
   if (code === 'create') {
-    openEditForm()
+    editFormRef.value?.open()
     editConfirmApi.value = api
     editTitle.value = '新增' + props.title
     return
@@ -198,7 +177,7 @@ async function onBtnClick(args: {
 
   /** 修改 */
   if (code === 'update') {
-    openEditForm()
+    editFormRef.value.open()
 
     if (data) {
       editForm.value = cloneDeep(data(row))
@@ -320,16 +299,14 @@ async function onBtnClick(args: {
 
     <!-- 编辑弹窗 -->
     <ProEditForm
+      ref="editFormRef"
       v-model="editForm"
-      v-model:visible="editVisible"
       :title="editTitle"
-      :columns="editColumns"
+      :columns="formColumns"
       :form2Col="props.editForm2Col"
       :form-label-position="props.editFormLabelPosition"
       :form-label-width="props.editFormLabelWidth"
       @confirm="onEditFormConfirm"
-      @cancel="closeEditForm"
-      @register="(form) => (editFormRef = form)"
     />
 
     <!-- 详情列表 -->
