@@ -1,6 +1,6 @@
 import { PlusColumn } from 'plus-pro-components'
 import { handleFormEl, plusEl } from '../ProPageV2/el'
-import { ProColumns } from '../ProDesc/type'
+import { ProColumns } from '@/components/type'
 
 export function useColumnsHook(columns: ProColumns[]) {
   /** 规则 */

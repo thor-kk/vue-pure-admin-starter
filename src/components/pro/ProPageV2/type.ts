@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
-import type { ElProps, ElType } from './el'
 import { Page } from '@/api'
+import { ElProps, ElType } from '@/components/type'
 
 /** CRUD编码 */
 export type ActionCode = 'create' | 'update' | 'delete' | 'detail'
