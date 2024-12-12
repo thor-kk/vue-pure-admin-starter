@@ -195,8 +195,9 @@ export default defineComponent({
 
     return () => (
       <>
-        <div
+        <el-card
           {...attrs}
+          shadow="never"
           class={[
             'w-[99/100]',
             'px-2',
@@ -204,6 +205,7 @@ export default defineComponent({
             'bg-bg_color',
             isFullscreen.value ? ['!w-full', '!h-full', 'z-[2002]', 'fixed', 'inset-0'] : 'mt-2'
           ]}
+          body-class="!pb-0"
         >
           <div class="flex justify-between w-full h-[60px] p-4 pl-0">
             {slots?.title ? slots.title() : <p class="font-bold truncate">{props.title}</p>}
@@ -309,7 +311,7 @@ export default defineComponent({
             size: size.value,
             dynamicColumns: dynamicColumns.value
           })}
-        </div>
+        </el-card>
       </>
     )
   }
