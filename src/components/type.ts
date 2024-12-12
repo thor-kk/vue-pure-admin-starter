@@ -5,7 +5,7 @@ export interface ProColumns {
   /** 字段 */
   prop: string
   /** 元素（组件） */
-  el?: ElType | Component
+  el?: ElType
   /** 元素（组件）属性 */
   elProps?: ElProps
   /** 默认值 */

@@ -1,6 +1,14 @@
-import { PlusColumn } from 'plus-pro-components'
-import { handleFormEl, plusEl } from '../ProPageV2/el'
-import { ProColumns } from '@/components/type'
+import type { ElType, ProColumns } from '@/components/type'
+import type { PlusColumn } from 'plus-pro-components'
+import { ProSwitchV2 } from '@/components'
+
+/** 需要映射的元素 */
+const needHandleEl = ['switch']
+
+/** 映射的组件 */
+function handleEl(el: ElType | Component) {
+  if (el === 'switch') return ProSwitchV2
+}
 
 export function useColumnsHook(columns: ProColumns[]) {
   /** 规则 */
@@ -13,8 +21,8 @@ export function useColumnsHook(columns: ProColumns[]) {
     rules[item.prop] = item.rules
 
     /** 组件映射 */
-    if (plusEl.includes(item.el as string)) {
-      if (item.el) item.el = handleFormEl(item.el)
+    if (needHandleEl.includes(item.el)) {
+      if (item.el) item.el = handleEl(item.el) as any
       item.slot = true
     }
 
