@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-12 10:02:23
+ * @LastEditTime: 2024-12-12 10:46:15
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -16,7 +16,7 @@ import type { PlusDialogFormInstance } from 'plus-pro-components'
 
 import { cloneDeep } from 'lodash'
 import { PlusSearch, PlusDialogForm } from 'plus-pro-components'
-import { PureTableBar, ProButton, ProDesc } from '@/components'
+import { PureTableBar, ProButton, ProDesc, ProEditForm } from '@/components'
 import { handleFormColumns, searchColumnsHook, handleTableColumns, descColumnsHook } from './columns'
 
 defineExpose({
@@ -140,7 +140,7 @@ function openEditForm() {
 function closeEditForm() {
   editVisible.value = false
   /** 重置表单校验 */
-  editFormRef.value.formInstance.resetFields()
+  editFormRef.value.formInstance?.resetFields()
   /** 重置默认值 - PlusDialogForm 组件会有一些问题 */
   editForm.value = cloneDeep(defaultEditForm.value)
 }
@@ -324,37 +324,20 @@ async function onBtnClick(args: {
     </PureTableBar>
 
     <!-- 编辑弹窗 -->
-    <PlusDialogForm
-      ref="editFormRef"
+    <ProEditForm
       v-model="editForm"
       v-model:visible="editVisible"
+      :register="(form) => (editFormRef = form)"
       :title="editTitle"
-      :form="{
-        columns: editColumns,
-        rules: editFormRules,
-        rowProps: { gutter: props.editForm2Col ? 20 : 0 },
-        colProps: { span: props.editForm2Col ? 12 : 24 },
-        labelWidth: props.editFormLabelWidth,
-        labelPosition: props.editFormLabelPosition
-      }"
-      :hasErrorTip="props.editFormHasErrorTip"
+      :columns="editColumns"
+      :rules="editFormRules"
+      form2Col
+      :formLabelPosition="props.editFormLabelPosition"
+      :form-label-width="props.editFormLabelWidth"
+      :hasErrorTip="false"
       @confirm="onEditFormConfirm"
       @cancel="closeEditForm"
-    >
-      <template
-        v-for="item in editColumns.filter((item) => item.slot)"
-        :key="item.prop"
-        #[`plus-field-${item.prop}`]="{}"
-      >
-        <component
-          :is="item.valueType"
-          v-model="editForm[item.prop]"
-          class="align-middle"
-          v-bind="item.elProps?.form"
-          :options="item.options"
-        />
-      </template>
-    </PlusDialogForm>
+    />
 
     <!-- 详情列表 -->
     <el-dialog v-model="descVisible" shadow="never" :title="descTitle">
