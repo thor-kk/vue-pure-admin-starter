@@ -1,9 +1,9 @@
-import type { ProColumns } from '@/components'
+import type { ProPageColumns } from '@/components'
 import { systemService } from '@/api'
 
 const statusOptions = await systemService.dictApi.getDict({ key: 'status' })
 
-export const columns: ProColumns[] = [
+export const columns: ProPageColumns[] = [
   {
     label: '姓名',
     prop: 'name',

@@ -1,9 +1,9 @@
 import { PlusColumn } from 'plus-pro-components'
 import { handleDescEl, handleFormEl, handleTableEl, plusEl } from './el'
-import { ProColumns } from './type'
+import { ProPageColumns } from './type'
 
 /** 分页表格 */
-export function handleTableColumns(columns: ProColumns[], tableIndex, tableBtn) {
+export function handleTableColumns(columns: ProPageColumns[], tableIndex, tableBtn) {
   /** 过滤 */
   const filterColumns = columns.filter((item) => !item.hideTable)
 
@@ -56,7 +56,7 @@ export function handleTableColumns(columns: ProColumns[], tableIndex, tableBtn) 
 }
 
 /** 查询表单 */
-export function searchColumnsHook(columns: ProColumns[]) {
+export function searchColumnsHook(columns: ProPageColumns[]) {
   /** 表单数据 */
   const searchForm = ref({})
 
@@ -80,7 +80,7 @@ export function searchColumnsHook(columns: ProColumns[]) {
 }
 
 /** 编辑表单 */
-export function handleFormColumns(columns: ProColumns[]) {
+export function handleFormColumns(columns: ProPageColumns[]) {
   const defaultValues = {}
   const rules = {}
 
@@ -109,7 +109,7 @@ export function handleFormColumns(columns: ProColumns[]) {
 }
 
 /** 描述列表 */
-export function descColumnsHook({ columns, title }: { columns: ProColumns[]; title: string }) {
+export function descColumnsHook({ columns, title }: { columns: ProPageColumns[]; title: string }) {
   const descVisible = ref(false)
   const descData = ref()
   const descTitle = computed(() => title + '详情')
