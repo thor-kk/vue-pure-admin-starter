@@ -33,7 +33,7 @@ export interface ProPageColumns {
   /** 默认值 */
   defaultValue?: { search?: any; form?: any }
   /** 规则 */
-  rule?: any
+  rules?: any
   /** 插槽（表格、查询表单、编辑表单、描述列表分别开启） */
   slot?: { table?: boolean; search?: boolean; form?: boolean; desc?: boolean }
   /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中分别映射）*/

@@ -19,13 +19,13 @@ export const columns: ProPageColumns[] = [
     label: '用户名',
     prop: 'nickname',
     defaultValue: { form: '李四', search: '张三' },
-    rule: [{ required: true, message: '请输入用户名' }],
+    rules: [{ required: true, message: '请输入用户名' }],
     showSearch: true
   },
   {
     label: '性别',
     prop: 'sex',
-    rule: [{ required: true, message: '请选择性别' }],
+    rules: [{ required: true, message: '请选择性别' }],
     el: { table: 'tag', desc: 'tag', form: 'radio' },
     elProps: { table: { effect: 'plain' }, desc: { effect: 'plain' } },
     options: [

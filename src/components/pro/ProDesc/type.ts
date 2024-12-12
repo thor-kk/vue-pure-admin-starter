@@ -10,6 +10,10 @@ export interface ProColumns {
   el?: ElType | Component
   /** 元素（组件）属性 */
   elProps?: ElProps
+  /** 默认值 */
+  defaultValue?: any
+  /** 规则 */
+  rules?: any
   /** 选项（字典） */
   options?: { label: string; value: any; tagType?: 'primary' | 'danger'; switch?: 'active' | 'inactive' }[]
   /** 插槽 */

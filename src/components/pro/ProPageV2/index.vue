@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-12 10:46:15
+ * @LastEditTime: 2024-12-12 14:17:10
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -37,10 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchFormShowNum: 2,
-  searchFormCollapseTransition: false,
-  editFormLabelWidth: 80,
-  editFormLabelPosition: 'right',
-  editFormHasErrorTip: false
+  searchFormCollapseTransition: false
 })
 
 onMounted(() => onSearch())
@@ -122,8 +119,6 @@ const editTitle = ref(props.title)
 const editForm = ref({})
 /** 表单初始数据 */
 const defaultEditForm = ref(handleFormColumns(props.columns).defaultValues)
-/** 表单规则 */
-const editFormRules = ref(handleFormColumns(props.columns).rules)
 /** 表单点击确认 Api */
 const editConfirmApi = ref()
 /** 表单配置 */
@@ -327,16 +322,14 @@ async function onBtnClick(args: {
     <ProEditForm
       v-model="editForm"
       v-model:visible="editVisible"
-      :register="(form) => (editFormRef = form)"
       :title="editTitle"
       :columns="editColumns"
-      :rules="editFormRules"
-      form2Col
-      :formLabelPosition="props.editFormLabelPosition"
+      :form2Col="props.editForm2Col"
+      :form-label-position="props.editFormLabelPosition"
       :form-label-width="props.editFormLabelWidth"
-      :hasErrorTip="false"
       @confirm="onEditFormConfirm"
       @cancel="closeEditForm"
+      @register="(form) => (editFormRef = form)"
     />
 
     <!-- 详情列表 -->

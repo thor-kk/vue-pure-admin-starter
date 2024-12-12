@@ -1,5 +1,5 @@
 import { PlusColumn } from 'plus-pro-components'
-import { handleDescEl, handleFormEl, handleTableEl, plusEl } from './el'
+import { handleDescEl, handleTableEl, plusEl } from './el'
 import { ProPageColumns } from './type'
 
 /** 分页表格 */
@@ -88,20 +88,13 @@ export function handleFormColumns(columns: ProPageColumns[]) {
 
   const formColumns = filterColumns.map((item) => {
     defaultValues[item.prop] = item.defaultValue?.form
-    rules[item.prop] = item.rule
-
-    /** 组件映射 */
-    if (plusEl.includes(item.el?.form as string)) {
-      if (item.el?.form) item.el.form = handleFormEl(item.el.form)
-      if (!item.slot) item.slot = {}
-      item.slot.form = true
-    }
+    rules[item.prop] = item.rules
 
     /** 字段映射 */
     return {
       ...item,
-      valueType: item.el?.form ?? '',
-      fieldProps: item.elProps?.form
+      el: item.el?.form ?? '',
+      elProps: item.elProps?.form
     } as PlusColumn
   })
 
