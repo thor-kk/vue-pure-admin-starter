@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-19 20:03:03
- * @LastEditTime: 2024-12-11 17:57:16
+ * @LastEditTime: 2024-12-12 09:50:33
  * @Description: 统一入口
  */
 
@@ -17,6 +17,7 @@ export * from './pro/ProPageV2'
 export * from './pro/ProTag'
 export * from './pro/ProDeptTree'
 export * from './pro/ProAvatar'
+export * from './pro/ProDesc'
 
 /** Plus 组件 */
 export * from './plus/PlusPage'

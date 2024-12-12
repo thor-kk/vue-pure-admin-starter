@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-11 18:04:07
+ * @LastEditTime: 2024-12-12 10:02:23
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -15,8 +15,8 @@ import type { ActionBtn, Props } from './type'
 import type { PlusDialogFormInstance } from 'plus-pro-components'
 
 import { cloneDeep } from 'lodash'
-import { PlusSearch, PlusDialogForm, PlusDescriptions } from 'plus-pro-components'
-import { PureTableBar, ProButton } from '@/components'
+import { PlusSearch, PlusDialogForm } from 'plus-pro-components'
+import { PureTableBar, ProButton, ProDesc } from '@/components'
 import { handleFormColumns, searchColumnsHook, handleTableColumns, descColumnsHook } from './columns'
 
 defineExpose({
@@ -358,21 +358,7 @@ async function onBtnClick(args: {
 
     <!-- 详情列表 -->
     <el-dialog v-model="descVisible" shadow="never" :title="descTitle">
-      <PlusDescriptions :column="2" :columns="descColumns" :data="descData">
-        <template
-          v-for="item in descColumns.filter((item) => item.slot)"
-          :key="item.prop"
-          #[`plus-desc-${item.prop}`]="{ row }"
-        >
-          <component
-            :is="item.valueType"
-            v-model="row[item.prop]"
-            class="align-middle"
-            v-bind="item.elProps?.desc"
-            :options="item.options"
-          />
-        </template>
-      </PlusDescriptions>
+      <ProDesc :columns="descColumns" :data="descData" />
     </el-dialog>
   </div>
 </template>
