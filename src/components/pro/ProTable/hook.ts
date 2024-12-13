@@ -30,7 +30,8 @@ export function useColumnsHook(args: { columns: ProColumns[]; showIndex?: boolea
     /** 字段映射 */
     return {
       ...item,
-      slot: (item.el || item.__slot__) && item.prop
+      slot: (item.el || item.__slot__) && item.prop,
+      formatter: item.formatter ? (row) => item.formatter({ row }) : undefined
     } as PlusColumn
   })
 

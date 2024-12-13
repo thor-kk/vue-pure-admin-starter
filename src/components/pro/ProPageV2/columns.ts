@@ -1,49 +1,43 @@
 import { PlusColumn } from 'plus-pro-components'
 import { ProPageColumns } from './type'
+import { ProEditFormInstance } from '@/components'
 
 /** 分页表格 */
-export function handleTableColumns(columns: ProPageColumns[]) {
+export function useTableHook(columns: ProPageColumns[]) {
+  const tableData = ref([])
+  const total = ref()
+  const pagination = ref<any>({})
+
   /** 过滤 */
   const filterColumns = columns.filter((item) => !item.hideTable)
 
-  const tableColumns = filterColumns.map((item) => {
-    /** CRUD */
-    if (item.actionCode === 'detail') {
-      if (!item.el) item.el = {}
-      item.el.table = 'link'
+  const tableColumns = computed(() =>
+    filterColumns.map((item) => {
+      /** CRUD */
+      if (item.actionCode === 'detail') {
+        if (!item.el) item.el = {}
+        item.el.table = 'link'
 
-      if (!item.elProps) {
-        item.elProps = {}
-        item.elProps.table = { type: 'primary' }
-      }
-    }
-
-    /** 格式化 */
-    function handelFormatter() {
-      if (item.formatter) {
-        return (row) => item.formatter({ row })
+        if (!item.elProps) {
+          item.elProps = {}
+          item.elProps.table = { type: 'primary' }
+        }
       }
 
-      if (item.dict?.table && item.options) {
-        return (row) => item.options.find((dict) => dict.value === row[item.prop]).label
-      }
+      /** 字段映射 */
+      return {
+        ...item,
+        el: item.el?.table,
+        elProps: item.elProps?.table
+      } as any
+    })
+  )
 
-      return undefined
-    }
-
-    return {
-      ...item,
-      el: item.el?.table,
-      elProps: item.elProps?.table,
-      formatter: handelFormatter()
-    } as any
-  })
-
-  return tableColumns
+  return { tableColumns, tableData, total, pagination }
 }
 
 /** 查询表单 */
-export function searchColumnsHook(columns: ProPageColumns[]) {
+export function useSearchHook(columns: ProPageColumns[]) {
   /** 表单数据 */
   const searchForm = ref({})
 
@@ -67,7 +61,12 @@ export function searchColumnsHook(columns: ProPageColumns[]) {
 }
 
 /** 编辑表单 */
-export function useFormHook(columns: ProPageColumns[]) {
+export function useFormHook({ columns, title }: { columns: ProPageColumns[]; title: string }) {
+  const formRef = ref<ProEditFormInstance>()
+  const formData = ref({})
+  const formTitle = ref(title)
+  const formConfirmApi = ref()
+
   const filterColumns = columns.filter((item) => !item.hideForm)
 
   const formColumns = computed(() =>
@@ -82,7 +81,7 @@ export function useFormHook(columns: ProPageColumns[]) {
     })
   )
 
-  return { formColumns }
+  return { formColumns, formTitle, formData, formRef, formConfirmApi }
 }
 
 /** 描述列表 */
