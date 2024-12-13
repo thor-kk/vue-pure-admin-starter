@@ -7,6 +7,7 @@ export function useTableHook(columns: ProPageColumn[]) {
   const tableData = ref([])
   const pagination = ref<any>({})
   const total = ref(0)
+  const tableRef = ref()
 
   /** 过滤 */
   const filterColumns = columns.filter((item) => !item.hideTable)
@@ -33,7 +34,7 @@ export function useTableHook(columns: ProPageColumn[]) {
     })
   )
 
-  return { tableColumns, tableData, pagination, total }
+  return { tableColumns, tableData, pagination, total, tableRef }
 }
 
 /** 查询表单 */

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 16:35:23
+ * @LastEditTime: 2024-12-13 22:45:35
  * @Description: 高级表格
 -->
 
@@ -23,6 +23,12 @@ const props = withDefaults(defineProps<Props>(), {
   showIndex: true
 })
 
+onMounted(() => {
+  emits('register', { ref: tableRef?.value.getTableRef() })
+})
+
+const tableRef = ref()
+
 /** 分页配置 */
 const pagination = ref({ pageNum: 1, pageSize: props.pageSize })
 
@@ -43,6 +49,7 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
 
 <template>
   <PureTable
+    ref="tableRef"
     :row-key="props.rowKey"
     :columns
     :data="props.data"

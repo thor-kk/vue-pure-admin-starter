@@ -1,5 +1,7 @@
 export interface Emits {
   /** 分页数据改变 */
+  (e: 'register', args: { ref: any }): void
+  /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
   /** 行点击事件 */
   (e: 'row-click', args: { row: any; item: any }): void

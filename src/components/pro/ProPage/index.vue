@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 21:57:55
+ * @LastEditTime: 2024-12-13 22:39:38
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -47,7 +47,7 @@ function onTableResize() {
 
 onMounted(() => onSearch())
 
-const { tableColumns, tableData, pagination, total } = useTableHook(props.columns)
+const { tableColumns, tableData, tableRef, pagination, total } = useTableHook(props.columns)
 const { searchColumns, searchForm } = useSearchHook(props.columns)
 const { formColumns, formTitle, formData, formRef, formConfirmApi } = useFormHook({
   columns: props.columns,
@@ -185,7 +185,7 @@ async function onBtnClick(args: {
     </el-card>
 
     <!-- 表格 -->
-    <PureTableBar :columns="tableColumns" @refresh="onSearch" @fullscreen="onTableResize">
+    <PureTableBar :columns="tableColumns" :tableRef="tableRef" @refresh="onSearch" @fullscreen="onTableResize">
       <!-- 主要操作 -->
       <template #title>
         <div v-if="props.mainBtn && props.mainBtn.length > 0" class="flex">
@@ -210,6 +210,7 @@ async function onBtnClick(args: {
           :action="handleTableBtn"
           :row-key="props.rowKey"
           :show-index="props.tableShowIndex"
+          @register="({ ref }) => (tableRef = ref)"
           @page-change="onTablePageChange"
           @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
         />
