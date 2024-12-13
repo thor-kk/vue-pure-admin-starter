@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 09:20:50
+ * @LastEditTime: 2024-12-13 09:42:05
  * @Description: 高级表格
 -->
 
@@ -11,13 +11,14 @@ import type { Props } from './type'
 defineOptions({ name: 'components-pro-table' })
 
 const emits = defineEmits<{
+  /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
 }>()
 
 const props = withDefaults(defineProps<Props>(), {
+  total: 0,
   pageSize: 15,
   pageSizes: () => [10, 15, 30, 50, 100],
-  total: 0,
   alignWhole: 'center',
   showOverflowTooltip: true,
   adaptive: true
@@ -61,7 +62,17 @@ function onPageCurrentChange(val) {
     @page-size-change="onPageSizeChange"
     @page-current-change="onPageCurrentChange"
   >
-    <template v-for="item in props.columns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{}">
+    <template v-for="item in props.columns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
+      <component
+        :is="item.el"
+        v-model="row[item.prop]"
+        class="align-middle"
+        v-bind="item.elProps"
+        :options="item.options"
+      >
+        {{ row[item.prop] }}
+      </component>
+
       <!-- 操作列 -->
       <!-- <div v-if="item.prop === 'operation'">
         <el-button
@@ -74,11 +85,10 @@ function onPageCurrentChange(val) {
         >
           {{ item.text }}
         </el-button>
-      </div>
+      </div> -->
 
-      <component
+      <!-- <component
         :is="item.el?.table"
-        v-else
         v-model="row[item.prop]"
         class="align-middle"
         v-bind="typeof item.elProps?.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"

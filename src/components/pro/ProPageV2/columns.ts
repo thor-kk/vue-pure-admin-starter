@@ -30,7 +30,7 @@ export function handleTableColumns(columns: ProPageColumns[], tableIndex, tableB
     }
 
     /** 组件映射 */
-    if (item.el?.table) item.el.table = handleTableEl(item.el.table)
+    if (item.el?.table) item.el.table = shallowRef(handleTableEl(item.el.table))
 
     /** 格式化 */
     function handelFormatter() {
@@ -47,6 +47,8 @@ export function handleTableColumns(columns: ProPageColumns[], tableIndex, tableB
 
     return {
       ...item,
+      el: item.el?.table,
+      elProps: item.elProps?.table,
       formatter: handelFormatter(),
       slot: (item.el?.table || item.slot?.table) && item.prop
     }
