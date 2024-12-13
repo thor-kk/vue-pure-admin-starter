@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 10:09:23
+ * @LastEditTime: 2024-12-13 11:05:54
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -67,7 +67,7 @@ async function onSearch() {
 /** 表格数据 */
 const tableData = ref([])
 /** 表格列配置 */
-const tableColumns = computed(() => handleTableColumns(props.columns, props.tableIndex, props.tableBtn))
+const tableColumns = computed(() => handleTableColumns(props.columns))
 
 /** 表格行事件 - change */
 async function onTableRowChange(args: { row: any; column: any }) {

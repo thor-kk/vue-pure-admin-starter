@@ -14,12 +14,12 @@ export interface ProColumns {
   rules?: any
   /** 选项（字典） */
   options?: { label: string; value: any; tagType?: 'primary' | 'danger'; switch?: 'active' | 'inactive' }[]
-  /** 插槽 */
-  slot?: boolean
   /** label 宽度 */
   labelWidth?: number
   /** 格式化 */
   formatter?: (args: { row: any }) => string
+  /** 其他属性 */
+  [key: string]: any
 }
 
 /** 组件类型 */

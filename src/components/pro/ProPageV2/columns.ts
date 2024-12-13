@@ -1,21 +1,10 @@
 import { PlusColumn } from 'plus-pro-components'
-import { handleTableEl } from './el'
 import { ProPageColumns } from './type'
 
 /** 分页表格 */
-export function handleTableColumns(columns: ProPageColumns[], tableIndex, tableBtn) {
+export function handleTableColumns(columns: ProPageColumns[]) {
   /** 过滤 */
   const filterColumns = columns.filter((item) => !item.hideTable)
-
-  /** 序号列 */
-  if (tableIndex) {
-    filterColumns.unshift({ label: '序号', prop: 'index', type: 'index', width: 60, fixed: 'left' })
-  }
-
-  /** 操作列 */
-  if (tableBtn && tableBtn.length > 0) {
-    filterColumns.push({ label: '操作', prop: 'operation', fixed: 'right', slot: { table: true } })
-  }
 
   const tableColumns = filterColumns.map((item) => {
     /** CRUD */
@@ -28,9 +17,6 @@ export function handleTableColumns(columns: ProPageColumns[], tableIndex, tableB
         item.elProps.table = { type: 'primary' }
       }
     }
-
-    /** 组件映射 */
-    if (item.el?.table) item.el.table = shallowRef(handleTableEl(item.el.table))
 
     /** 格式化 */
     function handelFormatter() {
@@ -49,9 +35,8 @@ export function handleTableColumns(columns: ProPageColumns[], tableIndex, tableB
       ...item,
       el: item.el?.table,
       elProps: item.elProps?.table,
-      formatter: handelFormatter(),
-      slot: (item.el?.table || item.slot?.table) && item.prop
-    }
+      formatter: handelFormatter()
+    } as any
   })
 
   return tableColumns

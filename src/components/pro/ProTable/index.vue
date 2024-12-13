@@ -1,21 +1,17 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 10:27:08
+ * @LastEditTime: 2024-12-13 10:59:13
  * @Description: 高级表格
 -->
 
 <script setup lang="ts">
-import type { Props } from './type'
+import { useColumnsHook } from './hook'
+import type { Emits, Props } from './type'
 
 defineOptions({ name: 'components-pro-table' })
 
-const emits = defineEmits<{
-  /** 分页数据改变 */
-  (e: 'page-change', args: { pageNum: any; pageSize: any }): void
-  /** 行点击事件 */
-  (e: 'row-click', args: { row: any; item: any }): void
-}>()
+const emits = defineEmits<Emits>()
 
 const props = withDefaults(defineProps<Props>(), {
   total: 0,
@@ -27,11 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 /** 分页配置 */
-const pagination = ref({
-  total: props.total,
-  pageNum: 1,
-  pageSize: props.pageSize
-})
+const pagination = ref({ total: props.total, pageNum: 1, pageSize: props.pageSize })
 
 /** 分页事件 - 每页条数变更 */
 function onPageSizeChange(val) {
@@ -44,11 +36,13 @@ function onPageCurrentChange(val) {
   pagination.value.pageNum = val
   emits('page-change', { pageNum: pagination.value.pageNum, pageSize: pagination.value.pageSize })
 }
+
+const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.showIndex, action: props.action })
 </script>
 
 <template>
   <PureTable
-    :columns="props.columns"
+    :columns
     :data="props.data"
     :size="props.size"
     :align-whole="props.alignWhole"
@@ -64,10 +58,10 @@ function onPageCurrentChange(val) {
     @page-size-change="onPageSizeChange"
     @page-current-change="onPageCurrentChange"
   >
-    <template v-for="item in props.columns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
-      <div v-if="item.prop === 'operation'">
+    <template v-for="item in columns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
+      <div v-if="item.prop === '__operation__'">
         <el-button
-          v-for="item in props.btn"
+          v-for="item in props.action"
           :key="item.text"
           type="primary"
           link
