@@ -1,8 +1,8 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-13 14:41:28
- * @Description: 用户管理
+ * @LastEditTime: 2024-12-13 15:10:05
+ * @Description: 角色管理
 -->
 
 <script setup lang="ts">
@@ -16,10 +16,10 @@ import { columns } from './data'
 <template>
   <div>
     <ProPage
-      title="用户"
+      title="角色"
       edit-form-2-col
       :columns
-      :api="systemService.userApi.getUserPage"
+      :api="systemService.roleApi.getRolePage"
       :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
       :table-btn="[
         { code: 'update', api: systemService.userApi.updateUser },

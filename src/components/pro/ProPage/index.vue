@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 14:27:26
+ * @LastEditTime: 2024-12-13 16:36:10
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -46,7 +46,7 @@ function onTableResize() {
 
 onMounted(() => onSearch())
 
-const { tableColumns, tableData, total, pagination } = useTableHook(props.columns)
+const { tableColumns, tableData, pagination } = useTableHook(props.columns)
 const { searchColumns, searchForm } = useSearchHook(props.columns)
 const { formColumns, formTitle, formData, formRef, formConfirmApi } = useFormHook({
   columns: props.columns,
@@ -199,7 +199,7 @@ async function onBtnClick(args: {
           :columns="dynamicColumns"
           :data="tableData"
           :size
-          :total="total"
+          :total="pagination.total"
           :action="handleTableBtn"
           @page-change="(pageParams) => (pagination = pageParams)"
           @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"

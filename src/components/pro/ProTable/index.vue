@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 10:59:13
+ * @LastEditTime: 2024-12-13 16:35:23
  * @Description: 高级表格
 -->
 
@@ -19,11 +19,12 @@ const props = withDefaults(defineProps<Props>(), {
   pageSizes: () => [10, 15, 30, 50, 100],
   alignWhole: 'center',
   showOverflowTooltip: true,
-  adaptive: true
+  adaptive: true,
+  showIndex: true
 })
 
 /** 分页配置 */
-const pagination = ref({ total: props.total, pageNum: 1, pageSize: props.pageSize })
+const pagination = ref({ pageNum: 1, pageSize: props.pageSize })
 
 /** 分页事件 - 每页条数变更 */
 function onPageSizeChange(val) {
@@ -49,7 +50,7 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
     :show-overflow-tooltip="props.showOverflowTooltip"
     :adaptive="props.adaptive"
     :pagination="{
-      total: pagination.total,
+      total: props.total,
       pageSize: pagination.pageSize,
       currentPage: pagination.pageNum,
       pageSizes: props.pageSizes,

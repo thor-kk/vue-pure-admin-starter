@@ -1,8 +1,8 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-09-19 19:59:08
- * @LastEditTime: 2024-12-11 17:55:17
- * @Description: Plus - 高级开关
+ * @LastEditTime: 2024-12-13 16:24:32
+ * @Description: 高级开关
 -->
 
 <script setup lang="ts">
@@ -12,7 +12,11 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  inlinePrompt: true
+  inlinePrompt: true,
+  options: () => [
+    { label: '', value: 1, switch: 'active' },
+    { label: '', value: 0, switch: 'inactive' }
+  ]
 })
 </script>
 

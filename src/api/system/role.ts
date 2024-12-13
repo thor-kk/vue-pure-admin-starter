@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-12-02 09:40:49
+ * @LastEditTime: 2024-12-13 16:18:26
  * @Description: 角色模块
  */
 
@@ -10,13 +10,18 @@ import type { Result, ResultTable, RPage } from '../type'
 import { http } from '@/utils/http'
 import { baseUrl } from '../utils'
 
-/** 获取角色分页 */
-export async function getRolePage(data?: object) {
+export async function getRolePage(params?: object) {
   try {
-    const res = await http.request<RPage>('get', baseUrl + '/role/page', { params: data })
+    const res = await http.request<RPage>('get', baseUrl + '/role/page', { params })
     if (res.code === 200) return res.data
   } catch (error) {}
 }
+
+/**
+ * ! 以下代码替换完后需要删除
+ */
+
+/** 获取角色分页 */
 
 /** 获取角色列表 */
 export async function getRoleList(data?: object) {

@@ -5,7 +5,6 @@ import { ProEditFormInstance } from '@/components'
 /** 分页表格 */
 export function useTableHook(columns: ProPageColumn[]) {
   const tableData = ref([])
-  const total = ref()
   const pagination = ref<any>({})
 
   /** 过滤 */
@@ -33,7 +32,7 @@ export function useTableHook(columns: ProPageColumn[]) {
     })
   )
 
-  return { tableColumns, tableData, total, pagination }
+  return { tableColumns, tableData, pagination }
 }
 
 /** 查询表单 */
