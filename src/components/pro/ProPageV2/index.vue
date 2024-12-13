@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-12 15:04:06
+ * @LastEditTime: 2024-12-13 09:25:02
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -15,7 +15,7 @@ import type { ActionBtn, Props } from './type'
 
 import { cloneDeep } from 'lodash'
 import { PlusSearch } from 'plus-pro-components'
-import { PureTableBar, ProButton, ProDesc, ProEditForm, ProEditFormInstance } from '@/components'
+import { PureTableBar, ProButton, ProDesc, ProEditForm, ProEditFormInstance, ProTable } from '@/components'
 import { searchColumnsHook, handleTableColumns, descColumnsHook, useFormColumns } from './columns'
 
 defineExpose({
@@ -42,11 +42,13 @@ const props = withDefaults(defineProps<Props>(), {
 onMounted(() => onSearch())
 
 /** 查询 */
+const pagination = ref<any>({})
+const total = ref()
 async function onSearch() {
   const searchParams = {
     ...searchForm.value,
-    pageSize: pagination.value.pageSize,
-    pageNum: pagination.value.pageNum
+    pageSize: pagination.value?.pageSize,
+    pageNum: pagination.value?.pageNum
   }
 
   try {
@@ -76,26 +78,6 @@ async function onTableRowChange(args: { row: any; column: any }) {
   }
 
   emits('row-change', { row: args.row })
-}
-
-/** 重新计算表格高度 */
-function onTableResize() {
-  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
-}
-
-/** 分页配置 */
-const pagination = ref({ total: 0, pageNum: 1, pageSize: props.paginationPageSize })
-
-/** 分页事件 - 每页条数变更 */
-function onPageSizeChange(val) {
-  pagination.value.pageSize = val
-  onSearch()
-}
-
-/** 分页事件 - 页码变更 */
-function onPageCurrentChange(val) {
-  pagination.value.pageNum = val
-  onSearch()
 }
 
 /**
@@ -135,6 +117,11 @@ const { descColumns, descVisible, descData, descTitle } = descColumnsHook({
   columns: props.columns,
   title: props.title
 })
+
+/** 重新计算表格高度 */
+function onTableResize() {
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
+}
 
 /**
  * ! CRUD 和 按钮点击逻辑
@@ -242,58 +229,13 @@ async function onBtnClick(args: {
       </template>
 
       <template v-slot="{ dynamicColumns, size }">
-        <PureTable
+        <ProTable
           :columns="dynamicColumns"
           :data="tableData"
           :size
-          :align-whole="props.tableAlignWhole"
-          :show-overflow-tooltip="props.tableShowOverflowTooltip"
-          :adaptive="props.tableAdaptive"
-          :pagination="{
-            total: pagination.total,
-            pageSize: pagination.pageSize,
-            currentPage: pagination.pageNum,
-            pageSizes: props.paginationPageSizes,
-            size
-          }"
-          @page-size-change="onPageSizeChange"
-          @page-current-change="onPageCurrentChange"
-        >
-          <template
-            v-for="item in tableColumns.filter((item) => item.slot)"
-            :key="item.prop"
-            #[item.prop]="{ row, column }"
-          >
-            <!-- 操作列 -->
-            <div v-if="item.prop === 'operation'">
-              <el-button
-                v-for="item in handleTableBtn"
-                :key="item.text"
-                type="primary"
-                link
-                :size
-                @click="() => onBtnClick({ row, ...item })"
-              >
-                {{ item.text }}
-              </el-button>
-            </div>
-
-            <component
-              :is="item.el?.table"
-              v-else
-              v-model="row[item.prop]"
-              class="align-middle"
-              v-bind="typeof item.elProps?.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
-              :options="item.options"
-              @change="() => onTableRowChange({ row, column })"
-              @click="() => onBtnClick({ code: item.actionCode, row })"
-            >
-              {{
-                item.dict?.table ? item.options?.find((dict) => dict.value === row[item.prop]).label : row[item.prop]
-              }}
-            </component>
-          </template>
-        </PureTable>
+          :total="total"
+          @page-change="(pageParams) => (pagination = pageParams)"
+        />
       </template>
     </PureTableBar>
 
