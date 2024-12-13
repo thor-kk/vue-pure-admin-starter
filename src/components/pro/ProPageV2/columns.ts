@@ -1,5 +1,5 @@
 import { PlusColumn } from 'plus-pro-components'
-import { handleDescEl, handleTableEl, plusEl } from './el'
+import { handleTableEl } from './el'
 import { ProPageColumns } from './type'
 
 /** 分页表格 */
@@ -82,7 +82,7 @@ export function searchColumnsHook(columns: ProPageColumns[]) {
 }
 
 /** 编辑表单 */
-export function useFormColumns(columns: ProPageColumns[]) {
+export function useFormHook(columns: ProPageColumns[]) {
   const filterColumns = columns.filter((item) => !item.hideForm)
 
   const formColumns = computed(() =>
@@ -101,7 +101,7 @@ export function useFormColumns(columns: ProPageColumns[]) {
 }
 
 /** 描述列表 */
-export function descColumnsHook({ columns, title }: { columns: ProPageColumns[]; title: string }) {
+export function useDescHook({ columns, title }: { columns: ProPageColumns[]; title: string }) {
   const descVisible = ref(false)
   const descData = ref()
   const descTitle = computed(() => title + '详情')
@@ -110,19 +110,11 @@ export function descColumnsHook({ columns, title }: { columns: ProPageColumns[];
 
   const descColumns = computed(() =>
     filterColumns.map((item) => {
-      /** 组件映射 */
-      if (plusEl.includes(item.el?.desc as string)) {
-        if (item.el?.desc) item.el.desc = handleDescEl(item.el.desc)
-        if (!item.slot) item.slot = {}
-        item.slot.desc = true
-      }
-
       /** 字段映射 */
       return {
         ...item,
-        formatter: item.formatter ? (_, col) => item.formatter({ row: col.row }) : undefined,
-        valueType: item.el?.desc ?? '',
-        fieldProps: item.elProps?.desc
+        el: item.el?.desc ?? '',
+        elProps: item.elProps?.desc
       } as PlusColumn
     })
   )

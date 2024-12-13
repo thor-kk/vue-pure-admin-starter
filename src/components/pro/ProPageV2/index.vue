@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 09:25:02
+ * @LastEditTime: 2024-12-13 09:58:18
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -16,7 +16,7 @@ import type { ActionBtn, Props } from './type'
 import { cloneDeep } from 'lodash'
 import { PlusSearch } from 'plus-pro-components'
 import { PureTableBar, ProButton, ProDesc, ProEditForm, ProEditFormInstance, ProTable } from '@/components'
-import { searchColumnsHook, handleTableColumns, descColumnsHook, useFormColumns } from './columns'
+import { searchColumnsHook, handleTableColumns, useFormHook, useDescHook } from './columns'
 
 defineExpose({
   /** 刷新列表 */
@@ -99,7 +99,7 @@ const editForm = ref({})
 /** 编辑表单点击确认 Api */
 const editConfirmApi = ref()
 /** 编辑表单列配置 */
-const { formColumns } = useFormColumns(props.columns)
+const { formColumns } = useFormHook(props.columns)
 
 /** 编辑表单点击确认事件 */
 async function onEditFormConfirm() {
@@ -113,7 +113,7 @@ async function onEditFormConfirm() {
  */
 
 /** 描述列表配置 */
-const { descColumns, descVisible, descData, descTitle } = descColumnsHook({
+const { descColumns, descVisible, descData, descTitle } = useDescHook({
   columns: props.columns,
   title: props.title
 })

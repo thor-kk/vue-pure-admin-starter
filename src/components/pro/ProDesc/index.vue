@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-12 10:23:28
+ * @LastEditTime: 2024-12-13 09:54:29
  * @Description: 高级描述列表
 -->
 
@@ -9,6 +9,7 @@
 defineOptions({ name: 'components-pro-desc' })
 
 import { PlusDescriptions } from 'plus-pro-components'
+import { useColumnsHook } from './hook'
 
 interface Props {
   /** 列配置 */
@@ -22,12 +23,14 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   column: 2
 })
+
+const { columns } = useColumnsHook(props.columns)
 </script>
 
 <template>
-  <PlusDescriptions :column="props.column" :columns="props.columns" :data="props.data">
+  <PlusDescriptions :columns="columns" :data="props.data">
     <template
-      v-for="item in props.columns.filter((item) => item.slot)"
+      v-for="item in columns.filter((item) => item.slot)"
       :key="item.prop"
       #[`plus-desc-${item.prop}`]="{ row }"
     >
