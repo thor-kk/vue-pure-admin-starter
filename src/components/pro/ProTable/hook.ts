@@ -1,4 +1,3 @@
-import type { PlusColumn } from 'plus-pro-components'
 import type { ElType, ProColumns } from '@/components/type'
 import { ProAvatar, ProSwitch, ProTag } from '@/components'
 import { ElLink } from 'element-plus'
@@ -23,17 +22,15 @@ export function useColumnsHook(args: { columns: ProColumns[]; showIndex?: boolea
     columns.push({ label: '操作', prop: '__operation__', fixed: 'right', __slot__: true })
   }
 
-  const tableColumns = columns.map((item) => {
+  columns.forEach((item) => {
     /** 组件映射 */
     if (item.el) item.el = shallowRef(handleTableEl(item.el)) as any
 
-    /** 字段映射 */
-    return {
-      ...item,
-      slot: (item.el || item.__slot__) && item.prop,
-      formatter: item.formatter ? (row) => item.formatter({ row }) : undefined
-    } as PlusColumn
+    item.slot = (item.el || item.__slot__) && item.prop
+
+    const originalFormatter = item.formatter
+    item.formatter = originalFormatter ? (row) => originalFormatter({ row }) : undefined
   })
 
-  return { columns: tableColumns }
+  return { columns }
 }
