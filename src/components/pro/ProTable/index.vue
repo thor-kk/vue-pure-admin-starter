@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 22:57:15
+ * @LastEditTime: 2024-12-13 23:06:45
  * @Description: 高级表格
 -->
 
@@ -81,6 +81,7 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
           type="primary"
           link
           :size
+          :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
           @click="() => emits('row-click', { row, item })"
         >
           {{ item.text }}
@@ -93,6 +94,7 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
         v-model="row[item.prop]"
         class="align-middle"
         v-bind="item.elProps"
+        :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
         :options="item.options"
         @click="() => emits('row-click', { row, item })"
       >

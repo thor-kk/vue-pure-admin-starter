@@ -16,6 +16,8 @@ export interface ActionBtn {
   click?: (args?: { row: any }) => any
   /** CRUD 回显数据（需要处理时） */
   data?: (args?: { row: any }) => any
+  /** 其他 */
+  [key: string]: any
 }
 
 export interface ProPageColumn {
