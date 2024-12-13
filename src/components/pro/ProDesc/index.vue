@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-13 09:54:29
+ * @LastEditTime: 2024-12-13 10:10:00
  * @Description: 高级描述列表
 -->
 
@@ -28,7 +28,7 @@ const { columns } = useColumnsHook(props.columns)
 </script>
 
 <template>
-  <PlusDescriptions :columns="columns" :data="props.data">
+  <PlusDescriptions :columns="columns" :column="props.column" :data="props.data">
     <template
       v-for="item in columns.filter((item) => item.slot)"
       :key="item.prop"

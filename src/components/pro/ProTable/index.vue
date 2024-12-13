@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 09:42:05
+ * @LastEditTime: 2024-12-13 10:07:18
  * @Description: 高级表格
 -->
 
@@ -13,6 +13,8 @@ defineOptions({ name: 'components-pro-table' })
 const emits = defineEmits<{
   /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
+  /** 行点击事件 */
+  (e: 'row-click', args: { row: any; item: any }): void
 }>()
 
 const props = withDefaults(defineProps<Props>(), {
@@ -69,6 +71,7 @@ function onPageCurrentChange(val) {
         class="align-middle"
         v-bind="item.elProps"
         :options="item.options"
+        @click="() => emits('row-click', { row, item })"
       >
         {{ row[item.prop] }}
       </component>
