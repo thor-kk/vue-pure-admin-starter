@@ -1,42 +1,25 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-11 11:14:50
+ * @LastEditTime: 2024-12-13 14:41:28
  * @Description: 用户管理
 -->
 
 <script setup lang="ts">
-defineOptions({ name: 'views-system-user-v2' })
-import type { ProPageInstance } from '@/components'
+defineOptions({ name: 'views-system-role-v2' })
 
-import { ProPage, ProDeptTree } from '@/components'
+import { ProPage } from '@/components'
 import { systemService } from '@/api'
 import { columns } from './data'
-
-const proPageRef = ref<ProPageInstance>()
-const deptId = ref()
-function onDeptClick(row: any) {
-  deptId.value = row.deptId
-  proPageRef.value.getList()
-}
 </script>
 
 <template>
-  <div class="h-full">
-    <ProDeptTree
-      class="float-left"
-      tree-label="name"
-      :api="({ deptName }) => systemService.deptApi.getDeptTree({ name: deptName })"
-      @click="({ row }) => onDeptClick(row)"
-    />
-
+  <div>
     <ProPage
-      ref="proPageRef"
-      class="ml-[258px]"
       title="用户"
       edit-form-2-col
       :columns
-      :api="(params) => systemService.userApi.getUserPage({ ...params, deptId })"
+      :api="systemService.userApi.getUserPage"
       :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
       :table-btn="[
         { code: 'update', api: systemService.userApi.updateUser },

@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-12-04 14:29:15
+ * @LastEditTime: 2024-12-13 14:43:01
  * @Description: router - 系统管理
  */
 
@@ -21,6 +21,12 @@ export default {
       name: 'page-system-user',
       meta: { title: '用户管理' },
       component: () => import('@/views/system/pure/user/index.vue')
+    },
+    {
+      path: '/system/role/v2',
+      name: 'page-system-role-v2',
+      meta: { title: '角色管理-v2' },
+      component: () => import('@/views/system/role/index.vue')
     },
     {
       path: '/system/role',

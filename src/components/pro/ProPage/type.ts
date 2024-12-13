@@ -19,7 +19,7 @@ export interface ActionBtn {
   data?: (args?: { row: any }) => any
 }
 
-export interface ProPageColumns {
+export interface ProPageColumn {
   /** 标签 */
   label: string
   /** 字段 */
@@ -62,7 +62,7 @@ export interface Props {
   /** 标题 */
   title?: string
   /** 配置 */
-  columns: ProPageColumns[]
+  columns: ProPageColumn[]
   /** 请求接口 */
   api: (params?: any) => Promise<Page>
   /** 表格状态改变接口 */

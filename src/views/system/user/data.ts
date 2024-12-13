@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import { ProPageColumns } from '@/components'
+import { ProPageColumn } from '@/components'
 
-export const columns: ProPageColumns[] = [
+export const columns: ProPageColumn[] = [
   {
     label: '头像',
     prop: 'avatar',

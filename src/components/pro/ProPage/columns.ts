@@ -1,9 +1,9 @@
 import { PlusColumn } from 'plus-pro-components'
-import { ProPageColumns } from './type'
+import { ProPageColumn } from './type'
 import { ProEditFormInstance } from '@/components'
 
 /** 分页表格 */
-export function useTableHook(columns: ProPageColumns[]) {
+export function useTableHook(columns: ProPageColumn[]) {
   const tableData = ref([])
   const total = ref()
   const pagination = ref<any>({})
@@ -37,7 +37,7 @@ export function useTableHook(columns: ProPageColumns[]) {
 }
 
 /** 查询表单 */
-export function useSearchHook(columns: ProPageColumns[]) {
+export function useSearchHook(columns: ProPageColumn[]) {
   /** 表单数据 */
   const searchForm = ref({})
 
@@ -61,7 +61,7 @@ export function useSearchHook(columns: ProPageColumns[]) {
 }
 
 /** 编辑表单 */
-export function useFormHook({ columns, title }: { columns: ProPageColumns[]; title: string }) {
+export function useFormHook({ columns, title }: { columns: ProPageColumn[]; title: string }) {
   const formRef = ref<ProEditFormInstance>()
   const formData = ref({})
   const formTitle = ref(title)
@@ -85,7 +85,7 @@ export function useFormHook({ columns, title }: { columns: ProPageColumns[]; tit
 }
 
 /** 描述列表 */
-export function useDescHook({ columns, title }: { columns: ProPageColumns[]; title: string }) {
+export function useDescHook({ columns, title }: { columns: ProPageColumn[]; title: string }) {
   const descVisible = ref(false)
   const descData = ref()
   const descTitle = computed(() => title + '详情')
