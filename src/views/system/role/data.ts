@@ -15,19 +15,22 @@ export const columns: ProPageColumn[] = [
   {
     label: '状态',
     prop: 'status',
-    el: { table: 'switch' },
+    el: { table: 'switch', desc: 'tag' },
     options: [
-      { value: 1, label: '启用', switch: 'active' },
-      { value: 0, label: '禁用', switch: 'inactive' }
-    ]
+      { value: 1, label: '启用', switch: 'active', tagType: 'primary' },
+      { value: 0, label: '禁用', switch: 'inactive', tagType: 'danger' }
+    ],
+    hideForm: true
   },
   {
     label: '备注',
-    prop: 'remark'
+    prop: 'remark',
+    el: { form: 'textarea' }
   },
   {
     label: '创建时间',
     prop: 'createTime',
-    formatter: ({ row }) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss')
+    formatter: ({ row }) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss'),
+    hideForm: true
   }
 ]

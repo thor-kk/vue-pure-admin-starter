@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-13 15:10:05
+ * @LastEditTime: 2024-12-13 16:46:03
  * @Description: 角色管理
 -->
 
@@ -17,8 +17,8 @@ import { columns } from './data'
   <div>
     <ProPage
       title="角色"
-      edit-form-2-col
       :columns
+      :form-width="550"
       :api="systemService.roleApi.getRolePage"
       :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
       :table-btn="[

@@ -213,6 +213,7 @@ async function onBtnClick(args: {
       v-model="formData"
       :title="formTitle"
       :columns="formColumns"
+      :width="props.formWidth"
       :form2Col="props.editForm2Col"
       :form-label-position="props.editFormLabelPosition"
       :form-label-width="props.editFormLabelWidth"

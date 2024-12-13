@@ -95,4 +95,6 @@ export interface Props {
   editFormHasErrorTip?: boolean
   /** 编辑表单 - 两列显示 */
   editForm2Col?: boolean
+  /** 编辑表单 - 弹窗宽度 */
+  formWidth?: number
 }

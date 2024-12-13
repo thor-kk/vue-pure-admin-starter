@@ -24,20 +24,22 @@ export interface ProColumns {
 
 /** 组件类型 */
 export type ElType =
-  /** 下拉选择（查询表单、编辑表单） */
+  /** 下拉选择 */
   | 'select'
-  /** 时间选择（查询表单、编辑表单）*/
+  /** 时间选择 */
   | 'date-picker'
-  /** 单选（编辑表单）*/
+  /** 单选 */
   | 'radio'
-  /** 开关（表格、编辑表单） */
+  /** 开关 */
   | 'switch'
-  /** 链接（表格、描述列表） */
+  /** 链接 */
   | 'link'
-  /** 标签（表格、描述列表） */
+  /** 标签 */
   | 'tag'
-  /** 头像（表格） */
+  /** 头像 */
   | 'avatar'
+  /** 文本域 */
+  | 'textarea'
 
 /** 常用组件属性的提示 */
 export interface ElProps {

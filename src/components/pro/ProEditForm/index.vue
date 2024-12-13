@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-12 14:55:22
+ * @LastEditTime: 2024-12-13 16:50:02
  * @Description: 高级编辑表单
 -->
 
@@ -25,14 +25,16 @@ interface Props {
   columns: any
   /** 标题 */
   title?: string
-  /** 规则错误提示 */
-  hasErrorTip?: boolean
+  /** 表单宽度 */
+  width?: number
+  /** 表单 label 宽度 */
+  labelWidth?: number
+  /** 表单 label 位置 */
+  labelPosition?: 'left' | 'right' | 'top'
   /** 表单开启两列 */
   form2Col?: boolean
-  /** 表单 label 宽度 */
-  formLabelWidth?: number
-  /** 表单 label 位置 */
-  formLabelPosition?: 'left' | 'right' | 'top'
+  /** 规则错误提示 */
+  hasErrorTip?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -79,8 +81,11 @@ function close() {
       rules,
       rowProps: { gutter: props.form2Col ? 20 : 0 },
       colProps: { span: props.form2Col ? 12 : 24 },
-      labelWidth: props.formLabelWidth,
+      labelWidth: props.labelWidth,
       labelPosition: props.formLabelPosition
+    }"
+    :dialog="{
+      width: props.width + 'px'
     }"
     :hasErrorTip="props.hasErrorTip"
     @confirm="() => emits('confirm')"
