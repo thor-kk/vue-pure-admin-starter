@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 17:04:54
+ * @LastEditTime: 2024-12-13 21:57:55
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -31,12 +31,13 @@ const emits = defineEmits<{
 const props = withDefaults(defineProps<Props>(), {
   tableAdaptive: true,
   tableAlignWhole: 'center',
-  tableIndex: true,
+  tableShowIndex: true,
   tableShowOverflowTooltip: true,
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchFormShowNum: 2,
-  searchFormCollapseTransition: false
+  searchFormCollapseTransition: false,
+  rowKey: 'id'
 })
 
 /** 重新计算表格高度 */
@@ -65,7 +66,7 @@ async function onSearch() {
   try {
     const res = await props.api(searchParams)
     total.value = res.total
-    tableData.value = res.records
+    tableData.value = res.records || res
   } catch (error) {
     console.log('🚀 ~ onSearch ~ error:', error)
   }
@@ -207,6 +208,8 @@ async function onBtnClick(args: {
           :size
           :total
           :action="handleTableBtn"
+          :row-key="props.rowKey"
+          :show-index="props.tableShowIndex"
           @page-change="onTablePageChange"
           @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
         />

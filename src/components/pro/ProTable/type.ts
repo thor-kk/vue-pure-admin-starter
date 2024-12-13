@@ -10,6 +10,8 @@ export interface Props {
   columns: any[]
   /** 数据 */
   data: any[]
+  /** 行 key */
+  rowKey?: string
   /** 操作 */
   action?: any[]
   /** 显示索引 */

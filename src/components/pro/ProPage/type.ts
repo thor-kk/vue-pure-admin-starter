@@ -1,5 +1,4 @@
 import type { Component } from 'vue'
-import { Page } from '@/api'
 import { ElProps, ElType } from '@/components/type'
 
 /** CRUD编码 */
@@ -41,7 +40,7 @@ export interface ProPageColumn {
   /** 通用组件传递的属性 */
   elProps?: { table?: ElProps | (({ row }) => ElProps); search?: ElProps; form?: ElProps; desc?: ElProps }
   /** 选项（用于下拉选择组件） */
-  options?: { label: string; value: any; tagType?: 'primary' | 'danger'; switch?: 'active' | 'inactive' }[]
+  options?: any
   /** 是否是字典（开启后可以根据 value 值和 options 自动翻译） */
   dict?: { table: boolean }
   /** 格式化（用于表格翻译） */
@@ -56,6 +55,8 @@ export interface ProPageColumn {
   hideForm?: boolean
   /** 描述列表隐藏 */
   hideDesc?: boolean
+  /** 其他 */
+  [key: string]: any
 }
 
 export interface Props {
@@ -64,7 +65,9 @@ export interface Props {
   /** 配置 */
   columns: ProPageColumn[]
   /** 请求接口 */
-  api: (params?: any) => Promise<Page>
+  api: (params?: any) => Promise<any>
+  /** 行 key */
+  rowKey?: string
   /** 表格状态改变接口 */
   statusChangeApi?: (args?: { row: any }) => Promise<boolean>
   /** 主要操作按钮 */
@@ -76,7 +79,7 @@ export interface Props {
   /** 表格 - 统一对齐方式 */
   tableAlignWhole?: 'center' | 'left' | 'right'
   /** 表格 - 显示序号索引 */
-  tableIndex?: boolean
+  tableShowIndex?: boolean
   /** 表格 - 显示溢出工具提示 */
   tableShowOverflowTooltip?: boolean
   /** 分页 - 默认条目个数 */

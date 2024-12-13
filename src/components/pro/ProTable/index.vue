@@ -43,6 +43,7 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
 
 <template>
   <PureTable
+    :row-key="props.rowKey"
     :columns
     :data="props.data"
     :size="props.size"

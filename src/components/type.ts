@@ -10,6 +10,8 @@ export interface ProColumns {
   elProps?: ElProps
   /** 默认值 */
   defaultValue?: any
+  /** 对齐方式 */
+  align?: 'left' | 'center' | 'right'
   /** 规则 */
   rules?: any
   /** 选项（字典） */
@@ -26,6 +28,8 @@ export interface ProColumns {
 export type ElType =
   /** 下拉选择 */
   | 'select'
+  /** 树选择 */
+  | 'tree-select'
   /** 时间选择 */
   | 'date-picker'
   /** 单选 */
