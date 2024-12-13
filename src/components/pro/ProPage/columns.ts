@@ -6,6 +6,7 @@ import { ProEditFormInstance } from '@/components'
 export function useTableHook(columns: ProPageColumn[]) {
   const tableData = ref([])
   const pagination = ref<any>({})
+  const total = ref(0)
 
   /** 过滤 */
   const filterColumns = columns.filter((item) => !item.hideTable)
@@ -32,7 +33,7 @@ export function useTableHook(columns: ProPageColumn[]) {
     })
   )
 
-  return { tableColumns, tableData, pagination }
+  return { tableColumns, tableData, pagination, total }
 }
 
 /** 查询表单 */

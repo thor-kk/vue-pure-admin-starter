@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 16:36:10
+ * @LastEditTime: 2024-12-13 17:04:54
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -46,7 +46,7 @@ function onTableResize() {
 
 onMounted(() => onSearch())
 
-const { tableColumns, tableData, pagination } = useTableHook(props.columns)
+const { tableColumns, tableData, pagination, total } = useTableHook(props.columns)
 const { searchColumns, searchForm } = useSearchHook(props.columns)
 const { formColumns, formTitle, formData, formRef, formConfirmApi } = useFormHook({
   columns: props.columns,
@@ -63,12 +63,18 @@ async function onSearch() {
   }
 
   try {
-    const { total, records } = await props.api(searchParams)
-    pagination.value.total = total
-    tableData.value = records
+    const res = await props.api(searchParams)
+    total.value = res.total
+    tableData.value = res.records
   } catch (error) {
     console.log('🚀 ~ onSearch ~ error:', error)
   }
+}
+
+/** 表格分页改变事件 */
+function onTablePageChange(_pagination: any) {
+  pagination.value = _pagination
+  onSearch()
 }
 
 /** 表格行事件 - change */
@@ -199,9 +205,9 @@ async function onBtnClick(args: {
           :columns="dynamicColumns"
           :data="tableData"
           :size
-          :total="pagination.total"
+          :total
           :action="handleTableBtn"
-          @page-change="(pageParams) => (pagination = pageParams)"
+          @page-change="onTablePageChange"
           @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
         />
       </template>
