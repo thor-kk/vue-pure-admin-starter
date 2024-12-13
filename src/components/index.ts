@@ -7,7 +7,7 @@
 
 /** Pro 组件 */
 export * from './pro/ProSwitch'
-export * from './pro/ProSwitchV2'
+export * from './pro/ProSwitch'
 export * from './pro/ProStatusText'
 export * from './pro/ProColorText'
 export * from './pro/ProButton'

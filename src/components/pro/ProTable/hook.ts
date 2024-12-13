@@ -1,11 +1,11 @@
 import type { PlusColumn } from 'plus-pro-components'
 import type { ElType, ProColumns } from '@/components/type'
-import { ProAvatar, ProSwitchV2, ProTag } from '@/components'
+import { ProAvatar, ProSwitch, ProTag } from '@/components'
 import { ElLink } from 'element-plus'
 
 export function handleTableEl(el: ElType) {
   if (el === 'avatar') return ProAvatar
-  if (el === 'switch') return ProSwitchV2
+  if (el === 'switch') return ProSwitch
   if (el === 'tag') return ProTag
   if (el === 'link') return ElLink
 }

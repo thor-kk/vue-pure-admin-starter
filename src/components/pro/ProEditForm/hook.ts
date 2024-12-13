@@ -1,13 +1,13 @@
 import type { ElType, ProColumns } from '@/components/type'
 import type { PlusColumn } from 'plus-pro-components'
-import { ProSwitchV2 } from '@/components'
+import { ProSwitch } from '@/components'
 
 /** 需要映射的元素 */
 const needHandleEl = ['switch']
 
 /** 映射的组件 */
 function handleEl(el: ElType) {
-  if (el === 'switch') return ProSwitchV2
+  if (el === 'switch') return ProSwitch
 }
 
 export function useColumnsHook(columns: ProColumns[]) {

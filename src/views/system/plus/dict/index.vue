@@ -98,7 +98,8 @@ function onClick(key: string) {
       </template>
 
       <template #plus-cell-status="{ row }">
-        <ProSwitch v-model="row['status']" dict="status" />
+        {{ row['status'] }}
+        <!-- <ProSwitch v-model="row['status']" dict="status" /> -->
       </template>
     </PlusPage>
 
