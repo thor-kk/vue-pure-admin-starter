@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 10:07:18
+ * @LastEditTime: 2024-12-13 10:27:08
  * @Description: 高级表格
 -->
 
@@ -65,8 +65,22 @@ function onPageCurrentChange(val) {
     @page-current-change="onPageCurrentChange"
   >
     <template v-for="item in props.columns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
+      <div v-if="item.prop === 'operation'">
+        <el-button
+          v-for="item in props.btn"
+          :key="item.text"
+          type="primary"
+          link
+          :size
+          @click="() => emits('row-click', { row, item })"
+        >
+          {{ item.text }}
+        </el-button>
+      </div>
+
       <component
         :is="item.el"
+        v-else
         v-model="row[item.prop]"
         class="align-middle"
         v-bind="item.elProps"
@@ -75,32 +89,6 @@ function onPageCurrentChange(val) {
       >
         {{ row[item.prop] }}
       </component>
-
-      <!-- 操作列 -->
-      <!-- <div v-if="item.prop === 'operation'">
-        <el-button
-          v-for="item in handleTableBtn"
-          :key="item.text"
-          type="primary"
-          link
-          :size
-          @click="() => onBtnClick({ row, ...item })"
-        >
-          {{ item.text }}
-        </el-button>
-      </div> -->
-
-      <!-- <component
-        :is="item.el?.table"
-        v-model="row[item.prop]"
-        class="align-middle"
-        v-bind="typeof item.elProps?.table === 'function' ? item.elProps?.table({ row }) : item.elProps?.table"
-        :options="item.options"
-        @change="() => onTableRowChange({ row, column })"
-        @click="() => onBtnClick({ code: item.actionCode, row })"
-      >
-        {{ item.dict?.table ? item.options?.find((dict) => dict.value === row[item.prop]).label : row[item.prop] }}
-      </component> -->
     </template>
   </PureTable>
 </template>

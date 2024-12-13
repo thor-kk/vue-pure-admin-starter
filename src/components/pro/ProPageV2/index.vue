@@ -234,8 +234,9 @@ async function onBtnClick(args: {
           :data="tableData"
           :size
           :total="total"
+          :btn="handleTableBtn"
           @page-change="(pageParams) => (pagination = pageParams)"
-          @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode })"
+          @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
         />
       </template>
     </PureTableBar>

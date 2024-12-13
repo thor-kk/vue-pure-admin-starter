@@ -3,6 +3,8 @@ export interface Props {
   columns: any[]
   /** 数据 */
   data: any[]
+  /** 操作按钮 */
+  btn?: any
   /** 总数 */
   total?: number
   /** 分页大小 */
