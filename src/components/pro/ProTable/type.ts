@@ -32,4 +32,6 @@ export interface Props {
   pageSize?: number
   /** 分页大小配置 */
   pageSizes?: number[]
+  /** 显示分页 */
+  showPagination?: boolean
 }

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-13 22:11:30
+ * @LastEditTime: 2024-12-13 22:50:49
  * @Description: 部门管理
 -->
 
@@ -20,6 +20,7 @@ import { columns } from './data'
       row-key="deptId"
       :table-show-index="false"
       :form-width="550"
+      :show-pagination="false"
       :columns
       :api="systemService.deptApi.getDeptTree"
       :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"

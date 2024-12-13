@@ -82,6 +82,8 @@ export interface Props {
   tableShowIndex?: boolean
   /** 表格 - 显示溢出工具提示 */
   tableShowOverflowTooltip?: boolean
+  /** 分页 - 显示分页 */
+  showPagination?: boolean
   /** 分页 - 默认条目个数 */
   paginationPageSize?: number
   /** 分页 - 每页显示个数选择器的选项设置 */

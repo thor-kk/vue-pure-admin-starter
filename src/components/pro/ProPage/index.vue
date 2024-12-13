@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 22:39:38
+ * @LastEditTime: 2024-12-13 22:56:53
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -37,7 +37,8 @@ const props = withDefaults(defineProps<Props>(), {
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchFormShowNum: 2,
   searchFormCollapseTransition: false,
-  rowKey: 'id'
+  rowKey: 'id',
+  showPagination: true
 })
 
 /** 重新计算表格高度 */
@@ -210,6 +211,7 @@ async function onBtnClick(args: {
           :action="handleTableBtn"
           :row-key="props.rowKey"
           :show-index="props.tableShowIndex"
+          :showPagination="props.showPagination"
           @register="({ ref }) => (tableRef = ref)"
           @page-change="onTablePageChange"
           @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"

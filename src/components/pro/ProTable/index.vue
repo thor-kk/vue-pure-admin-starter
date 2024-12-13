@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 22:45:35
+ * @LastEditTime: 2024-12-13 22:57:15
  * @Description: 高级表格
 -->
 
@@ -20,7 +20,8 @@ const props = withDefaults(defineProps<Props>(), {
   alignWhole: 'center',
   showOverflowTooltip: true,
   adaptive: true,
-  showIndex: true
+  showIndex: true,
+  showPagination: true
 })
 
 onMounted(() => {
@@ -57,13 +58,18 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
     :align-whole="props.alignWhole"
     :show-overflow-tooltip="props.showOverflowTooltip"
     :adaptive="props.adaptive"
-    :pagination="{
-      total: props.total,
-      pageSize: pagination.pageSize,
-      currentPage: pagination.pageNum,
-      pageSizes: props.pageSizes,
-      size
-    }"
+    :adaptiveConfig="{ offsetBottom: props.showPagination ? 98 : 34 }"
+    :pagination="
+      props.showPagination
+        ? {
+            total: props.total,
+            pageSize: pagination.pageSize,
+            currentPage: pagination.pageNum,
+            pageSizes: props.pageSizes,
+            size
+          }
+        : undefined
+    "
     @page-size-change="onPageSizeChange"
     @page-current-change="onPageCurrentChange"
   >
@@ -96,4 +102,9 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
   </PureTable>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+/** 分页隐藏时取消分割线 */
+:deep(.el-table__inner-wrapper::before) {
+  height: v-bind('props.showPagination === true ? "1px" : 0 ');
+}
+</style>
