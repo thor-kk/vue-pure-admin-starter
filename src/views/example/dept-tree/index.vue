@@ -10,7 +10,7 @@ import { systemService } from '@/api'
     <ProDeptTree
       tree-label="name"
       :api="({ deptName }) => systemService.deptApi.getDeptTree({ name: deptName })"
-      @click="({ row }) => console.log(row)"
+      @click="({ row }) => {}"
     />
   </div>
 </template>

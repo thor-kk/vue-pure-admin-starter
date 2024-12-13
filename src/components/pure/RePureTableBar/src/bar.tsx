@@ -194,7 +194,7 @@ export default defineComponent({
     }
 
     return () => (
-      <>
+      <div>
         <el-card
           {...attrs}
           shadow="never"
@@ -205,14 +205,14 @@ export default defineComponent({
             'bg-bg_color',
             isFullscreen.value ? ['!w-full', '!h-full', 'z-[2002]', 'fixed', 'inset-0'] : 'mt-2'
           ]}
-          body-class="!pb-0"
+          body-class="!p-0"
         >
           <div class="flex justify-between w-full h-[60px] p-4 pl-0">
             {slots?.title ? slots.title() : <p class="font-bold truncate">{props.title}</p>}
             <div class="flex items-center justify-around">
               {slots?.buttons ? <div class="flex mr-4">{slots.buttons()}</div> : null}
               {props.tableRef?.size ? (
-                <>
+                <div>
                   <ExpandIcon
                     class={['w-[16px]', iconClass.value]}
                     style={{
@@ -222,7 +222,7 @@ export default defineComponent({
                     onClick={() => onExpand()}
                   />
                   <el-divider direction="vertical" />
-                </>
+                </div>
               ) : null}
               <RefreshIcon
                 class={['w-[16px]', iconClass.value, loading.value ? 'animate-spin' : '']}
@@ -312,7 +312,7 @@ export default defineComponent({
             dynamicColumns: dynamicColumns.value
           })}
         </el-card>
-      </>
+      </div>
     )
   }
 })
