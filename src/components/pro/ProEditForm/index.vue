@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-13 16:50:02
+ * @LastEditTime: 2024-12-13 17:17:27
  * @Description: 高级编辑表单
 -->
 
@@ -85,7 +85,7 @@ function close() {
       labelPosition: props.formLabelPosition
     }"
     :dialog="{
-      width: props.width + 'px'
+      width: props.width ? props.width + 'px' : '800px'
     }"
     :hasErrorTip="props.hasErrorTip"
     @confirm="() => emits('confirm')"

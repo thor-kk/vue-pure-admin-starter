@@ -194,7 +194,7 @@ export default defineComponent({
     }
 
     return () => (
-      <div>
+      <>
         <el-card
           {...attrs}
           shadow="never"
@@ -212,7 +212,7 @@ export default defineComponent({
             <div class="flex items-center justify-around">
               {slots?.buttons ? <div class="flex mr-4">{slots.buttons()}</div> : null}
               {props.tableRef?.size ? (
-                <div>
+                <>
                   <ExpandIcon
                     class={['w-[16px]', iconClass.value]}
                     style={{
@@ -222,7 +222,7 @@ export default defineComponent({
                     onClick={() => onExpand()}
                   />
                   <el-divider direction="vertical" />
-                </div>
+                </>
               ) : null}
               <RefreshIcon
                 class={['w-[16px]', iconClass.value, loading.value ? 'animate-spin' : '']}
@@ -312,7 +312,7 @@ export default defineComponent({
             dynamicColumns: dynamicColumns.value
           })}
         </el-card>
-      </div>
+      </>
     )
   }
 })
