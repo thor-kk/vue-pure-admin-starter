@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 22:56:53
+ * @LastEditTime: 2024-12-13 23:19:08
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -186,7 +186,13 @@ async function onBtnClick(args: {
     </el-card>
 
     <!-- 表格 -->
-    <PureTableBar :columns="tableColumns" :tableRef="tableRef" @refresh="onSearch" @fullscreen="onTableResize">
+    <PureTableBar
+      :columns="tableColumns"
+      :tableRef="tableRef"
+      :isExpandAll="false"
+      @refresh="onSearch"
+      @fullscreen="onTableResize"
+    >
       <!-- 主要操作 -->
       <template #title>
         <div v-if="props.mainBtn && props.mainBtn.length > 0" class="flex">
@@ -234,7 +240,7 @@ async function onBtnClick(args: {
 
     <!-- 详情列表 -->
     <el-dialog v-model="descVisible" shadow="never" :title="descTitle">
-      <ProDesc :columns="descColumns" :data="descData" />
+      <ProDesc :columns="descColumns" :data="descData" :column="props.descColumn" />
     </el-dialog>
   </div>
 </template>

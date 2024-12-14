@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-13 17:17:27
+ * @LastEditTime: 2024-12-13 23:16:07
  * @Description: 高级编辑表单
 -->
 
@@ -39,8 +39,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   hasErrorTip: false,
-  formLabelWidth: 80,
-  formLabelPosition: 'right'
+  labelWidth: 80,
+  labelPosition: 'right'
 })
 
 onMounted(() => {
@@ -82,7 +82,7 @@ function close() {
       rowProps: { gutter: props.form2Col ? 20 : 0 },
       colProps: { span: props.form2Col ? 12 : 24 },
       labelWidth: props.labelWidth,
-      labelPosition: props.formLabelPosition
+      labelPosition: props.labelPosition
     }"
     :dialog="{
       width: props.width ? props.width + 'px' : '800px'

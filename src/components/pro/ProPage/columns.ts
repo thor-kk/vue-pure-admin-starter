@@ -49,6 +49,8 @@ export function useSearchHook(columns: ProPageColumn[]) {
       /** 设置默认值 */
       searchForm.value[item.prop] = item.defaultValue?.search
 
+      delete item.rules
+
       /** 字段映射 */
       return {
         ...item,

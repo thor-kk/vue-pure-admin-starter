@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-13 23:06:34
+ * @LastEditTime: 2024-12-13 23:26:16
  * @Description: 部门管理
 -->
 
@@ -18,9 +18,10 @@ import { columns } from './data'
     <ProPage
       title="部门"
       row-key="deptId"
+      :form-width="50"
       :table-show-index="false"
-      :form-width="550"
       :show-pagination="false"
+      :desc-column="1"
       :columns
       :api="systemService.deptApi.getDeptTree"
       :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
