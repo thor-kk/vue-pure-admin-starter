@@ -1,12 +1,12 @@
-/** 通用类型（查询表单、编辑表单、描述列表）*/
+/** 通用类型 */
 export interface ProColumns {
   /** 标签 */
   label: string
   /** 字段 */
   prop: string
-  /** 元素（组件） */
+  /** 元素 */
   el?: ElType
-  /** 元素（组件）属性 */
+  /** 元素属性 */
   elProps?: ElProps
   /** 默认值 */
   defaultValue?: any
@@ -14,8 +14,8 @@ export interface ProColumns {
   align?: 'left' | 'center' | 'right'
   /** 规则 */
   rules?: any
-  /** 选项（字典） */
-  options?: { label: string; value: any; tagType?: 'primary' | 'danger'; switch?: 'active' | 'inactive' }[]
+  /** 选项 */
+  options?: DictItem[]
   /** label 宽度 */
   labelWidth?: number
   /** 格式化 */
@@ -51,4 +51,15 @@ export interface ElProps {
   placeholder?: string
   /** 其他扩展 */
   [key: string]: any
+}
+
+export interface DictItem {
+  /** 字典标签 */
+  label: string
+  /** 字典值 */
+  value: string
+  /** tag 标识 */
+  tagType?: string
+  /** switch 标识 */
+  switch?: 'active' | 'inactive'
 }
