@@ -1,15 +1,17 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-16 10:16:52
+ * @LastEditTime: 2024-12-16 10:59:02
  * @Description: 高级表格
 -->
 
 <script setup lang="ts">
-import { useColumnsHook } from './hook'
+defineOptions({ name: 'components-pro-table' })
+
 import type { Emits, Props } from './type'
 
-defineOptions({ name: 'components-pro-table' })
+import { PureTableBar, ProButton } from '@/components'
+import { useColumnsHook } from './hook'
 
 const emits = defineEmits<Emits>()
 
@@ -39,65 +41,81 @@ function onPageCurrentChange(val) {
   emits('page-change', { pageNum: pagination.value.pageNum, pageSize: pagination.value.pageSize })
 }
 
-const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.showIndex, action: props.action })
+const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.showIndex, action: props.tableAction })
 
-const tableRef = ref()
+/** 重新计算表格高度 */
+function onTableResize() {
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
+}
 </script>
 
 <template>
-  <PureTable
-    ref="tableRef"
-    :row-key="props.rowKey"
-    :columns
-    :data="props.data"
-    :size="props.size"
-    :align-whole="props.alignWhole"
-    :show-overflow-tooltip="props.showOverflowTooltip"
-    :adaptive="props.adaptive"
-    :adaptiveConfig="{ offsetBottom: props.showPagination ? 98 : 34 }"
-    :pagination="
-      props.showPagination
-        ? {
-            total: props.total,
-            pageSize: pagination.pageSize,
-            currentPage: pagination.pageNum,
-            pageSizes: props.pageSizes,
-            size
-          }
-        : undefined
-    "
-    @page-size-change="onPageSizeChange"
-    @page-current-change="onPageCurrentChange"
-  >
-    <template v-for="item in columns.filter((item) => item.slot)" :key="item.prop" #[item.prop]="{ row }">
-      <div v-if="item.prop === '__operation__'">
-        <el-button
-          v-for="item in props.action"
-          :key="item.text"
-          type="primary"
-          link
-          :size
-          :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
-          @click="() => emits('row-click', { row, item })"
-        >
+  <PureTableBar :columns @fullscreen="onTableResize">
+    <template #title>
+      <div v-if="props.mainAction && props.mainAction.length > 0" class="flex">
+        <ProButton v-for="item in mainAction" :key="item.text" @click="() => emits('row-click', { item })">
           {{ item.text }}
-        </el-button>
+        </ProButton>
       </div>
 
-      <component
-        :is="item.el"
-        v-else
-        v-model="row[item.prop]"
-        class="align-middle"
-        v-bind="item.elProps"
-        :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
-        :options="item.options"
-        @click="() => emits('row-click', { row, item })"
-      >
-        {{ row[item.prop] }}
-      </component>
+      <div v-else />
     </template>
-  </PureTable>
+
+    <template v-slot="{ dynamicColumns, size }">
+      <PureTable
+        :row-key="props.rowKey"
+        :columns="dynamicColumns"
+        :data="props.data"
+        :size
+        :align-whole="props.alignWhole"
+        :show-overflow-tooltip="props.showOverflowTooltip"
+        :adaptive="props.adaptive"
+        :adaptiveConfig="{ offsetBottom: props.showPagination ? 98 : 34 }"
+        :pagination="
+          props.showPagination
+            ? {
+                total: props.total,
+                pageSize: pagination.pageSize,
+                currentPage: pagination.pageNum,
+                pageSizes: props.pageSizes,
+                size
+              }
+            : undefined
+        "
+        @page-size-change="onPageSizeChange"
+        @page-current-change="onPageCurrentChange"
+      >
+        <template v-for="item in columns.filter((item) => item.__slot__)" :key="item.prop" #[item.prop]="{ row }">
+          <div v-if="item.prop === '__operation__'">
+            <el-button
+              v-for="item in props.tableAction"
+              :key="item.text"
+              type="primary"
+              link
+              :size
+              :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
+              @click="() => emits('row-click', { row, item })"
+            >
+              {{ item.text }}
+            </el-button>
+          </div>
+
+          <component
+            :is="item.el"
+            v-else
+            v-model="row[item.prop]"
+            class="align-middle"
+            v-bind="item.elProps"
+            :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
+            :options="item.options"
+            @click="() => emits('row-click', { row, item })"
+          >
+            {{ row[item.prop] }}
+          </component>
+        </template>
+      </PureTable>
+    </template>
+  </PureTableBar>
 </template>
 
 <style scoped lang="scss">

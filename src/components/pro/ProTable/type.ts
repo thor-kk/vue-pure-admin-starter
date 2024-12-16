@@ -2,7 +2,7 @@ export interface Emits {
   /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
   /** 行点击事件 */
-  (e: 'row-click', args: { row: any; item: any }): void
+  (e: 'row-click', args: { row?: any; item: any }): void
 }
 
 export interface Props {
@@ -12,8 +12,10 @@ export interface Props {
   data: any[]
   /** 行 key */
   rowKey?: string
-  /** 操作 */
-  action?: any[]
+  /** 主操作 */
+  mainAction?: any[]
+  /** 列表操作 */
+  tableAction?: any[]
   /** 显示索引 */
   showIndex?: boolean
   /** 列对齐方式（整体） */

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 10:11:48
+ * @LastEditTime: 2024-12-16 13:46:01
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -15,7 +15,7 @@ import type { ActionBtn, Props } from './type'
 
 import { cloneDeep } from 'lodash'
 import { PlusSearch } from 'plus-pro-components'
-import { PureTableBar, ProButton, ProDesc, ProDialogForm, ProTable } from '@/components'
+import { ProDesc, ProDialogForm, ProTable } from '@/components'
 import { useSearchHook, useFormHook, useDescHook, useTableHook } from './columns'
 
 defineExpose({
@@ -49,7 +49,7 @@ function onTableResize() {
 
 onMounted(() => onSearch())
 
-const { tableColumns, tableData, tableRef, pagination, total } = useTableHook(props.columns)
+const { tableColumns, tableData, pagination, total } = useTableHook(props.columns)
 const { searchColumns, searchData } = useSearchHook(props.columns)
 const { formColumns, formTitle, formData, formRef, formConfirmApi } = useFormHook({
   columns: props.columns,
@@ -187,44 +187,19 @@ async function onBtnClick(args: {
     </el-card>
 
     <!-- 表格 -->
-    <PureTableBar
+    <ProTable
+      :row-key="props.rowKey"
       :columns="tableColumns"
-      :tableRef="tableRef"
-      :isExpandAll="false"
-      @refresh="onSearch"
-      @fullscreen="onTableResize"
-    >
-      <!-- 主要操作 -->
-      <template #title>
-        <div v-if="props.mainBtn && props.mainBtn.length > 0" class="flex">
-          <ProButton
-            v-for="item in handleMainBtn"
-            :key="item.text"
-            @click="() => onBtnClick({ code: item.code, api: item.api, click: item.click })"
-          >
-            {{ item.text }}
-          </ProButton>
-        </div>
-
-        <div v-else />
-      </template>
-
-      <template v-slot="{ dynamicColumns, size }">
-        <ProTable
-          :columns="dynamicColumns"
-          :data="tableData"
-          :size
-          :total
-          :action="handleTableBtn"
-          :row-key="props.rowKey"
-          :show-index="props.tableShowIndex"
-          :showPagination="props.showPagination"
-          @register="({ ref }) => (tableRef = ref)"
-          @page-change="onTablePageChange"
-          @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
-        />
-      </template>
-    </PureTableBar>
+      :data="tableData"
+      :total
+      :action="handleTableBtn"
+      :show-index="props.tableShowIndex"
+      :showPagination="props.showPagination"
+      :main-action="handleMainBtn"
+      :table-action="handleTableBtn"
+      @page-change="onTablePageChange"
+      @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
+    />
 
     <!-- 编辑弹窗 -->
     <ProDialogForm

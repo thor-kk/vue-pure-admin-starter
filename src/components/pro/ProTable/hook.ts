@@ -22,15 +22,19 @@ export function useColumnsHook(args: { columns: ProColumn[]; showIndex?: boolean
     columns.push({ label: '操作', prop: '__operation__', fixed: 'right', __slot__: true })
   }
 
-  columns.forEach((item) => {
+  const _columns = columns.map((item) => {
     /** 组件映射 */
-    if (item.el) item.el = shallowRef(handleTableEl(item.el)) as any
+    if (item.el) {
+      item.el = handleTableEl(item.el) as any
+      item.__slot__ = true
+    }
 
-    item.slot = (item.el || item.__slot__) && item.prop
-
-    const originalFormatter = item.formatter
-    item.formatter = originalFormatter ? (row) => originalFormatter({ row }) : undefined
+    return {
+      ...item,
+      slot: item.__slot__ && item.prop,
+      formatter: item.formatter ? (row) => item.formatter({ row }) : undefined
+    } as ProColumn
   })
 
-  return { columns }
+  return { columns: _columns }
 }

@@ -1,6 +1,6 @@
 import { PlusColumn } from 'plus-pro-components'
 import { ProPageColumn } from './type'
-import { ProEditFormInstance } from '@/components'
+import { ProColumn, ProEditFormInstance } from '@/components'
 
 export function useTableHook(columns: ProPageColumn[]) {
   const tableData = ref([])
@@ -29,7 +29,7 @@ export function useTableHook(columns: ProPageColumn[]) {
         ...item,
         el: item.el?.table,
         elProps: item.elProps?.table
-      } as any
+      } as ProColumn
     })
   )
 
