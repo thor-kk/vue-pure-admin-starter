@@ -2,7 +2,7 @@
  * @Author: Yyy
  * @Date: 2024-10-18 16:48:12
  * @LastEditTime: 2024-12-02 09:48:50
- * @Description: 用户模块 mock
+ * @Description: 角色
  */
 
 import { defineFakeRoute } from 'vite-plugin-fake-server/client'

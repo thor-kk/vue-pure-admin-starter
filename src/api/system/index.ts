@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-09 10:36:24
- * @LastEditTime: 2024-10-18 15:02:30
+ * @LastEditTime: 2024-12-16 13:49:15
  * @Description: 模块统一导出
  */
 
@@ -22,6 +22,3 @@ export * as dictApi from './dict'
 
 /** 授权模块 */
 export * as relationApi from './relation'
-
-/** 监控模块 */
-export * as monitorApi from './monitor'
