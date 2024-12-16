@@ -11,7 +11,7 @@ function handleEl(el: ElType) {
 }
 
 export function useColumnsHook(columns: ProColumn[]) {
-  const descColumns = columns.map((item) => {
+  const _columns = columns.map((item) => {
     /** 组件映射 */
     if (needHandleEl.includes(item.el)) {
       if (item.el) item.el = handleEl(item.el) as any
@@ -27,5 +27,5 @@ export function useColumnsHook(columns: ProColumn[]) {
     } as PlusColumn
   })
 
-  return { columns: descColumns }
+  return { columns: _columns }
 }

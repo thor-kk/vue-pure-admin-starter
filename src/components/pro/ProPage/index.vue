@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 09:47:08
+ * @LastEditTime: 2024-12-16 10:07:46
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -15,7 +15,7 @@ import type { ActionBtn, Props } from './type'
 
 import { cloneDeep } from 'lodash'
 import { PlusSearch } from 'plus-pro-components'
-import { PureTableBar, ProButton, ProDesc, ProEditForm, ProTable } from '@/components'
+import { PureTableBar, ProButton, ProDesc, ProDialogForm, ProTable } from '@/components'
 import { useSearchHook, useFormHook, useDescHook, useTableHook } from './columns'
 
 defineExpose({
@@ -29,6 +29,8 @@ const emits = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<Props>(), {
+  rowKey: 'id',
+  showPagination: true,
   tableAdaptive: true,
   tableAlignWhole: 'center',
   tableShowIndex: true,
@@ -37,8 +39,7 @@ const props = withDefaults(defineProps<Props>(), {
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchFormShowNum: 2,
   searchFormCollapseTransition: false,
-  rowKey: 'id',
-  showPagination: true
+  form2Col: true
 })
 
 /** 重新计算表格高度 */
@@ -90,8 +91,8 @@ async function onTableRowChange(args: { row: any; column: any }) {
   emits('row-change', { row: args.row })
 }
 
-/** 编辑表单点击确认事件 */
-async function onEditFormConfirm() {
+/** 表单确认事件 */
+async function onFormConfirm() {
   const isSuccess = await formConfirmApi.value(formData.value)
   if (isSuccess) onSearch()
   formRef.value.close()
@@ -226,16 +227,15 @@ async function onBtnClick(args: {
     </PureTableBar>
 
     <!-- 编辑弹窗 -->
-    <ProEditForm
+    <ProDialogForm
       ref="formRef"
       v-model="formData"
       :title="formTitle"
       :columns="formColumns"
       :width="props.formWidth"
-      :form2Col="props.editForm2Col"
-      :form-label-position="props.editFormLabelPosition"
-      :form-label-width="props.editFormLabelWidth"
-      @confirm="onEditFormConfirm"
+      :form2Col="props.form2Col"
+      :label-width="props.formLabelWidth"
+      @confirm="onFormConfirm"
     />
 
     <!-- 描述列表 -->

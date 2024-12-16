@@ -1,12 +1,14 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-13 23:16:07
+ * @LastEditTime: 2024-12-16 10:08:52
  * @Description: 高级编辑表单
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-edit-form' })
+
+import type { Emits, Props } from './type'
 
 import { PlusDialogForm } from 'plus-pro-components'
 import { useColumnsHook } from './hook'
@@ -14,44 +16,20 @@ import { cloneDeep } from 'lodash'
 
 defineExpose({ open, close })
 
-const emits = defineEmits<{
-  (e: 'confirm'): void
-  (e: 'cancel'): void
-  (e: 'register', ref: any): void
-}>()
-
-interface Props {
-  /** 列配置 */
-  columns: any
-  /** 标题 */
-  title?: string
-  /** 表单宽度 */
-  width?: number
-  /** 表单 label 宽度 */
-  labelWidth?: number
-  /** 表单 label 位置 */
-  labelPosition?: 'left' | 'right' | 'top'
-  /** 表单开启两列 */
-  form2Col?: boolean
-  /** 规则错误提示 */
-  hasErrorTip?: boolean
-}
+const emits = defineEmits<Emits>()
 
 const props = withDefaults(defineProps<Props>(), {
-  hasErrorTip: false,
+  width: '800px',
   labelWidth: 80,
-  labelPosition: 'right'
-})
-
-onMounted(() => {
-  emits('register', editFormRef.value)
+  labelPosition: 'right',
+  hasErrorTip: false
 })
 
 const { columns, rules, defaultValues } = useColumnsHook(props.columns)
 
+const plusDialogFormRef = ref()
 const formData = defineModel<any>()
 const visible = defineModel<boolean>('visible')
-const editFormRef = ref()
 
 /** 打开编辑表单弹窗 */
 function open() {
@@ -64,7 +42,7 @@ function open() {
 function close() {
   visible.value = false
   /** 重置表单校验 */
-  editFormRef.value.formInstance?.resetFields()
+  plusDialogFormRef.value.formInstance?.resetFields()
   /** 重置默认值 - PlusDialogForm 组件会有一些问题 */
   formData.value = cloneDeep(defaultValues.value)
 }
@@ -72,7 +50,7 @@ function close() {
 
 <template>
   <PlusDialogForm
-    ref="editFormRef"
+    ref="plusDialogFormRef"
     v-model="formData"
     v-model:visible="visible"
     :title="props.title"
@@ -84,14 +62,12 @@ function close() {
       labelWidth: props.labelWidth,
       labelPosition: props.labelPosition
     }"
-    :dialog="{
-      width: props.width ? props.width + 'px' : '800px'
-    }"
+    :dialog="{ width: props.width }"
     :hasErrorTip="props.hasErrorTip"
     @confirm="() => emits('confirm')"
     @cancel="close"
   >
-    <template v-for="item in columns.filter((item) => item.slot)" :key="item.prop" #[`plus-field-${item.prop}`]>
+    <template v-for="item in columns.filter((item) => item.__slot__)" :key="item.prop" #[`plus-field-${item.prop}`]>
       <component
         :is="item.valueType"
         v-model="formData[item.prop]"

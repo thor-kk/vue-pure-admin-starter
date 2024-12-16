@@ -16,14 +16,14 @@ export function useColumnsHook(columns: ProColumn[]) {
   /** 默认值 */
   const defaultValues = ref({})
 
-  const formColumns = columns.map((item) => {
+  const _columns = columns.map((item) => {
     defaultValues.value[item.prop] = item.defaultValue
     rules.value[item.prop] = item.rules
 
     /** 组件映射 */
     if (needHandleEl.includes(item.el)) {
       if (item.el) item.el = handleEl(item.el) as any
-      item.slot = true
+      item.__slot__ = true
     }
 
     /** 字段映射 */
@@ -34,5 +34,5 @@ export function useColumnsHook(columns: ProColumn[]) {
     } as PlusColumn
   })
 
-  return { columns: formColumns, rules, defaultValues }
+  return { columns: _columns, rules, defaultValues }
 }

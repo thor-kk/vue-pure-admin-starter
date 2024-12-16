@@ -95,13 +95,11 @@ export interface Props {
   /** 查询表单 - 折叠动画 */
   searchFormCollapseTransition?: boolean
   /** 编辑表单 - label 宽度 */
-  editFormLabelWidth?: number
-  /** 编辑表单 - label 显示位置 */
-  editFormLabelPosition?: 'left' | 'right' | 'top'
+  formLabelWidth?: number
   /** 编辑表单 - 校验规则错误提示 */
-  editFormHasErrorTip?: boolean
+  formHasErrorTip?: boolean
   /** 编辑表单 - 两列显示 */
-  editForm2Col?: boolean
+  form2Col?: boolean
   /** 编辑表单 - 弹窗宽度 */
   formWidth?: number
   /** 描述列表 - 列数 */

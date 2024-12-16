@@ -1,18 +1,16 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-19 20:03:03
- * @LastEditTime: 2024-12-12 15:09:38
+ * @LastEditTime: 2024-12-16 10:01:06
  * @Description: 统一入口
  */
 
 /** Pro 组件 */
 export * from './pro/ProSwitch'
-export * from './pro/ProSwitch'
 export * from './pro/ProStatusText'
 export * from './pro/ProColorText'
 export * from './pro/ProButton'
 export * from './pro/ProMessageBox'
-export * from './pro/ProPage'
 export * from './pro/ProPage'
 export * from './pro/ProTag'
 export * from './pro/ProDeptTree'

@@ -1,5 +1,5 @@
-import ProEditForm from './index.vue'
+import ProDialogForm from './index.vue'
 
-export declare type ProEditFormInstance = InstanceType<typeof ProEditForm>
+export declare type ProEditFormInstance = InstanceType<typeof ProDialogForm>
 
-export { ProEditForm }
+export { ProDialogForm }
