@@ -1,4 +1,3 @@
-import type { Component } from 'vue'
 import { ElProps, ElType } from '@/components/type'
 
 /** CRUD编码 */
@@ -29,18 +28,16 @@ export interface ProPageColumn {
   type?: 'index' | 'selection'
   /** 表格列固定 */
   fixed?: 'left' | 'right'
-  /** 宽度（用于表格） */
-  width?: string | number
   /** 默认值 */
   defaultValue?: { search?: any; form?: any }
   /** 规则 */
   rules?: any
-  /** 插槽（表格、查询表单、编辑表单、描述列表分别开启） */
-  slot?: { table?: boolean; search?: boolean; form?: boolean; desc?: boolean }
+  /** 禁用 */
+  disabled?: { table?: ({ row }) => boolean; search?: any; form?: any; desc?: any }
   /** 通用组件元素（在表格、描述列表、查询表单、编辑表单中分别映射）*/
-  el?: { table?: ElType | Component; search?: ElType; form?: ElType | Component; desc?: ElType | Component }
+  el?: { table?: ElType; search?: ElType; form?: ElType; desc?: ElType }
   /** 通用组件传递的属性 */
-  elProps?: { table?: ElProps | (({ row }) => ElProps); search?: ElProps; form?: ElProps; desc?: ElProps }
+  elProps?: { table?: ElProps; search?: ElProps; form?: ElProps; desc?: ElProps }
   /** 选项（用于下拉选择组件） */
   options?: any
   /** 是否是字典（开启后可以根据 value 值和 options 自动翻译） */
@@ -104,4 +101,6 @@ export interface Props {
   formWidth?: number
   /** 描述列表 - 列数 */
   descColumn?: number
+  /** 描述列表 - 宽度 */
+  descWidth?: any
 }

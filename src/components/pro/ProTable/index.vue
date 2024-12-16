@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-16 10:59:02
+ * @LastEditTime: 2024-12-16 14:03:25
  * @Description: 高级表格
 -->
 
@@ -93,7 +93,7 @@ function onTableResize() {
               type="primary"
               link
               :size
-              :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
+              :disabled="typeof item.disabled === 'function' ? item.disabled({ row }) : item.disabled"
               @click="() => emits('row-click', { row, item })"
             >
               {{ item.text }}
@@ -106,7 +106,7 @@ function onTableResize() {
             v-model="row[item.prop]"
             class="align-middle"
             v-bind="item.elProps"
-            :disabled="typeof item.disabled === 'function' ? item.disabled(row) : item.disabled"
+            :disabled="typeof item.disabled === 'function' ? item.disabled({ row }) : item.disabled"
             :options="item.options"
             @click="() => emits('row-click', { row, item })"
           >

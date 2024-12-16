@@ -28,7 +28,8 @@ export function useTableHook(columns: ProPageColumn[]) {
       return {
         ...item,
         el: item.el?.table,
-        elProps: item.elProps?.table
+        elProps: item.elProps?.table,
+        disabled: item.disabled?.table
       } as ProColumn
     })
   )
@@ -52,7 +53,8 @@ export function useSearchHook(columns: ProPageColumn[]) {
       return {
         ...item,
         valueType: item.el?.search ?? '',
-        fieldProps: item.elProps?.search
+        fieldProps: item.elProps?.search,
+        disabled: item.disabled?.search
       } as PlusColumn
     })
   )
@@ -75,7 +77,8 @@ export function useFormHook({ columns, title }: { columns: ProPageColumn[]; titl
         ...item,
         defaultValue: item.defaultValue?.form,
         el: item.el?.form ?? '',
-        elProps: item.elProps?.form
+        elProps: item.elProps?.form,
+        disabled: item.disabled?.form
       } as PlusColumn
     })
   )
@@ -96,7 +99,8 @@ export function useDescHook({ columns, title }: { columns: ProPageColumn[]; titl
       return {
         ...item,
         el: item.el?.desc ?? '',
-        elProps: item.elProps?.desc
+        elProps: item.elProps?.desc,
+        disabled: item.disabled?.desc
       } as PlusColumn
     })
   )

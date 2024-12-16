@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-13 16:46:03
+ * @LastEditTime: 2024-12-16 14:02:45
  * @Description: 角色管理
 -->
 
@@ -14,20 +14,28 @@ import { columns } from './data'
 </script>
 
 <template>
-  <div>
-    <ProPage
-      title="角色"
-      :columns
-      :form-width="550"
-      :api="systemService.roleApi.getRolePage"
-      :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
-      :table-btn="[
-        { code: 'update', api: systemService.userApi.updateUser },
-        { code: 'delete', api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id }) }
-      ]"
-      :status-change-api="({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })"
-    />
-  </div>
+  <ProPage
+    title="角色"
+    :columns
+    :form-width="550"
+    :desc-width="550"
+    :desc-column="1"
+    :api="systemService.roleApi.getRolePage"
+    :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
+    :table-btn="[
+      {
+        code: 'update',
+        api: systemService.userApi.updateUser,
+        disabled: ({ row }) => row.code === 'admin'
+      },
+      {
+        code: 'delete',
+        api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id }),
+        disabled: ({ row }) => row.code === 'admin'
+      }
+    ]"
+    :status-change-api="({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })"
+  />
 </template>
 
 <style scoped lang="scss"></style>

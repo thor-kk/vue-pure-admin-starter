@@ -22,7 +22,6 @@ export const columns: ProPageColumn[] = [
   {
     label: '状态',
     prop: 'status',
-    disabled: (row) => row.name === '市公安局',
     el: { table: 'switch', form: 'switch', desc: 'tag' },
     defaultValue: { form: '01' },
     options: [

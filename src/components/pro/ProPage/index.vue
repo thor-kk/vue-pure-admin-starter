@@ -16,7 +16,7 @@ import type { ActionBtn, Props } from './type'
 import { cloneDeep } from 'lodash'
 import { PlusSearch } from 'plus-pro-components'
 import { ProDesc, ProDialogForm, ProTable } from '@/components'
-import { useSearchHook, useFormHook, useDescHook, useTableHook } from './columns'
+import { useSearchHook, useFormHook, useDescHook, useTableHook } from './hook'
 
 defineExpose({
   /** 刷新列表 */
@@ -38,8 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchShowNum: 2,
-  searchCollapseTransition: false,
-  form2Col: true
+  searchCollapseTransition: false
 })
 
 /** 重新计算表格高度 */
@@ -214,7 +213,7 @@ async function onBtnClick(args: {
     />
 
     <!-- 描述列表 -->
-    <el-dialog v-model="descVisible" :title="descTitle" shadow="never">
+    <el-dialog v-model="descVisible" :title="descTitle" shadow="never" :width="props.descWidth">
       <ProDesc :columns="descColumns" :data="descData" :column="props.descColumn" />
     </el-dialog>
   </div>

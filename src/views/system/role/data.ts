@@ -20,6 +20,7 @@ export const columns: ProPageColumn[] = [
       { value: 1, label: '启用', switch: 'active', tagType: 'primary' },
       { value: 0, label: '禁用', switch: 'inactive', tagType: 'danger' }
     ],
+    disabled: { table: ({ row }) => row.code === 'admin' },
     hideForm: true
   },
   {
