@@ -1,12 +1,12 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-13 23:26:16
+ * @LastEditTime: 2024-12-16 16:35:20
  * @Description: 部门管理
 -->
 
 <script setup lang="ts">
-defineOptions({ name: 'views-system-dept-v2' })
+defineOptions({ name: 'views-system-dept' })
 
 import { ProPage } from '@/components'
 import { systemService } from '@/api'
@@ -18,18 +18,21 @@ import { columns } from './data'
     <ProPage
       title="部门"
       row-key="deptId"
-      :form-width="50"
+      :form-width="500"
       :table-show-index="false"
       :show-pagination="false"
       :desc-column="1"
       :columns
       :api="systemService.deptApi.getDeptTree"
-      :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
-      :table-btn="[
-        { code: 'update', api: systemService.userApi.updateUser, disabled: true },
+      :main-action="[{ code: 'create', api: systemService.userApi.createUser }]"
+      :table-action="[
+        { code: 'create', api: systemService.userApi.createUser },
+        { code: 'update', api: systemService.userApi.updateUser },
         { code: 'delete', api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id }) }
       ]"
-      :status-change-api="({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })"
+      :table-status-change-api="
+        ({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })
+      "
     />
   </div>
 </template>

@@ -19,7 +19,12 @@ export function useColumnsHook(args: { columns: ProColumn[]; showIndex?: boolean
 
   /** 操作列 */
   if (action && action.length > 0) {
-    columns.push({ label: '操作', prop: '__operation__', fixed: 'right', __slot__: true })
+    columns.push({
+      label: '操作',
+      prop: '__operation__',
+      fixed: 'right',
+      __slot__: true
+    })
   }
 
   const _columns = columns.map((item) => {

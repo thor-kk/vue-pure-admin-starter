@@ -1,12 +1,12 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-16 16:13:04
+ * @LastEditTime: 2024-12-16 16:23:40
  * @Description: 用户管理
 -->
 
 <script setup lang="ts">
-defineOptions({ name: 'views-system-user-v2' })
+defineOptions({ name: 'views-system-user' })
 import type { ProPageInstance } from '@/components'
 
 import { ProPage, ProDeptTree } from '@/components'

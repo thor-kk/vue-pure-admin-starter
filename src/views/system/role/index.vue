@@ -1,12 +1,12 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-16 15:57:19
+ * @LastEditTime: 2024-12-16 16:23:35
  * @Description: 角色管理
 -->
 
 <script setup lang="ts">
-defineOptions({ name: 'views-system-role-v2' })
+defineOptions({ name: 'views-system-role' })
 
 import { ProPage } from '@/components'
 import { systemService } from '@/api'

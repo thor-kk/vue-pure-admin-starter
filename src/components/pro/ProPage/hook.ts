@@ -121,6 +121,7 @@ export function useActionHook(args: { mainAction?: Action[]; tableAction?: Actio
 
   const _tableAction = computed(() =>
     tableAction.map((item) => {
+      if (item.code === 'create') item.text = '新增'
       if (item.code === 'update') item.text = '修改'
       if (item.code === 'delete') item.text = '删除'
       return item
