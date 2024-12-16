@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 17:29:47
+ * @LastEditTime: 2024-12-16 17:35:00
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -162,7 +162,6 @@ function onTableRowClick({ row, column }: { row: any; column: any }) {
         :collapse-transition="props.searchCollapseTransition"
         :show-number="props.searchShowNum"
         :search-loading="loading"
-        @change="onSearch"
         @search="onSearch"
         @reset="onSearch"
         @collapse="onTableResize"
@@ -185,6 +184,7 @@ function onTableRowClick({ row, column }: { row: any; column: any }) {
       @row-change="({ row, item }) => onTableRowChange({ row, column: item })"
       @row-click="({ row, item }) => onTableRowClick({ row, column: item })"
       @action-click="({ row, item }) => onTableActionClick({ row, ...item })"
+      @refresh="onSearch"
     />
 
     <!-- 编辑弹窗 -->

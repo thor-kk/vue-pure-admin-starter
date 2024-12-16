@@ -4,6 +4,8 @@ export interface Action {
 }
 
 export interface Emits {
+  /** refresh */
+  (e: 'refresh'): void
   /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
   /** 行事件 */

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-16 17:30:11
+ * @LastEditTime: 2024-12-16 17:34:18
  * @Description: 高级表格
 -->
 
@@ -59,6 +59,7 @@ const tableRef = ref()
     :tableRef="props.expandAll === undefined ? {} : tableRef?.getTableRef()"
     :is-expand-all="props.expandAll"
     @fullscreen="onTableResize"
+    @refresh="emits('refresh')"
   >
     <template #title>
       <div v-if="props.mainAction && props.mainAction.length > 0" class="flex">
