@@ -1,5 +1,6 @@
+import type { Action, ProPageColumn } from './type'
+
 import { PlusColumn } from 'plus-pro-components'
-import { ProPageColumn } from './type'
 import { ProColumn, ProEditFormInstance } from '@/components'
 
 export function useTableHook(columns: ProPageColumn[]) {
@@ -106,4 +107,27 @@ export function useDescHook({ columns, title }: { columns: ProPageColumn[]; titl
   )
 
   return { descColumns, descVisible, descData, descTitle }
+}
+
+export function useActionHook(args: { mainAction?: Action[]; tableAction?: Action[]; title: string }) {
+  const { mainAction, tableAction, title } = args
+  console.log('🚀 ~ useActionHook ~ tableAction:', tableAction)
+  console.log('🚀 ~ useActionHook ~ mainAction:', mainAction)
+
+  const _mainAction = computed(() =>
+    mainAction.map((item) => {
+      if (item.code === 'create') item.text = '新增' + title
+      return item
+    })
+  )
+
+  const _tableAction = computed(() =>
+    tableAction.map((item) => {
+      if (item.code === 'update') item.text = '修改'
+      if (item.code === 'delete') item.text = '删除'
+      return item
+    })
+  )
+
+  return { mainAction: _mainAction, tableAction: _tableAction }
 }

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-16 14:02:45
+ * @LastEditTime: 2024-12-16 14:29:24
  * @Description: 角色管理
 -->
 
@@ -21,8 +21,8 @@ import { columns } from './data'
     :desc-width="550"
     :desc-column="1"
     :api="systemService.roleApi.getRolePage"
-    :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
-    :table-btn="[
+    :main-action="[{ code: 'create', api: systemService.userApi.createUser }]"
+    :table-action="[
       {
         code: 'update',
         api: systemService.userApi.updateUser,

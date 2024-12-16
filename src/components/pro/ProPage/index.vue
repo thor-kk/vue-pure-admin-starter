@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 13:46:01
+ * @LastEditTime: 2024-12-16 14:27:28
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -11,12 +11,12 @@
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
-import type { ActionBtn, Props } from './type'
+import type { Props } from './type'
 
 import { cloneDeep } from 'lodash'
 import { PlusSearch } from 'plus-pro-components'
 import { ProDesc, ProDialogForm, ProTable } from '@/components'
-import { useSearchHook, useFormHook, useDescHook, useTableHook } from './hook'
+import { useSearchHook, useFormHook, useDescHook, useTableHook, useActionHook } from './hook'
 
 defineExpose({
   /** 刷新列表 */
@@ -55,6 +55,11 @@ const { formColumns, formTitle, formData, formRef, formConfirmApi } = useFormHoo
   title: props.title
 })
 const { descColumns, descVisible, descData, descTitle } = useDescHook({ columns: props.columns, title: props.title })
+const { mainAction, tableAction } = useActionHook({
+  mainAction: props.mainAction,
+  tableAction: props.tableAction,
+  title: props.title
+})
 
 /** 查询 */
 async function onSearch() {
@@ -97,35 +102,8 @@ async function onFormConfirm() {
   formRef.value.close()
 }
 
-/**
- * ! CRUD 和 按钮点击逻辑
- */
-
-/** 主要按钮 */
-const handleMainBtn = computed(() =>
-  props.mainBtn.map((item) => {
-    if (item.code === 'create') item.text = '新增' + props.title
-    return item
-  })
-)
-
-/** 操作按钮 */
-const handleTableBtn = computed(() =>
-  props.tableBtn.map((item) => {
-    if (item.code === 'update') item.text = '修改'
-    if (item.code === 'delete') item.text = '删除'
-    return item
-  })
-)
-
 /** 按钮点击逻辑 */
-async function onBtnClick(args: {
-  code?: ActionBtn['code']
-  api?: ActionBtn['api']
-  click?: ActionBtn['click']
-  row?: any
-  data?: any
-}) {
+async function onBtnClick(args: any) {
   const { code, api, click, row, data } = args
 
   /** 新增 */
@@ -191,11 +169,10 @@ async function onBtnClick(args: {
       :columns="tableColumns"
       :data="tableData"
       :total
-      :action="handleTableBtn"
       :show-index="props.tableShowIndex"
       :showPagination="props.showPagination"
-      :main-action="handleMainBtn"
-      :table-action="handleTableBtn"
+      :main-action="mainAction"
+      :table-action="tableAction"
       @page-change="onTablePageChange"
       @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
     />

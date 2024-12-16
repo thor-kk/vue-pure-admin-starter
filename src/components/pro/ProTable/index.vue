@@ -16,13 +16,14 @@ import { useColumnsHook } from './hook'
 const emits = defineEmits<Emits>()
 
 const props = withDefaults(defineProps<Props>(), {
+  alignWhole: 'center',
+  adaptive: true,
+  showIndex: true,
+  showOverflowTooltip: true,
+  /** 分页 */
   total: 0,
   pageSize: 15,
   pageSizes: () => [10, 15, 30, 50, 100],
-  alignWhole: 'center',
-  showOverflowTooltip: true,
-  adaptive: true,
-  showIndex: true,
   showPagination: true
 })
 

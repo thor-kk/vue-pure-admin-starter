@@ -1,3 +1,8 @@
+export interface Action {
+  text?: string
+  [key: string]: any
+}
+
 export interface Emits {
   /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
@@ -13,9 +18,9 @@ export interface Props {
   /** 行 key */
   rowKey?: string
   /** 主操作 */
-  mainAction?: any[]
+  mainAction?: Action[]
   /** 列表操作 */
-  tableAction?: any[]
+  tableAction?: Action[]
   /** 显示索引 */
   showIndex?: boolean
   /** 列对齐方式（整体） */

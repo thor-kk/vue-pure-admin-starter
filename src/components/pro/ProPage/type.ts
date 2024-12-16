@@ -1,20 +1,18 @@
-import { ElProps, ElType } from '@/components/type'
+import type { ElProps, ElType } from '@/components'
 
 /** CRUD编码 */
 export type ActionCode = 'create' | 'update' | 'delete' | 'detail'
 
 /** 操作按钮 */
-export interface ActionBtn {
-  /** 按钮文本（传入 CRUD code 时可省略） */
+export interface Action {
+  /** 按钮文字 */
   text?: string
-  /** CRUD 编码（可以快速打开内置编辑弹窗、描述列表弹窗并刷新列表） */
+  /** CRUD 编码 */
   code?: ActionCode
-  /** CRUD Api（增删改查对应接口） */
-  api?: (args?: { data?: any; row?: any }) => Promise<boolean>
-  /** 普通点击事件（表格按钮会传递当前行数据 row） */
-  click?: (args?: { row: any }) => any
-  /** CRUD 回显数据（需要处理时） */
-  data?: (args?: { row: any }) => any
+  /** CRUD Api */
+  api?: any
+  /** click 事件 */
+  click?: any
   /** 其他 */
   [key: string]: any
 }
@@ -68,11 +66,11 @@ export interface Props {
   /** 行 key */
   rowKey?: string
   /** 表格状态改变接口 */
-  statusChangeApi?: (args?: { row: any }) => Promise<boolean>
+  statusChangeApi?: any
   /** 主要操作按钮 */
-  mainBtn?: ActionBtn[]
+  mainAction?: Action[]
   /** 表格操作按钮 */
-  tableBtn?: ActionBtn[]
+  tableAction?: Action[]
   /** 表格 - 自适应高度 */
   tableAdaptive?: boolean
   /** 表格 - 统一对齐方式 */
