@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-11 11:14:50
+ * @LastEditTime: 2024-12-16 16:13:04
  * @Description: 用户管理
 -->
 
@@ -34,15 +34,17 @@ function onDeptClick(row: any) {
       ref="proPageRef"
       class="ml-[258px]"
       title="用户"
-      edit-form-2-col
+      form-2-col
       :columns
       :api="(params) => systemService.userApi.getUserPage({ ...params, deptId })"
-      :main-btn="[{ code: 'create', api: systemService.userApi.createUser }]"
-      :table-btn="[
+      :main-action="[{ code: 'create', api: systemService.userApi.createUser }]"
+      :table-action="[
         { code: 'update', api: systemService.userApi.updateUser },
         { code: 'delete', api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id }) }
       ]"
-      :status-change-api="({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })"
+      :table-status-change-api="
+        ({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })
+      "
     />
   </div>
 </template>

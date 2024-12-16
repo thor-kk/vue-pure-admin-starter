@@ -14,7 +14,7 @@ export function useTableHook(columns: ProPageColumn[]) {
 
   const tableColumns = computed(() =>
     filterColumns.map((item) => {
-      /** CRUD */
+      /** CRUD detail */
       if (item.actionCode === 'detail') {
         if (!item.el) item.el = {}
         item.el.table = 'link'

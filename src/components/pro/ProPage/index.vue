@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 15:58:19
+ * @LastEditTime: 2024-12-16 16:19:53
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -89,7 +89,7 @@ async function onFormConfirm() {
   formRef.value.close()
 }
 
-/** 表格按钮点击事件 */
+/** 表格按钮事件 - click */
 async function onTableActionClick({ code, api, click, row, data }: Action) {
   /** 新增 */
   if (code === 'create') {
@@ -130,7 +130,7 @@ async function onTableActionClick({ code, api, click, row, data }: Action) {
 
   click && click({ row })
 }
-/** 表格行改变事件 */
+/** 表格行事件 - change */
 async function onTableRowChange({ row, column }: { row: any; column: any }) {
   if (column.prop === 'status' && props.tableStatusChangeApi) {
     const isSuccess = await props.tableStatusChangeApi({ row })
@@ -139,12 +139,21 @@ async function onTableRowChange({ row, column }: { row: any; column: any }) {
 
   emits('table-row-change', { row })
 }
+
+/** 表格行事件 - click */
+function onTableRowClick({ row, column }: { row: any; column: any }) {
+  if (column.actionCode === 'detail') {
+    return onTableActionClick({ row, code: column.actionCode })
+  }
+
+  emits('table-row-click', { row })
+}
 </script>
 
 <template>
   <div>
     <!-- 查询表单 -->
-    <el-card v-if="searchColumns.length" shadow="never">
+    <el-card v-if="searchColumns.length" shadow="never" :class="{ 'mb-2': searchColumns.length > 0 }">
       <PlusSearch
         v-model="searchData"
         :columns="searchColumns"
@@ -171,6 +180,7 @@ async function onTableRowChange({ row, column }: { row: any; column: any }) {
       :table-action="tableAction"
       @page-change="onTablePageChange"
       @row-change="({ row, item }) => onTableRowChange({ row, column: item })"
+      @row-click="({ row, item }) => onTableRowClick({ row, column: item })"
       @action-click="({ row, item }) => onTableActionClick({ row, ...item })"
     />
 

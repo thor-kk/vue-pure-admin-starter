@@ -5,8 +5,8 @@ export interface Expose {
 }
 
 export interface Emits {
-  /** 表格行 change 事件 */
-  (e: 'table-row-change', args: { row: any }): void
+  /** 表格行事件 */
+  (e: 'table-row-change' | 'table-row-click', args: { row: any }): void
 }
 
 export interface Props {

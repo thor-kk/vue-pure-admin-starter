@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-16 15:46:19
+ * @LastEditTime: 2024-12-16 16:15:57
  * @Description: 高级表格
 -->
 
@@ -111,6 +111,7 @@ function onTableResize() {
             :disabled="typeof item.disabled === 'function' ? item.disabled({ row }) : item.disabled"
             :options="item.options"
             @change="() => emits('row-change', { row, item })"
+            @click="() => emits('row-click', { row, item })"
           >
             {{ row[item.prop] }}
           </component>

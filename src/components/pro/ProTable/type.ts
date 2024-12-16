@@ -7,7 +7,7 @@ export interface Emits {
   /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
   /** 行事件 */
-  (e: 'row-change', args: { item: any; row: any }): void
+  (e: 'row-change' | 'row-click', args: { item: any; row: any }): void
   /** action 点击事件 */
   (e: 'action-click', args: { item: any; row?: any }): void
 }

@@ -7,8 +7,7 @@ export const columns: ProPageColumn[] = [
     prop: 'avatar',
     el: { table: 'avatar' },
     elProps: { table: { size: 'small' } },
-    hideDesc: true,
-    hideForm: true
+    hide: { form: true, desc: true }
   },
   {
     label: '登录名',
@@ -20,7 +19,7 @@ export const columns: ProPageColumn[] = [
     prop: 'nickname',
     defaultValue: { form: '李四', search: '张三' },
     rules: [{ required: true, message: '请输入用户名' }],
-    showSearch: true
+    hide: { search: false }
   },
   {
     label: '性别',
@@ -45,7 +44,7 @@ export const columns: ProPageColumn[] = [
   {
     label: '邮箱',
     prop: 'email',
-    hideTable: true
+    hide: { table: true }
   },
   {
     label: '状态',
@@ -61,6 +60,6 @@ export const columns: ProPageColumn[] = [
     label: '创建时间',
     prop: 'createTime',
     formatter: ({ row }) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss'),
-    hideForm: true
+    hide: { form: true }
   }
 ]

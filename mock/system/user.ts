@@ -13,6 +13,7 @@ export default defineFakeRoute([
   {
     url: '/user/page',
     method: 'get',
+    timeout: 500,
     response: ({}) => {
       let list = [
         {

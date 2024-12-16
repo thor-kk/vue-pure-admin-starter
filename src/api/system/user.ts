@@ -1,11 +1,11 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-12-11 10:50:47
+ * @LastEditTime: 2024-12-16 16:11:55
  * @Description: 用户管理
  */
 
-import type { R, ResultTable, RPage } from '../type'
+import type { R, RPage } from '../type'
 
 import { http } from '@/utils/http'
 import { baseUrl, successCallback } from '../utils'
@@ -62,14 +62,4 @@ export async function deleteUser(args: { userId: string }) {
   } catch (error) {
     console.log('🚀 ~ deleteUser ~ error:', error)
   }
-}
-
-/**
- * ! 以下代码替换完后需要删除
- */
-
-/** 获取用户列表 */
-export async function getUserList(data?: object) {
-  const res = await http.request<ResultTable>('post', '/user/list', { data })
-  return res
 }

@@ -203,7 +203,7 @@ export default defineComponent({
             'px-2',
             'pb-2',
             'bg-bg_color',
-            isFullscreen.value ? ['!w-full', '!h-full', 'z-[2002]', 'fixed', 'inset-0'] : 'mt-2'
+            isFullscreen.value ? ['!w-full', '!h-full', 'z-[2002]', 'fixed', 'inset-0'] : 'mt-0'
           ]}
           body-class="!p-0"
         >
