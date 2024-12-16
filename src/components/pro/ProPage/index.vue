@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 10:07:46
+ * @LastEditTime: 2024-12-16 10:11:48
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -37,8 +37,8 @@ const props = withDefaults(defineProps<Props>(), {
   tableShowOverflowTooltip: true,
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
-  searchFormShowNum: 2,
-  searchFormCollapseTransition: false,
+  searchShowNum: 2,
+  searchCollapseTransition: false,
   form2Col: true
 })
 
@@ -50,7 +50,7 @@ function onTableResize() {
 onMounted(() => onSearch())
 
 const { tableColumns, tableData, tableRef, pagination, total } = useTableHook(props.columns)
-const { searchColumns, searchForm } = useSearchHook(props.columns)
+const { searchColumns, searchData } = useSearchHook(props.columns)
 const { formColumns, formTitle, formData, formRef, formConfirmApi } = useFormHook({
   columns: props.columns,
   title: props.title
@@ -60,7 +60,7 @@ const { descColumns, descVisible, descData, descTitle } = useDescHook({ columns:
 /** 查询 */
 async function onSearch() {
   const searchParams = {
-    ...searchForm.value,
+    ...searchData.value,
     pageSize: pagination.value?.pageSize,
     pageNum: pagination.value?.pageNum
   }
@@ -175,10 +175,10 @@ async function onBtnClick(args: {
     <!-- 查询表单 -->
     <el-card v-if="searchColumns.length" shadow="never">
       <PlusSearch
-        v-model="searchForm"
+        v-model="searchData"
         :columns="searchColumns"
-        :collapse-transition="props.searchFormCollapseTransition"
-        :show-number="props.searchFormShowNum"
+        :collapse-transition="props.searchCollapseTransition"
+        :show-number="props.searchShowNum"
         @change="onSearch"
         @search="onSearch"
         @reset="onSearch"

@@ -2,7 +2,6 @@ import { PlusColumn } from 'plus-pro-components'
 import { ProPageColumn } from './type'
 import { ProEditFormInstance } from '@/components'
 
-/** 分页表格 */
 export function useTableHook(columns: ProPageColumn[]) {
   const tableData = ref([])
   const pagination = ref<any>({})
@@ -37,17 +36,15 @@ export function useTableHook(columns: ProPageColumn[]) {
   return { tableColumns, tableData, pagination, total, tableRef }
 }
 
-/** 查询表单 */
 export function useSearchHook(columns: ProPageColumn[]) {
-  /** 表单数据 */
-  const searchForm = ref({})
+  const searchData = ref({})
 
   const filterColumns = columns.filter((item) => item.showSearch)
 
   const searchColumns = computed(() =>
     filterColumns.map((item) => {
       /** 设置默认值 */
-      searchForm.value[item.prop] = item.defaultValue?.search
+      searchData.value[item.prop] = item.defaultValue?.search
 
       delete item.rules
 
@@ -60,10 +57,9 @@ export function useSearchHook(columns: ProPageColumn[]) {
     })
   )
 
-  return { searchColumns, searchForm }
+  return { searchColumns, searchData }
 }
 
-/** 编辑表单 */
 export function useFormHook({ columns, title }: { columns: ProPageColumn[]; title: string }) {
   const formRef = ref<ProEditFormInstance>()
   const formData = ref({})
@@ -87,7 +83,6 @@ export function useFormHook({ columns, title }: { columns: ProPageColumn[]; titl
   return { formColumns, formTitle, formData, formRef, formConfirmApi }
 }
 
-/** 描述列表 */
 export function useDescHook({ columns, title }: { columns: ProPageColumn[]; title: string }) {
   const descVisible = ref(false)
   const descData = ref()
