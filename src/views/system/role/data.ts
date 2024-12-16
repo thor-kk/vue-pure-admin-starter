@@ -6,7 +6,7 @@ export const columns: ProPageColumn[] = [
     label: '角色名称',
     prop: 'name',
     actionCode: 'detail',
-    showSearch: true
+    hide: { search: false }
   },
   {
     label: '角色标识',
@@ -21,7 +21,7 @@ export const columns: ProPageColumn[] = [
       { value: 0, label: '禁用', switch: 'inactive', tagType: 'danger' }
     ],
     disabled: { table: ({ row }) => row.code === 'admin' },
-    hideForm: true
+    hide: { form: true }
   },
   {
     label: '备注',
@@ -32,6 +32,6 @@ export const columns: ProPageColumn[] = [
     label: '创建时间',
     prop: 'createTime',
     formatter: ({ row }) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss'),
-    hideForm: true
+    hide: { form: true }
   }
 ]

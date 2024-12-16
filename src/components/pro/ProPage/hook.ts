@@ -10,7 +10,7 @@ export function useTableHook(columns: ProPageColumn[]) {
   const tableRef = ref()
 
   /** 过滤 */
-  const filterColumns = columns.filter((item) => !item.hideTable)
+  const filterColumns = columns.filter((item) => !item.hide?.table)
 
   const tableColumns = computed(() =>
     filterColumns.map((item) => {
@@ -41,7 +41,7 @@ export function useTableHook(columns: ProPageColumn[]) {
 export function useSearchHook(columns: ProPageColumn[]) {
   const searchData = ref({})
 
-  const filterColumns = columns.filter((item) => item.showSearch)
+  const filterColumns = columns.filter((item) => item.hide?.search === false)
 
   const searchColumns = computed(() =>
     filterColumns.map((item) => {
@@ -69,7 +69,7 @@ export function useFormHook({ columns, title }: { columns: ProPageColumn[]; titl
   const formTitle = ref(title)
   const formConfirmApi = ref()
 
-  const filterColumns = columns.filter((item) => !item.hideForm)
+  const filterColumns = columns.filter((item) => !item.hide?.form)
 
   const formColumns = computed(() =>
     filterColumns.map((item) => {
@@ -92,7 +92,7 @@ export function useDescHook({ columns, title }: { columns: ProPageColumn[]; titl
   const descData = ref()
   const descTitle = computed(() => title + '详情')
 
-  const filterColumns = columns.filter((item) => !item.hideDesc)
+  const filterColumns = columns.filter((item) => !item.hide?.desc)
 
   const descColumns = computed(() =>
     filterColumns.map((item) => {

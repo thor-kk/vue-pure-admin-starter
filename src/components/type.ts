@@ -57,7 +57,7 @@ export interface DictItem {
   /** 字典标签 */
   label: string
   /** 字典值 */
-  value: string
+  value: any
   /** tag 标识 */
   tagType?: string
   /** switch 标识 */
