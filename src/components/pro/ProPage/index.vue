@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-13 23:19:08
+ * @LastEditTime: 2024-12-16 09:47:08
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -238,8 +238,8 @@ async function onBtnClick(args: {
       @confirm="onEditFormConfirm"
     />
 
-    <!-- 详情列表 -->
-    <el-dialog v-model="descVisible" shadow="never" :title="descTitle">
+    <!-- 描述列表 -->
+    <el-dialog v-model="descVisible" :title="descTitle" shadow="never">
       <ProDesc :columns="descColumns" :data="descData" :column="props.descColumn" />
     </el-dialog>
   </div>

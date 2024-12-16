@@ -1,4 +1,4 @@
-import type { ElType, ProColumns } from '@/components/type'
+import type { ElType, ProColumn } from '@/components/type'
 import { ProAvatar, ProSwitch, ProTag } from '@/components'
 import { ElLink } from 'element-plus'
 
@@ -9,7 +9,7 @@ export function handleTableEl(el: ElType) {
   if (el === 'link') return ElLink
 }
 
-export function useColumnsHook(args: { columns: ProColumns[]; showIndex?: boolean; action?: any }) {
+export function useColumnsHook(args: { columns: ProColumn[]; showIndex?: boolean; action?: any }) {
   const { columns, showIndex, action } = args
 
   /** 序号列 */

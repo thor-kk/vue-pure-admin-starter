@@ -1,4 +1,4 @@
-import type { ElType, ProColumns } from '@/components/type'
+import type { ElType, ProColumn } from '@/components/type'
 import type { PlusColumn } from 'plus-pro-components'
 import { ProSwitch } from '@/components'
 
@@ -10,7 +10,7 @@ function handleEl(el: ElType) {
   if (el === 'switch') return ProSwitch
 }
 
-export function useColumnsHook(columns: ProColumns[]) {
+export function useColumnsHook(columns: ProColumn[]) {
   /** 规则 */
   const rules = ref({})
   /** 默认值 */

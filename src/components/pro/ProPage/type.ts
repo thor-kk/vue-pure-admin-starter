@@ -104,5 +104,6 @@ export interface Props {
   editForm2Col?: boolean
   /** 编辑表单 - 弹窗宽度 */
   formWidth?: number
+  /** 描述列表 - 列数 */
   descColumn?: number
 }

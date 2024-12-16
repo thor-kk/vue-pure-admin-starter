@@ -1,5 +1,5 @@
 /** 通用类型 */
-export interface ProColumns {
+export interface ProColumn {
   /** 标签 */
   label: string
   /** 字段 */

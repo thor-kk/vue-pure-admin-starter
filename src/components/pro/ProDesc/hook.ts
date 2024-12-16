@@ -1,5 +1,5 @@
 import type { PlusColumn } from 'plus-pro-components'
-import type { ElType, ProColumns } from '@/components/type'
+import type { ElType, ProColumn } from '@/components/type'
 import { ProTag } from '@/components'
 
 /** 需要映射的元素 */
@@ -10,12 +10,12 @@ function handleEl(el: ElType) {
   if (el === 'tag') return ProTag
 }
 
-export function useColumnsHook(columns: ProColumns[]) {
+export function useColumnsHook(columns: ProColumn[]) {
   const descColumns = columns.map((item) => {
     /** 组件映射 */
     if (needHandleEl.includes(item.el)) {
       if (item.el) item.el = handleEl(item.el) as any
-      item.slot = true
+      item.__slot__ = true
     }
 
     /** 字段映射 */
