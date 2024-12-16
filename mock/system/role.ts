@@ -1,17 +1,18 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-18 16:48:12
- * @LastEditTime: 2024-12-02 09:48:50
+ * @LastEditTime: 2024-12-16 14:52:44
  * @Description: 角色
  */
 
 import { defineFakeRoute } from 'vite-plugin-fake-server/client'
 
 export default defineFakeRoute([
-  /** 获取用户列表 */
+  /** 获取角色列表 */
   {
     url: '/role/page',
     method: 'get',
+    timeout: 500,
     response: ({}) => {
       let list = [
         {

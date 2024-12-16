@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 14:27:28
+ * @LastEditTime: 2024-12-16 14:51:33
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -62,6 +62,7 @@ const { mainAction, tableAction } = useActionHook({
 })
 
 /** 查询 */
+const loading = ref(false)
 async function onSearch() {
   const searchParams = {
     ...searchData.value,
@@ -70,11 +71,14 @@ async function onSearch() {
   }
 
   try {
+    loading.value = true
     const res = await props.api(searchParams)
     total.value = res.total
     tableData.value = res.records || res
   } catch (error) {
     console.log('🚀 ~ onSearch ~ error:', error)
+  } finally {
+    loading.value = false
   }
 }
 
@@ -156,6 +160,7 @@ async function onBtnClick(args: any) {
         :columns="searchColumns"
         :collapse-transition="props.searchCollapseTransition"
         :show-number="props.searchShowNum"
+        :search-loading="loading"
         @change="onSearch"
         @search="onSearch"
         @reset="onSearch"
@@ -165,6 +170,7 @@ async function onBtnClick(args: any) {
 
     <!-- 表格 -->
     <ProTable
+      :loading
       :row-key="props.rowKey"
       :columns="tableColumns"
       :data="tableData"

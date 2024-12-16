@@ -64,6 +64,7 @@ function onTableResize() {
 
     <template v-slot="{ dynamicColumns, size }">
       <PureTable
+        :loading="props.loading"
         :row-key="props.rowKey"
         :columns="dynamicColumns"
         :data="props.data"

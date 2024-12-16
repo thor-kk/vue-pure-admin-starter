@@ -17,6 +17,8 @@ export interface Props {
   data: any[]
   /** 行 key */
   rowKey?: string
+  /** 加载 */
+  loading?: boolean
   /** 主操作 */
   mainAction?: Action[]
   /** 列表操作 */
