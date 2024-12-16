@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-16 16:35:20
+ * @LastEditTime: 2024-12-16 17:03:53
  * @Description: 部门管理
 -->
 
@@ -26,7 +26,11 @@ import { columns } from './data'
       :api="systemService.deptApi.getDeptTree"
       :main-action="[{ code: 'create', api: systemService.userApi.createUser }]"
       :table-action="[
-        { code: 'create', api: systemService.userApi.createUser },
+        {
+          code: 'create',
+          api: systemService.userApi.createUser,
+          data: ({ row }) => ({ parId: row.parId })
+        },
         { code: 'update', api: systemService.userApi.updateUser },
         { code: 'delete', api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id }) }
       ]"

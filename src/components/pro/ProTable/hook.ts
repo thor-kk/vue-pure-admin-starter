@@ -23,6 +23,7 @@ export function useColumnsHook(args: { columns: ProColumn[]; showIndex?: boolean
       label: '操作',
       prop: '__operation__',
       fixed: 'right',
+      width: 60 * action.length,
       __slot__: true
     })
   }

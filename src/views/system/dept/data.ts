@@ -1,5 +1,6 @@
 import { ProPageColumn } from '@/components'
 import { systemService } from '@/api'
+import { findTreeItem } from '@/utils'
 import dayjs from 'dayjs'
 
 const deptTree = await systemService.deptApi.getDeptTree()
@@ -10,7 +11,8 @@ export const columns: ProPageColumn[] = [
     prop: 'parId',
     el: { form: 'tree-select' },
     elProps: { form: { data: deptTree, props: { label: 'name', value: 'deptId' }, checkStrictly: true } },
-    hide: { table: true }
+    hide: { table: true },
+    formatter: ({ row }) => findTreeItem({ tree: deptTree, prop: 'deptId', value: row.parId })?.name
   },
   {
     label: '部门名称',

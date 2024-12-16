@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 16:19:53
+ * @LastEditTime: 2024-12-16 17:03:05
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -94,6 +94,7 @@ async function onTableActionClick({ code, api, click, row, data }: Action) {
   /** 新增 */
   if (code === 'create') {
     formRef.value?.open()
+    if (data) formData.value = cloneDeep(data({ row }))
     formConfirmApi.value = api
     formTitle.value = '新增' + props.title
     return
@@ -104,7 +105,7 @@ async function onTableActionClick({ code, api, click, row, data }: Action) {
     formRef.value.open()
 
     if (data) {
-      formData.value = cloneDeep(data(row))
+      formData.value = cloneDeep(data({ row }))
     } else {
       formData.value = cloneDeep(row)
     }
