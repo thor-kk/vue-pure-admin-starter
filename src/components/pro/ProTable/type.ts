@@ -1,7 +1,5 @@
 export interface Emits {
   /** 分页数据改变 */
-  (e: 'register', args: { ref: any }): void
-  /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
   /** 行点击事件 */
   (e: 'row-click', args: { row: any; item: any }): void
@@ -22,10 +20,10 @@ export interface Props {
   alignWhole?: 'center' | 'left' | 'right'
   /** 文字省略提示（整体） */
   showOverflowTooltip?: boolean
+  /** 大小 */
+  size?: any
   /** 自适应高度 */
   adaptive?: boolean
-  /** 尺寸 */
-  size?: any
   /** 总数 */
   total?: number
   /** 分页大小 */

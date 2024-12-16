@@ -18,3 +18,8 @@ export interface Props {
 export interface Emits {
   (e: 'confirm' | 'cancel'): void
 }
+
+export interface Expose {
+  close: any
+  open: any
+}

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-13 23:06:45
+ * @LastEditTime: 2024-12-16 10:16:52
  * @Description: 高级表格
 -->
 
@@ -24,12 +24,6 @@ const props = withDefaults(defineProps<Props>(), {
   showPagination: true
 })
 
-onMounted(() => {
-  emits('register', { ref: tableRef?.value.getTableRef() })
-})
-
-const tableRef = ref()
-
 /** 分页配置 */
 const pagination = ref({ pageNum: 1, pageSize: props.pageSize })
 
@@ -46,6 +40,8 @@ function onPageCurrentChange(val) {
 }
 
 const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.showIndex, action: props.action })
+
+const tableRef = ref()
 </script>
 
 <template>

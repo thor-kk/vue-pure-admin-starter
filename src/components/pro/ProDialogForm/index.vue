@@ -1,20 +1,20 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-16 10:08:52
+ * @LastEditTime: 2024-12-16 10:38:32
  * @Description: 高级编辑表单
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-edit-form' })
 
-import type { Emits, Props } from './type'
+import type { Emits, Expose, Props } from './type'
 
 import { PlusDialogForm } from 'plus-pro-components'
 import { useColumnsHook } from './hook'
 import { cloneDeep } from 'lodash'
 
-defineExpose({ open, close })
+defineExpose<Expose>({ open, close })
 
 const emits = defineEmits<Emits>()
 

@@ -1,24 +1,17 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-16 09:46:36
+ * @LastEditTime: 2024-12-16 10:37:28
  * @Description: 高级描述列表
 -->
 
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-desc' })
 
+import type { Props } from './type'
+
 import { PlusDescriptions } from 'plus-pro-components'
 import { useColumnsHook } from './hook'
-
-interface Props {
-  /** 列配置 */
-  columns: any
-  /** 数据 */
-  data: any
-  /** 显示几列 */
-  column?: number
-}
 
 const props = withDefaults(defineProps<Props>(), {
   column: 2
