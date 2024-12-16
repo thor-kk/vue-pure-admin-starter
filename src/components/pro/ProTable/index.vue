@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-16 16:15:57
+ * @LastEditTime: 2024-12-16 17:30:11
  * @Description: 高级表格
 -->
 
@@ -24,7 +24,8 @@ const props = withDefaults(defineProps<Props>(), {
   total: 0,
   pageSize: 15,
   pageSizes: () => [10, 15, 30, 50, 100],
-  showPagination: true
+  showPagination: true,
+  expandAll: undefined
 })
 
 /** 分页配置 */
@@ -48,10 +49,17 @@ const { columns } = useColumnsHook({ columns: props.columns, showIndex: props.sh
 function onTableResize() {
   setTimeout(() => window.dispatchEvent(new Event('resize')), 160)
 }
+
+const tableRef = ref()
 </script>
 
 <template>
-  <PureTableBar :columns @fullscreen="onTableResize">
+  <PureTableBar
+    :columns
+    :tableRef="props.expandAll === undefined ? {} : tableRef?.getTableRef()"
+    :is-expand-all="props.expandAll"
+    @fullscreen="onTableResize"
+  >
     <template #title>
       <div v-if="props.mainAction && props.mainAction.length > 0" class="flex">
         <ProButton v-for="item in mainAction" :key="item.text" @click="() => emits('action-click', { item })">
@@ -64,6 +72,8 @@ function onTableResize() {
 
     <template v-slot="{ dynamicColumns, size }">
       <PureTable
+        ref="tableRef"
+        :default-expand-all="props.expandAll"
         :loading="props.loading"
         :row-key="props.rowKey"
         :columns="dynamicColumns"

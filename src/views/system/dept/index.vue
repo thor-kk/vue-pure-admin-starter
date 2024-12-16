@@ -22,6 +22,7 @@ import { columns } from './data'
       :table-show-index="false"
       :show-pagination="false"
       :desc-column="1"
+      :table-expand-all="true"
       :columns
       :api="systemService.deptApi.getDeptTree"
       :main-action="[{ code: 'create', api: systemService.userApi.createUser }]"

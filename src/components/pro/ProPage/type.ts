@@ -26,6 +26,8 @@ export interface Props {
   tableStatusChangeApi?: any
   /** 表格 - 自适应高度 */
   tableAdaptive?: boolean
+  /** 表格 - 全部展开 */
+  tableExpandAll?: boolean
   /** 表格 - 统一对齐方式 */
   tableAlignWhole?: 'center' | 'left' | 'right'
   /** 表格 - 显示序号索引 */

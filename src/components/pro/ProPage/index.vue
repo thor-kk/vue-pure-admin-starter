@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 17:03:05
+ * @LastEditTime: 2024-12-16 17:29:47
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -29,6 +29,7 @@ const props = withDefaults(defineProps<Props>(), {
   tableAlignWhole: 'center',
   tableShowIndex: true,
   tableShowOverflowTooltip: true,
+  tableExpandAll: undefined,
   paginationPageSize: 15,
   paginationPageSizes: () => [10, 15, 30, 50, 100],
   searchShowNum: 2,
@@ -176,6 +177,7 @@ function onTableRowClick({ row, column }: { row: any; column: any }) {
       :data="tableData"
       :total
       :show-index="props.tableShowIndex"
+      :expand-all="props.tableExpandAll"
       :showPagination="props.showPagination"
       :main-action="mainAction"
       :table-action="tableAction"

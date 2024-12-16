@@ -35,6 +35,8 @@ export interface Props {
   size?: any
   /** 自适应高度 */
   adaptive?: boolean
+  /** 树形列表展开 */
+  expandAll?: boolean
   /** 总数 */
   total?: number
   /** 分页大小 */
