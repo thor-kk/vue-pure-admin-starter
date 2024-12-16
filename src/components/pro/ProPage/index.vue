@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-01 21:30:07
- * @LastEditTime: 2024-12-16 14:51:33
+ * @LastEditTime: 2024-12-16 15:58:19
  * @Description: 高级页面
  ? 表格组件 - pure-admin-table (https://pure-admin.cn/pages/components/#pure-admin-table)
  ? 编辑表单组件 - PlusProComponents（https://plus-pro-components.com/components/dialog-form.html）
@@ -11,22 +11,16 @@
 <script setup lang="ts">
 defineOptions({ name: 'components-pro-page' })
 
-import type { Props } from './type'
+import type { Action, Emits, Expose, Props } from './type'
 
 import { cloneDeep } from 'lodash'
 import { PlusSearch } from 'plus-pro-components'
 import { ProDesc, ProDialogForm, ProTable } from '@/components'
 import { useSearchHook, useFormHook, useDescHook, useTableHook, useActionHook } from './hook'
 
-defineExpose({
-  /** 刷新列表 */
-  getList: onSearch
-})
+defineExpose<Expose>({ getList: onSearch })
 
-const emits = defineEmits<{
-  /** 表格行 change 事件 */
-  (e: 'row-change', args?: { row?: any }): void
-}>()
+const emits = defineEmits<Emits>()
 
 const props = withDefaults(defineProps<Props>(), {
   rowKey: 'id',
@@ -88,17 +82,6 @@ function onTablePageChange(_pagination: any) {
   onSearch()
 }
 
-/** 表格行事件 - change */
-async function onTableRowChange(args: { row: any; column: any }) {
-  /** 表格状态改变逻辑 */
-  if (args.column.property === 'status') {
-    const isSuccess = await props.statusChangeApi({ row: args.row })
-    if (isSuccess) return onSearch()
-  }
-
-  emits('row-change', { row: args.row })
-}
-
 /** 表单确认事件 */
 async function onFormConfirm() {
   const isSuccess = await formConfirmApi.value(formData.value)
@@ -106,10 +89,8 @@ async function onFormConfirm() {
   formRef.value.close()
 }
 
-/** 按钮点击逻辑 */
-async function onBtnClick(args: any) {
-  const { code, api, click, row, data } = args
-
+/** 表格按钮点击事件 */
+async function onTableActionClick({ code, api, click, row, data }: Action) {
   /** 新增 */
   if (code === 'create') {
     formRef.value?.open()
@@ -149,6 +130,15 @@ async function onBtnClick(args: any) {
 
   click && click({ row })
 }
+/** 表格行改变事件 */
+async function onTableRowChange({ row, column }: { row: any; column: any }) {
+  if (column.prop === 'status' && props.tableStatusChangeApi) {
+    const isSuccess = await props.tableStatusChangeApi({ row })
+    if (isSuccess) return onSearch()
+  }
+
+  emits('table-row-change', { row })
+}
 </script>
 
 <template>
@@ -180,7 +170,8 @@ async function onBtnClick(args: any) {
       :main-action="mainAction"
       :table-action="tableAction"
       @page-change="onTablePageChange"
-      @row-click="({ row, item }) => onBtnClick({ row, code: item.actionCode, ...item })"
+      @row-change="({ row, item }) => onTableRowChange({ row, column: item })"
+      @action-click="({ row, item }) => onTableActionClick({ row, ...item })"
     />
 
     <!-- 编辑弹窗 -->

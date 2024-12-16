@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-16 14:03:25
+ * @LastEditTime: 2024-12-16 15:46:19
  * @Description: 高级表格
 -->
 
@@ -54,7 +54,7 @@ function onTableResize() {
   <PureTableBar :columns @fullscreen="onTableResize">
     <template #title>
       <div v-if="props.mainAction && props.mainAction.length > 0" class="flex">
-        <ProButton v-for="item in mainAction" :key="item.text" @click="() => emits('row-click', { item })">
+        <ProButton v-for="item in mainAction" :key="item.text" @click="() => emits('action-click', { item })">
           {{ item.text }}
         </ProButton>
       </div>
@@ -90,15 +90,15 @@ function onTableResize() {
         <template v-for="item in columns.filter((item) => item.__slot__)" :key="item.prop" #[item.prop]="{ row }">
           <div v-if="item.prop === '__operation__'">
             <el-button
-              v-for="item in props.tableAction"
-              :key="item.text"
+              v-for="btn in props.tableAction"
+              :key="btn.text"
               type="primary"
               link
               :size
-              :disabled="typeof item.disabled === 'function' ? item.disabled({ row }) : item.disabled"
-              @click="() => emits('row-click', { row, item })"
+              :disabled="typeof btn.disabled === 'function' ? btn.disabled({ row }) : btn.disabled"
+              @click="() => emits('action-click', { row, item: btn })"
             >
-              {{ item.text }}
+              {{ btn.text }}
             </el-button>
           </div>
 
@@ -110,7 +110,7 @@ function onTableResize() {
             v-bind="item.elProps"
             :disabled="typeof item.disabled === 'function' ? item.disabled({ row }) : item.disabled"
             :options="item.options"
-            @click="() => emits('row-click', { row, item })"
+            @change="() => emits('row-change', { row, item })"
           >
             {{ row[item.prop] }}
           </component>

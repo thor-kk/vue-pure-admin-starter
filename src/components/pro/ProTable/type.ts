@@ -6,8 +6,10 @@ export interface Action {
 export interface Emits {
   /** 分页数据改变 */
   (e: 'page-change', args: { pageNum: any; pageSize: any }): void
-  /** 行点击事件 */
-  (e: 'row-click', args: { row?: any; item: any }): void
+  /** 行事件 */
+  (e: 'row-change', args: { item: any; row: any }): void
+  /** action 点击事件 */
+  (e: 'action-click', args: { item: any; row?: any }): void
 }
 
 export interface Props {

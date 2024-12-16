@@ -1,5 +1,14 @@
 import type { DictItem, ElProps, ElType } from '@/components'
 
+export interface Expose {
+  getList: any
+}
+
+export interface Emits {
+  /** 表格行 change 事件 */
+  (e: 'table-row-change', args: { row: any }): void
+}
+
 export interface Props {
   /** 标题 */
   title?: string
@@ -9,12 +18,12 @@ export interface Props {
   api: (params?: any) => Promise<any>
   /** 行 key */
   rowKey?: string
-  /** 表格状态改变接口 */
-  statusChangeApi?: any
   /** 主要操作按钮 */
   mainAction?: Action[]
   /** 表格操作按钮 */
   tableAction?: Action[]
+  /** 表格状态改变接口 */
+  tableStatusChangeApi?: any
   /** 表格 - 自适应高度 */
   tableAdaptive?: boolean
   /** 表格 - 统一对齐方式 */

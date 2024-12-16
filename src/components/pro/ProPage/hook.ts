@@ -111,8 +111,6 @@ export function useDescHook({ columns, title }: { columns: ProPageColumn[]; titl
 
 export function useActionHook(args: { mainAction?: Action[]; tableAction?: Action[]; title: string }) {
   const { mainAction, tableAction, title } = args
-  console.log('🚀 ~ useActionHook ~ tableAction:', tableAction)
-  console.log('🚀 ~ useActionHook ~ mainAction:', mainAction)
 
   const _mainAction = computed(() =>
     mainAction.map((item) => {

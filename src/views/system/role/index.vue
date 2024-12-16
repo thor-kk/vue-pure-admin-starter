@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-16 14:29:24
+ * @LastEditTime: 2024-12-16 15:57:19
  * @Description: 角色管理
 -->
 
@@ -34,7 +34,9 @@ import { columns } from './data'
         disabled: ({ row }) => row.code === 'admin'
       }
     ]"
-    :status-change-api="({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })"
+    :table-status-change-api="
+      ({ row }) => systemService.userApi.updateUserStatus({ userId: row.id, status: row.status })
+    "
   />
 </template>
 
