@@ -18,7 +18,7 @@ export * from './pro/ProTag'
 export * from './pro/ProDeptTree'
 export * from './pro/ProAvatar'
 export * from './pro/ProDesc'
-export * from './pro/ProEditForm'
+export * from './pro/ProDialogForm'
 export * from './pro/ProTable'
 
 /** Plus 组件 */
