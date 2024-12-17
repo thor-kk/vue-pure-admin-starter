@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-17 09:24:01
+ * @LastEditTime: 2024-12-17 11:10:33
  * @Description: 菜单管理
 -->
 
@@ -22,6 +22,7 @@ import { columns } from './data'
       :show-pagination="false"
       :table-expand-all="false"
       :table-action-num="3"
+      form-2-col
       :columns
       :api="systemService.menuApi.getMenuTree"
       :main-action="[{ code: 'create', api: systemService.userApi.createUser }]"
@@ -29,7 +30,7 @@ import { columns } from './data'
         {
           code: 'create',
           api: systemService.userApi.createUser,
-          data: ({ row }) => ({ parId: row.parId })
+          data: ({ row }) => ({ parId: row.menuId })
         },
         { code: 'update', api: systemService.userApi.updateUser },
         { code: 'delete', api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id }) }

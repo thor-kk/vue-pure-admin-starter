@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-04 14:26:47
- * @LastEditTime: 2024-12-16 17:03:53
+ * @LastEditTime: 2024-12-17 11:10:39
  * @Description: 部门管理
 -->
 
@@ -30,7 +30,7 @@ import { columns } from './data'
         {
           code: 'create',
           api: systemService.userApi.createUser,
-          data: ({ row }) => ({ parId: row.parId })
+          data: ({ row }) => ({ parId: row.deptId })
         },
         { code: 'update', api: systemService.userApi.updateUser },
         { code: 'delete', api: ({ row }) => systemService.userApi.deleteUser({ userId: row.id }) }

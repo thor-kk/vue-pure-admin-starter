@@ -3,16 +3,16 @@ import { systemService } from '@/api'
 import { findTreeItem } from '@/utils'
 import dayjs from 'dayjs'
 
-const deptTree = await systemService.deptApi.getDeptTree()
+const menuTree = await systemService.menuApi.getMenuTree()
 
 export const columns: ProPageColumn[] = [
   {
     label: '父级菜单',
     prop: 'parId',
     el: { form: 'tree-select' },
-    elProps: { form: { data: deptTree, props: { label: 'name', value: 'deptId' }, checkStrictly: true } },
+    elProps: { form: { data: menuTree, props: { label: 'title', value: 'menuId' }, checkStrictly: true } },
     hide: { table: true },
-    formatter: ({ row }) => findTreeItem({ tree: deptTree, prop: 'deptId', value: row.parId })?.name
+    formatter: ({ row }) => findTreeItem({ tree: menuTree, prop: 'menuId', value: row.parId })?.title
   },
   {
     label: '菜单名称',
@@ -29,7 +29,7 @@ export const columns: ProPageColumn[] = [
   {
     label: '类型',
     prop: 'type',
-    el: { table: 'tag', desc: 'tag' },
+    el: { table: 'tag', desc: 'tag', form: 'select' },
     options: [
       { value: '01', label: '目录', tagType: 'primary' },
       { value: '02', label: '菜单', tagType: 'info' }
