@@ -1,7 +1,7 @@
 /*
  * @Author: Yyy
  * @Date: 2024-09-10 16:46:30
- * @LastEditTime: 2024-12-16 13:52:01
+ * @LastEditTime: 2024-12-17 09:23:30
  * @Description: 系统管理
  */
 
@@ -27,6 +27,12 @@ export default {
       name: 'page-system-dept',
       meta: { title: '部门管理' },
       component: () => import('@/views/system/dept/index.vue')
+    },
+    {
+      path: '/system/menu',
+      name: 'page-system-menu',
+      meta: { title: '菜单管理' },
+      component: () => import('@/views/system/menu/index.vue')
     }
   ]
 } satisfies RouteConfigsTable

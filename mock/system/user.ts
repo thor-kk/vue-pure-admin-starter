@@ -1,10 +1,3 @@
-/*
- * @Author: Yyy
- * @Date: 2024-10-18 16:48:12
- * @LastEditTime: 2024-12-16 13:49:51
- * @Description: 用户
- */
-
 import { defineFakeRoute } from 'vite-plugin-fake-server/client'
 import { faker } from '@faker-js/faker/locale/zh_CN'
 

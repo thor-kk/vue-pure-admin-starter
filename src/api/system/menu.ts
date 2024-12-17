@@ -1,16 +1,20 @@
 /*
  * @Author: Yyy
  * @Date: 2024-10-16 14:21:57
- * @LastEditTime: 2024-10-18 16:35:08
+ * @LastEditTime: 2024-12-17 09:35:55
  * @Description: 菜单模块
  */
 
-import type { Result } from '../type'
+import type { R } from '../type'
 
 import { http } from '@/utils/http'
 
-/** 获取菜单列表 */
-export async function getMenuList(data?: object) {
-  const res = await http.request<Result>('post', '/menu', { data })
-  if (res.success) return res
+/** 获取菜单列表树 */
+export async function getMenuTree(params?: object) {
+  try {
+    const res = await http.request<R>('get', '/menu/tree', { params })
+    if (res.code === 200) return res.data
+  } catch (error) {
+    console.log('🚀 ~ getMenuList ~ error:', error)
+  }
 }
