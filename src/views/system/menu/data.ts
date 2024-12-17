@@ -22,6 +22,11 @@ export const columns: ProPageColumn[] = [
     hide: { search: false }
   },
   {
+    label: '图标',
+    prop: 'icon',
+    el: { table: 'icon', desc: 'icon' }
+  },
+  {
     label: '类型',
     prop: 'type',
     el: { table: 'tag', desc: 'tag' },

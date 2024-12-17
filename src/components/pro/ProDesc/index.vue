@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 09:48:41
- * @LastEditTime: 2024-12-16 13:57:55
+ * @LastEditTime: 2024-12-17 11:02:31
  * @Description: 高级描述列表
 -->
 
@@ -18,6 +18,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const { columns } = useColumnsHook(props.columns)
+
+console.log(props.data)
 </script>
 
 <template>

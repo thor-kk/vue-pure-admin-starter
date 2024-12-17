@@ -1,5 +1,5 @@
 import type { ElType, ProColumn } from '@/components/type'
-import { ProAvatar, ProSwitch, ProTag } from '@/components'
+import { ProAvatar, ProIcon, ProSwitch, ProTag } from '@/components'
 import { ElLink } from 'element-plus'
 
 export function handleTableEl(el: ElType) {
@@ -7,6 +7,7 @@ export function handleTableEl(el: ElType) {
   if (el === 'switch') return ProSwitch
   if (el === 'tag') return ProTag
   if (el === 'link') return ElLink
+  if (el === 'icon') return ProIcon
 }
 
 export function useColumnsHook(args: { columns: ProColumn[]; showIndex?: boolean; action?: any }) {

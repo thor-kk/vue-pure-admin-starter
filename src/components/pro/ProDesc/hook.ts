@@ -1,13 +1,14 @@
 import type { PlusColumn } from 'plus-pro-components'
 import type { ElType, ProColumn } from '@/components/type'
-import { ProTag } from '@/components'
+import { ProIcon, ProTag } from '@/components'
 
 /** 需要映射的元素 */
-const needHandleEl = ['tag']
+const needHandleEl = ['tag', 'icon']
 
 /** 映射的组件 */
 function handleEl(el: ElType) {
   if (el === 'tag') return ProTag
+  if (el === 'icon') return ProIcon
 }
 
 export function useColumnsHook(columns: ProColumn[]) {

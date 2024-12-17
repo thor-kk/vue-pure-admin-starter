@@ -44,6 +44,8 @@ export type ElType =
   | 'avatar'
   /** 文本域 */
   | 'textarea'
+  /** 图标 */
+  | 'icon'
 
 /** 常用组件属性的提示 */
 export interface ElProps {
