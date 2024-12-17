@@ -113,17 +113,21 @@ export function useActionHook(args: { mainAction?: Action[]; tableAction?: Actio
   const { mainAction, tableAction, title } = args
 
   const _mainAction = computed(() =>
-    mainAction.map((item) => {
+    mainAction?.map((item) => {
       if (item.code === 'create') item.text = '新增' + title
       return item
     })
   )
 
   const _tableAction = computed(() =>
-    tableAction.map((item) => {
+    tableAction?.map((item) => {
       if (item.code === 'create') item.text = '新增'
       if (item.code === 'update') item.text = '修改'
-      if (item.code === 'delete') item.text = '删除'
+      if (item.code === 'delete') {
+        item.text = '删除'
+        item.type = 'danger'
+      }
+
       return item
     })
   )

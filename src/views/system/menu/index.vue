@@ -21,6 +21,7 @@ import { columns } from './data'
       :table-show-index="false"
       :show-pagination="false"
       :table-expand-all="false"
+      :table-action-num="3"
       :columns
       :api="systemService.menuApi.getMenuTree"
       :main-action="[{ code: 'create', api: systemService.userApi.createUser }]"

@@ -1,7 +1,7 @@
 <!--
  * @Author: Yyy
  * @Date: 2024-12-12 15:08:27
- * @LastEditTime: 2024-12-16 17:34:18
+ * @LastEditTime: 2024-12-17 09:53:58
  * @Description: 高级表格
 -->
 
@@ -11,6 +11,7 @@ defineOptions({ name: 'components-pro-table' })
 import type { Emits, Props } from './type'
 
 import { PureTableBar, ProButton } from '@/components'
+import { More } from '@element-plus/icons-vue'
 import { useColumnsHook } from './hook'
 
 const emits = defineEmits<Emits>()
@@ -20,6 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
   adaptive: true,
   showIndex: true,
   showOverflowTooltip: true,
+  actionNum: 2,
   /** 分页 */
   total: 0,
   pageSize: 15,
@@ -99,11 +101,11 @@ const tableRef = ref()
         @page-current-change="onPageCurrentChange"
       >
         <template v-for="item in columns.filter((item) => item.__slot__)" :key="item.prop" #[item.prop]="{ row }">
-          <div v-if="item.prop === '__operation__'">
+          <div v-if="item.prop === '__operation__'" class="flex justify-center">
             <el-button
-              v-for="btn in props.tableAction"
+              v-for="btn in tableAction.slice(0, actionNum)"
               :key="btn.text"
-              type="primary"
+              :type="btn.type || 'primary'"
               link
               :size
               :disabled="typeof btn.disabled === 'function' ? btn.disabled({ row }) : btn.disabled"
@@ -111,6 +113,24 @@ const tableRef = ref()
             >
               {{ btn.text }}
             </el-button>
+
+            <el-dropdown v-if="tableAction.length > actionNum" class="ml-3">
+              <el-button link type="primary" :icon="More" />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-for="btn in tableAction.slice(actionNum)" :key="btn.text">
+                    <el-button
+                      type="info"
+                      link
+                      :disabled="typeof btn.disabled === 'function' ? btn.disabled({ row }) : btn.disabled"
+                      @click="() => emits('action-click', { row, item: btn })"
+                    >
+                      {{ btn.text }}
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </div>
 
           <component
@@ -136,5 +156,9 @@ const tableRef = ref()
 /** 分页隐藏时取消分割线 */
 :deep(.el-table__inner-wrapper::before) {
   height: v-bind('props.showPagination === true ? "1px" : 0 ');
+}
+
+:deep(.el-button:focus-visible) {
+  outline: none;
 }
 </style>

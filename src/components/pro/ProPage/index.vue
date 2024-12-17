@@ -180,6 +180,7 @@ function onTableRowClick({ row, column }: { row: any; column: any }) {
       :showPagination="props.showPagination"
       :main-action="mainAction"
       :table-action="tableAction"
+      :action-num="props.tableActionNum"
       @page-change="onTablePageChange"
       @row-change="({ row, item }) => onTableRowChange({ row, column: item })"
       @row-click="({ row, item }) => onTableRowClick({ row, column: item })"

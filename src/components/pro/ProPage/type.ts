@@ -22,6 +22,8 @@ export interface Props {
   mainAction?: Action[]
   /** 表格操作按钮 */
   tableAction?: Action[]
+  /** 表格操作个数 */
+  tableActionNum?: number
   /** 表格状态改变接口 */
   tableStatusChangeApi?: any
   /** 表格 - 自适应高度 */
@@ -92,6 +94,8 @@ export type ActionCode = 'create' | 'update' | 'delete' | 'detail'
 export interface Action {
   /** 按钮文字 */
   text?: string
+  /** 按钮类型 */
+  type?: string
   /** CRUD 编码 */
   code?: ActionCode
   /** CRUD Api */

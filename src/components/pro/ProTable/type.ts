@@ -27,6 +27,8 @@ export interface Props {
   mainAction?: Action[]
   /** 列表操作 */
   tableAction?: Action[]
+  /** 列表操作个数 */
+  actionNum?: number
   /** 显示索引 */
   showIndex?: boolean
   /** 列对齐方式（整体） */
